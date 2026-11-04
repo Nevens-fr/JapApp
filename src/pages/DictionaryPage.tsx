@@ -1,18 +1,5 @@
-// Page Dictionnaire du Lot 5 - Interface pédagogique et parcours
-// Connectée aux données de démonstration via sampleData
-
 import { useState } from 'react';
-import { SAMPLE_CONCEPTS, SAMPLE_EXERCISES } from '../data/sampleData';
-
-/**
- * Page Dictionnaire du Lot 5 - Interface pédagogique et parcours
- * 
- * Permet de consulter :
- * - Le vocabulaire
- * - Les kana
- * - Les kanji
- * - Les notions grammaticales
- */
+import { Card, Badge, SectionHeader, JapaneseText, Button, EmptyState } from '../components/common';
 
 interface DictionaryEntry {
   id: string;
@@ -27,30 +14,25 @@ interface DictionaryEntry {
 }
 
 export default function DictionaryPage() {
-  // Données de démonstration pour le dictionnaire
   const allEntries: DictionaryEntry[] = [
-    // Vocabulaire
     { id: 'vocab-001', type: 'vocab', japanese: '水', reading: 'mizu', meaning: 'eau', category: 'nourriture', level: 'N5' },
     { id: 'vocab-002', type: 'vocab', japanese: '酒', reading: 'sake', meaning: 'saké', category: 'boissons', level: 'N5' },
     { id: 'vocab-003', type: 'vocab', japanese: '犬', reading: 'inu', meaning: 'chien', category: 'animaux', level: 'N5' },
     { id: 'vocab-004', type: 'vocab', japanese: '猫', reading: 'neko', meaning: 'chat', category: 'animaux', level: 'N5' },
     { id: 'vocab-005', type: 'vocab', japanese: '太陽', reading: 'taiyou', meaning: 'soleil', category: 'nature', level: 'N5' },
-    // Kana
     { id: 'kana-001', type: 'kana', japanese: 'あ', reading: 'a', meaning: 'voyelle a', category: 'hiragana', level: 'N5' },
     { id: 'kana-002', type: 'kana', japanese: 'い', reading: 'i', meaning: 'voyelle i', category: 'hiragana', level: 'N5' },
     { id: 'kana-003', type: 'kana', japanese: 'う', reading: 'u', meaning: 'voyelle u', category: 'hiragana', level: 'N5' },
     { id: 'kana-004', type: 'kana', japanese: 'え', reading: 'e', meaning: 'voyelle e', category: 'hiragana', level: 'N5' },
     { id: 'kana-005', type: 'kana', japanese: 'お', reading: 'o', meaning: 'voyelle o', category: 'hiragana', level: 'N5' },
-    // Kanji
-    { id: 'kanji-001', type: 'kanji', japanese: '水', reading: '水の / mizu', meaning: 'eau', level: 'N5' },
-    { id: 'kanji-002', type: 'kanji', japanese: '犬', reading: '犬の / inu', meaning: 'chien', level: 'N5' },
-    { id: 'kanji-003', type: 'kanji', japanese: '人', reading: '人の / hito', meaning: 'personne', level: 'N5' },
-    { id: 'kanji-004', type: 'kanji', japanese: '山', reading: '山の / yama', meaning: 'montagne', level: 'N5' },
-    { id: 'kanji-005', type: 'kanji', japanese: '太陽', reading: '太陽の / taiyou', meaning: 'soleil', level: 'N5' },
-    // Grammaire
+    { id: 'kanji-001', type: 'kanji', japanese: '水', reading: 'みず / mizu', meaning: 'eau', level: 'N5' },
+    { id: 'kanji-002', type: 'kanji', japanese: '犬', reading: 'いぬ / inu', meaning: 'chien', level: 'N5' },
+    { id: 'kanji-003', type: 'kanji', japanese: '人', reading: 'ひと / hito', meaning: 'personne', level: 'N5' },
+    { id: 'kanji-004', type: 'kanji', japanese: '山', reading: 'やま / yama', meaning: 'montagne', level: 'N5' },
+    { id: 'kanji-005', type: 'kanji', japanese: '太陽', reading: 'たいよう / taiyou', meaning: 'soleil', level: 'N5' },
     { id: 'grammar-001', type: 'grammar', japanese: 'は', reading: 'wa', meaning: 'particule thème', category: 'particules', level: 'N5', notes: 'Marque le thème de la phrase' },
     { id: 'grammar-002', type: 'grammar', japanese: 'を', reading: 'o', meaning: 'particule objet', category: 'particules', level: 'N5', notes: 'Marque l\'objet direct du verbe' },
-    { id: 'grammar-003', type: 'grammar', japanese: 'です', reading: 'desu', meaning: 'Être (poli)', category: 'verbes', level: 'N5', notes: 'Utilisé pour être poli' },
+    { id: 'grammar-003', type: 'grammar', japanese: 'です', reading: 'desu', meaning: 'être (poli)', category: 'verbes', level: 'N5', notes: 'Utilisé pour être poli' },
   ];
 
   const [activeTab, setActiveTab] = useState<DictionaryEntry['type']>('vocab');
@@ -70,123 +52,136 @@ export default function DictionaryPage() {
     });
 
   const tabs: { key: DictionaryEntry['type']; label: string; icon: string }[] = [
-    { key: 'vocab', label: 'Vocabulaire', icon: '📚' },
+    { key: 'vocab', label: 'Vocabulaire', icon: '📖' },
     { key: 'kana', label: 'Kana', icon: 'あ' },
-    { key: 'kanji', label: 'Kanji', icon: '文' },
-    { key: 'grammar', label: 'Grammaire', icon: '✍' },
+    { key: 'kanji', label: 'Kanji', icon: '漢' },
+    { key: 'grammar', label: 'Grammaire', icon: '📝' },
   ];
 
-  const getLevelColor = (level?: string) => {
-    if (level === 'N5') return 'level-n5';
-    if (level === 'N4') return 'level-n4';
-    return '';
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'vocab': return '📖';
+      case 'kana': return 'あ';
+      case 'kanji': return '漢';
+      case 'grammar': return '📝';
+      default: return '📌';
+    }
+  };
+
+  const getLevelVariant = (level?: string) => {
+    switch (level) {
+      case 'N5': return 'success' as const;
+      case 'N4': return 'primary' as const;
+      default: return 'primary' as const;
+    }
   };
 
   return (
-    <div className="page dictionary-page">
-      <h1>Dictionnaire</h1>
+    <div className="page">
+      <SectionHeader title="Dictionnaire" />
 
-      {/* Onglets de catégories */}
-      <div className="dictionary-tabs">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            className={`dictionary-tab ${activeTab === tab.key ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab(tab.key);
-              setSelectedEntry(null);
-            }}
-          >
-            <span className="tab-icon">{tab.icon}</span>
-            <span className="tab-label">{tab.label}</span>
-          </button>
-        ))}
+      {/* Onglets */}
+      <div className="mb-md">
+        <div className="flex gap-sm" style={{ overflowX: 'auto', paddingBottom: '8px' }}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              className={`btn ${activeTab === tab.key ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+              onClick={() => {
+                setActiveTab(tab.key);
+                setSelectedEntry(null);
+              }}
+            >
+              <span>{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Barre de recherche */}
-      <div className="dictionary-search">
+      <div className="mb-lg">
         <input
           type="text"
           placeholder={`Rechercher dans ${tabs.find((t) => t.key === activeTab)?.label}...`}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
+          style={{
+            width: '100%',
+            padding: '12px 16px',
+            border: '2px solid var(--color-border)',
+            borderRadius: 'var(--radius-md)',
+            fontSize: '16px',
+            fontFamily: 'var(--font-family)',
+            outline: 'none',
+            boxSizing: 'border-box',
+          }}
         />
       </div>
 
-      {/* Détail d'une entrée sélectionnée */}
+      {/* Détail d'une entrée */}
       {selectedEntry && (
-        <div className="entry-detail">
-          <button onClick={() => setSelectedEntry(null)} className="btn btn-secondary back-btn">
-            ← Retour
-          </button>
-
-          <div className={`entry-type-badge ${selectedEntry.type}`}>
-            {tabs.find((t) => t.key === selectedEntry.type)?.icon}{' '}
-            {tabs.find((t) => t.key === selectedEntry.type)?.label}
+        <Card className="mb-lg">
+          <div className="mb-md">
+            <Button variant="secondary" size="sm" onClick={() => setSelectedEntry(null)}>
+              ← Retour
+            </Button>
           </div>
-
-          <h2>{selectedEntry.japanese}</h2>
+          <div className="flex items-center gap-sm mb-md">
+            <Badge variant={getLevelVariant(selectedEntry.level)}>{selectedEntry.level}</Badge>
+            <Badge variant="primary">{getTypeIcon(selectedEntry.type)} {tabs.find((t) => t.key === selectedEntry.type)?.label}</Badge>
+          </div>
+          <JapaneseText text={selectedEntry.japanese} size="large" />
           {selectedEntry.reading && (
-            <p className="entry-reading">{selectedEntry.reading}</p>
+            <p className="text-secondary mt-sm">{selectedEntry.reading}</p>
           )}
-          <p className="entry-meaning">{selectedEntry.meaning}</p>
-
-          {selectedEntry.level && (
-            <span className={`level-badge ${getLevelColor(selectedEntry.level)}`}>
-              {selectedEntry.level}
-            </span>
-          )}
-
+          <p style={{ fontSize: '18px', fontWeight: 500, marginTop: '8px' }}>{selectedEntry.meaning}</p>
           {selectedEntry.category && (
-            <p className="entry-category">Catégorie : {selectedEntry.category}</p>
+            <p className="text-secondary mt-sm" style={{ fontSize: '14px' }}>Catégorie : {selectedEntry.category}</p>
           )}
-
-          {selectedEntry.examples && selectedEntry.examples.length > 0 && (
-            <div className="entry-examples">
-              <h3>Exemples</h3>
-              <ul>
-                {selectedEntry.examples.map((example, index) => (
-                  <li key={index}>{example}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           {selectedEntry.notes && (
-            <div className="entry-notes">
-              <h3>Notes</h3>
-              <p>{selectedEntry.notes}</p>
+            <div className="mt-md" style={{ padding: '12px', backgroundColor: 'var(--color-primary-light)', borderRadius: 'var(--radius-md)' }}>
+              <p style={{ fontWeight: 500, marginBottom: '4px' }}>💡 Note</p>
+              <p style={{ fontSize: '14px' }}>{selectedEntry.notes}</p>
             </div>
           )}
-        </div>
+        </Card>
       )}
 
       {/* Liste des entrées */}
       {!selectedEntry && (
-        <div className="dictionary-list">
+        <div className="flex-col gap-sm">
           {filteredEntries.length === 0 ? (
-            <p className="no-results">Aucun résultat pour "{searchQuery}"</p>
+            <EmptyState 
+              icon="🔍" 
+              title="Aucun résultat" 
+              text={`Aucun résultat pour "${searchQuery}"`}
+            />
           ) : (
             filteredEntries.map((entry) => (
-              <div
-                key={entry.id}
-                className={`dictionary-entry ${entry.type}`}
+              <Card 
+                key={entry.id} 
+                className="mb-sm"
                 onClick={() => setSelectedEntry(entry)}
               >
-                <div className="entry-header">
-                  <span className="entry-japanese">{entry.japanese}</span>
-                  {entry.reading && (
-                    <span className="entry-reading-small">{entry.reading}</span>
-                  )}
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-sm">
+                    <span style={{ fontSize: '24px' }}>{getTypeIcon(entry.type)}</span>
+                    <div>
+                      <JapaneseText text={entry.japanese} size="medium" />
+                      {entry.reading && (
+                        <p className="text-secondary" style={{ fontSize: '14px' }}>{entry.reading}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p style={{ fontWeight: 500 }}>{entry.meaning}</p>
+                    {entry.level && (
+                      <Badge variant={getLevelVariant(entry.level)}>{entry.level}</Badge>
+                    )}
+                  </div>
                 </div>
-                <p className="entry-meaning-short">{entry.meaning}</p>
-                {entry.level && (
-                  <span className={`level-badge-small ${getLevelColor(entry.level)}`}>
-                    {entry.level}
-                  </span>
-                )}
-              </div>
+              </Card>
             ))
           )}
         </div>

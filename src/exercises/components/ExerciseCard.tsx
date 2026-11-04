@@ -1,8 +1,9 @@
-﻿// Composant principal d'exercice - Lot 4
+// Composant principal d'exercice - Lot 4
 // Affiche un exercice et gere les interactions utilisateur
 
 import React, { useState, useEffect, useCallback } from 'react';
 import type { Exercise, ExerciseState, ExerciseResult, ExerciseType } from '../types';
+import { JapaneseText } from '../../components/common';
 
 interface ExerciseCardProps {
   exercise: Exercise;
@@ -88,33 +89,37 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onResult, 
   };
 
   const renderRecognitionExercise = () => {
-    if (exercise.answerFormat === 'choice' && choices) {
-      return (
-        <div className="exercise-choice">
-          {choices.map((choice) => (
-            <button
-              key={choice}
-              className={`choice-btn ${selectedChoice === choice ? 'selected' : ''}`}
-              onClick={() => setSelectedChoice(choice)}
-              disabled={isAnswered}
-            >
-              {choice}
-            </button>
-          ))}
-        </div>
-      );
-    }
+    // Affiche le caractere japonais a reconnaitre
+    const displayChar = exercise.data?.character || exercise.data?.kanji || exercise.data?.question || '';
 
     return (
-      <div className="exercise-text-input">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-          placeholder={exercise.answerFormat === 'dictation' ? 'Ecoutez et tapez la reponse' : 'Votre reponse'}
-          disabled={isAnswered}
-          className="exercise-input"
-        />
+      <div className="exercise-recognition">
+        <JapaneseText text={displayChar} size="large" />
+        {exercise.answerFormat === 'choice' && choices ? (
+          <div className="exercise-choice">
+            {choices.map((choice) => (
+              <button
+                key={choice}
+                className={`choice-btn ${selectedChoice === choice ? 'selected' : ''}`}
+                onClick={() => setSelectedChoice(choice)}
+                disabled={isAnswered}
+              >
+                {choice}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="exercise-text-input">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+              placeholder={exercise.answerFormat === 'dictation' ? 'Ecoutez et tapez la reponse' : 'Votre reponse'}
+              disabled={isAnswered}
+              className="exercise-input"
+            />
+          </div>
+        )}
       </div>
     );
   };
@@ -169,7 +174,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onResult, 
   const renderListeningExercise = () => {
     return (
       <div className="exercise-listening">
-        <button className="play-audio-btn" aria-label="Ecouter">🔊</button>
+        <button className="play-audio-btn" aria-label="Ecouter">??</button>
         {exercise.answerFormat === 'choice' && choices ? (
           <div className="exercise-choice">
             {choices.map((choice) => (
@@ -219,7 +224,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onResult, 
     return (
       <div className={`exercise-result ${result.isCorrect ? 'correct' : 'incorrect'}`}>
         <p className="result-message">
-          {result.isCorrect ? '\u2705 Correct !' : '\u274c Incorrect'}
+          {result.isCorrect ? '✅ Correct !' : '❌ Incorrect'}
         </p>
         {result.customFeedback && <p className="result-feedback">{result.customFeedback}</p>}
         {result.explanation && <p className="result-explanation">{result.explanation}</p>}
@@ -235,8 +240,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onResult, 
   return (
     <div className="exercise-card">
       <div className="exercise-header">
-        <span className="exercise-type">{exercise.type}</span>
-        <span className="exercise-difficulty">{'\u2b50'.repeat(exercise.difficulty)}</span>
+        <span className="exercise-difficulty">{'⭐'.repeat(exercise.difficulty)}</span>
       </div>
 
       {renderExerciseContent()}

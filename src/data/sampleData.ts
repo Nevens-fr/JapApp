@@ -133,7 +133,7 @@ export const SAMPLE_EXERCISES: Exercise[] = [
       correctIndex: 0,
     },
     expectedAnswers: [makeExpectedAnswer("personne")],
-    explanation: "人 (じん/にん) signifie 'personne' en japonais.",
+    explanation: "人 (ひと) signifie 'personne' en japonais.",
     conceptId: "kanji-basic-1",
   },
   {
@@ -149,7 +149,7 @@ export const SAMPLE_EXERCISES: Exercise[] = [
       correctIndex: 1,
     },
     expectedAnswers: [makeExpectedAnswer("montagne")],
-    explanation: "山 (さん) signifie 'montagne' en japonais.",
+    explanation: "山 (やま) signifie 'montagne' en japonais.",
     conceptId: "kanji-basic-1",
   },
   // Exercices pour la grammaire
@@ -163,13 +163,13 @@ export const SAMPLE_EXERCISES: Exercise[] = [
     data: {
       sentence: "Watashi wa ___ desu.",
       translation: "Je suis étudiant",
-      hint: "がくせい (学生)",
+      hint: "学生 (がくせい)",
     },
     expectedAnswers: [
       makeExpectedAnswer("gakusei"),
-      makeExpectedAnswer("がくせい"),
+      makeExpectedAnswer("学生"),
     ],
-    explanation: "がくせい (学生) signifie 'étudiant' en japonais.",
+    explanation: "学生 (がくせい) signifie 'étudiant' en japonais.",
     conceptId: "grammar-basic-1",
   },
   {
@@ -182,13 +182,13 @@ export const SAMPLE_EXERCISES: Exercise[] = [
     data: {
       sentence: "Kore wa ___ desu.",
       translation: "Ceci est un livre",
-      hint: "ほん (本)",
+      hint: "本 (ほん)",
     },
     expectedAnswers: [
       makeExpectedAnswer("hon"),
-      makeExpectedAnswer("ほん"),
+      makeExpectedAnswer("本"),
     ],
-    explanation: "ほん (本) signifie 'livre' en japonais.",
+    explanation: "本 (ほん) signifie 'livre' en japonais.",
     conceptId: "grammar-basic-1",
   },
 ];

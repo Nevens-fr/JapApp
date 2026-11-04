@@ -1,13 +1,10 @@
-// Page Leçon du Lot 5 - Interface pédagogique et parcours
-// Connectée au moteur pédagogique via useLearningEngine
-// Intègre ExerciseCard pour les exercices
-
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
 import { ExerciseCard } from '../exercises/components/ExerciseCard';
 import type { ExerciseResult as ExerciseResultLot4 } from '../exercises/types';
 import type { Exercise } from '../exercises/types';
+import { Card, ProgressBar, Button, JapaneseText, Badge } from '../components/common';
 
 export default function LessonPage() {
   const navigate = useNavigate();
@@ -21,16 +18,13 @@ export default function LessonPage() {
     exercises: allExercises,
   } = useLearningEngine();
 
-  // Récupérer les données de la leçon depuis le moteur
   const lessonData = getLesson(id || '');
 
-  // État local pour suivre la progression
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [exerciseComplete, setExerciseComplete] = useState(false);
   const [exerciseResult, setExerciseResult] = useState<ExerciseResultLot4 | null>(null);
   const [isStarted, setIsStarted] = useState(false);
 
-  // Initialiser la leçon si elle n'est pas en cours
   useEffect(() => {
     if (id && !isStarted) {
       startLesson(id);
@@ -38,22 +32,25 @@ export default function LessonPage() {
     }
   }, [id, isStarted, startLesson]);
 
-  // Construire la liste des exercices à partir des données réelles du moteur
   const exercises: Exercise[] = useMemo(() => {
     if (!lessonData?.exercises) return [];
     return lessonData.exercises
-      .map((exerciseId) => {
-        return allExercises.find((e) => e.id === exerciseId);
-      })
+      .map((exerciseId) => allExercises.find((e) => e.id === exerciseId))
       .filter((e): e is Exercise => e !== undefined);
   }, [lessonData, allExercises]);
 
-  // Si la leçon n'est pas chargée, afficher un message
   if (!lessonData) {
     return (
-      <div className="page lesson-page">
-        <h1>Leçon non trouvée</h1>
-        <Link to="/learning-path" className="btn btn-primary">Retour au parcours</Link>
+      <div className="page">
+        <Card>
+          <div className="text-center">
+            <div className="empty-state-icon">📭</div>
+            <h2 className="empty-state-title">Leçon non trouvée</h2>
+            <Link to="/learning-path">
+              <Button variant="primary">Retour au parcours</Button>
+            </Link>
+          </div>
+        </Card>
       </div>
     );
   }
@@ -94,9 +91,7 @@ export default function LessonPage() {
     navigate('/learning-path');
   };
 
-  const isExerciseStep = () => {
-    return currentExercise !== undefined;
-  };
+  const isExerciseStep = () => currentExercise !== undefined;
 
   const getProgress = () => {
     return exercises.length > 0
@@ -105,62 +100,69 @@ export default function LessonPage() {
   };
 
   return (
-    <div className="page lesson-page">
+    <div className="page">
       {/* Barre de progression */}
-      <div className="lesson-progress">
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${getProgress()}%` }}
-          />
+      <div className="mb-lg">
+        <div className="flex justify-between items-center mb-sm">
+          <Link to="/learning-path" className="text-secondary" style={{ textDecoration: 'none', fontSize: '14px' }}>
+            ← Retour au parcours
+          </Link>
+          <Badge variant="primary">
+            Exercice {currentExerciseIndex + 1} / {exercises.length}
+          </Badge>
         </div>
-        <p className="progress-text">
-          Exercice {currentExerciseIndex + 1} / {exercises.length}
-        </p>
+        <ProgressBar progress={getProgress()} size="lg" />
       </div>
 
       {/* Titre de la leçon */}
-      <div className="lesson-header">
-        <Link to="/learning-path" className="back-link">← Retour au parcours</Link>
-        <h1>{lessonData.title}</h1>
-        <p className="lesson-description">{lessonData.description}</p>
+      <div className="mb-lg">
+        <JapaneseText text={lessonData.title} size="large" />
+        <p className="text-secondary mt-sm">{lessonData.description}</p>
       </div>
 
       {/* Contenu de l'exercice */}
-      <div className="step-content">
+      <Card className="mb-lg">
         {currentExercise && (
-          <div className="exercise-container">
-            <h2>{currentExercise.prompt}</h2>
+          <div>
+            <h2 className="section-title mb-md">{currentExercise.prompt}</h2>
             <ExerciseCard
               exercise={currentExercise}
               onResult={handleExerciseResult}
             />
             {exerciseResult && (
-              <div className="exercise-result">
-                <p className={exerciseResult.isCorrect ? 'success' : 'error'}>
-                  {exerciseResult.isCorrect ? 'Correct !' : 'Incorrect'}
+              <div className={`mt-md ${exerciseResult.isCorrect ? 'text-success' : 'text-error'}`}>
+                <p style={{ fontWeight: 500 }}>
+                  {exerciseResult.isCorrect ? '✅ Correct !' : '❌ Incorrect'}
                 </p>
-                <p className="explanation">{currentExercise.explanation}</p>
+                <p className="text-secondary mt-sm">{currentExercise.explanation}</p>
               </div>
             )}
           </div>
         )}
-      </div>
+      </Card>
 
       {/* Navigation */}
-      <div className="lesson-navigation">
-        <button onClick={handleBack} className="btn btn-secondary">
+      <div className="flex gap-sm">
+        <Button 
+          variant="secondary" 
+          onClick={handleBack} 
+          className="flex-1"
+        >
           {currentExerciseIndex === 0 ? 'Quitter' : 'Précédent'}
-        </button>
+        </Button>
         {isExerciseStep() && !exerciseComplete && (
-          <button onClick={handleNext} className="btn btn-primary">
+          <Button variant="primary" onClick={handleNext} className="flex-1">
             Valider ma réponse
-          </button>
+          </Button>
         )}
         {isExerciseStep() && exerciseComplete && (
-          <button onClick={handleNext} className="btn btn-primary">
+          <Button 
+            variant="accent" 
+            onClick={handleNext} 
+            className="flex-1"
+          >
             {isLastExercise ? 'Terminer la leçon' : 'Exercice suivant'}
-          </button>
+          </Button>
         )}
       </div>
     </div>

@@ -1,8 +1,6 @@
-// Page Parcours du Lot 5 - Interface pédagogique et parcours
-// Connectée au moteur pédagogique via useLearningEngine
-
 import { Link } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
+import { Card, ProgressBar, Badge, SectionHeader, Button } from '../components/common';
 
 export default function LearningPathPage() {
   const { getAllLessons, getLessonProgress } = useLearningEngine();
@@ -44,81 +42,87 @@ export default function LearningPathPage() {
     },
   ];
 
-  const getStatusIcon = (status: string) => {
+  const getStatusInfo = (status: string) => {
     switch (status) {
       case 'completed':
-        return '✅';
+        return { icon: '✅', label: 'Maîtrisé', variant: 'success' as const };
       case 'in_progress':
-        return '🔄';
+        return { icon: '🔄', label: 'En cours', variant: 'primary' as const };
       case 'not_started':
-        return '⏳';
+        return { icon: '⏳', label: 'À faire', variant: 'warning' as const };
       case 'not_discovered':
-        return '🔒';
+        return { icon: '🔒', label: 'Verrouillé', variant: 'error' as const };
       default:
-        return '❓';
+        return { icon: '❓', label: 'Inconnu', variant: 'primary' as const };
     }
   };
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'Maîtrisé';
-      case 'in_progress':
-        return 'En cours';
-      case 'not_started':
-        return 'À faire';
-      case 'not_discovered':
-        return 'Verrouillé';
-      default:
-        return 'Inconnu';
-    }
-  };
+  const completedCount = lessons.filter((l) => l.status === 'completed').length;
 
   return (
     <div className="page">
-      <h1>Parcours d'apprentissage</h1>
+      <SectionHeader title="Parcours d'apprentissage" />
 
-      {/* Progression générale */}
-      <section className="progress-section">
-        <h2>Progression</h2>
-        <p className="progress-value">
-          {lessons.filter((l) => l.status === 'completed').length} / {lessons.length} leçons complétées
+      {/* Progression globale */}
+      <Card className="mb-lg">
+        <div className="card-header">
+          <h3 className="card-title">Progression</h3>
+          <Badge variant="primary">{completedCount} / {lessons.length}</Badge>
+        </div>
+        <ProgressBar progress={lessons.length > 0 ? (completedCount / lessons.length) * 100 : 0} size="lg" />
+        <p className="text-secondary mt-sm" style={{ fontSize: '14px' }}>
+          {completedCount} leçon{completedCount > 1 ? 's' : ''} complétée{completedCount > 1 ? 's' : ''}
         </p>
-      </section>
+      </Card>
 
       {/* Chapitres et leçons */}
-      <section className="path-section">
-        {chapters.map((chapter) => (
-          <div key={chapter.id} className="chapter">
-            <h2>{chapter.title}</h2>
-            <p className="chapter-description">{chapter.description}</p>
+      {chapters.map((chapter) => {
+        const chapterCompleted = chapter.lessons.filter((l) => l.status === 'completed').length;
+        const chapterTotal = chapter.lessons.length;
+
+        return (
+          <Card key={chapter.id} className="mb-lg">
+            <SectionHeader title={chapter.title} subtitle={chapter.description} />
+            
+            {chapter.lessons.length > 0 && (
+              <div className="mb-md">
+                <ProgressBar 
+                  progress={chapterTotal > 0 ? (chapterCompleted / chapterTotal) * 100 : 0} 
+                  size="sm" 
+                />
+              </div>
+            )}
 
             <div className="lessons-list">
-              {chapter.lessons.map((lesson, index) => (
-                <div key={lesson.id} className={`lesson-node ${lesson.status}`}>
-                  <div className="lesson-status">
-                    <span className="status-icon">{getStatusIcon(lesson.status)}</span>
-                    <span className="status-label">{getStatusLabel(lesson.status)}</span>
-                  </div>
-
-                  {lesson.status !== 'not_discovered' && lesson.lesson && (
-                    <Link to={`/lesson/${lesson.id}`} className="lesson-card">
-                      <h3>{lesson.lesson.title}</h3>
-                      <p>{lesson.lesson.description}</p>
-                    </Link>
-                  )}
-
-                  {index < chapter.lessons.length - 1 && (
-                    <div className="lesson-connector">
-                      <span className="connector-icon">↓</span>
+              {chapter.lessons.map((lesson) => {
+                const statusInfo = getStatusInfo(lesson.status);
+                
+                return (
+                  <div key={lesson.id} className={`lesson-node lesson-${lesson.status} mb-sm`}>
+                    <div className="flex items-center gap-sm">
+                      <span style={{ fontSize: '20px' }}>{statusInfo.icon}</span>
+                      <div className="flex-col">
+                        <span style={{ fontWeight: 500, color: 'var(--color-text-primary)' }}>
+                          {lesson.lesson?.title}
+                        </span>
+                        <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+                      </div>
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    {lesson.status !== 'not_discovered' && lesson.lesson && (
+                      <Link to={`/lesson/${lesson.id}`}>
+                        <Button variant="secondary" size="sm" fullWidth className="mt-sm">
+                          {lesson.status === 'completed' ? 'Revoir' : 'Commencer'}
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-          </div>
-        ))}
-      </section>
+          </Card>
+        );
+      })}
     </div>
   );
 }

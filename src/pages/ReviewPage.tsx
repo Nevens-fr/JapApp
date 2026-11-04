@@ -1,15 +1,7 @@
-// Page R\u00e9visions du Lot 5 - Interface p\u00e9dagogique et parcours
-// Connect\u00e9e au moteur p\u00e9dagogique via useLearningEngine
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
-
-/**
- * Page R\u00e9visions du Lot 5 - Interface p\u00e9dagogique et parcours
- * 
- * Affiche les le\u00e7ons \u00e0 r\u00e9viser et permet de lancer une session adapt\u00e9e.
- */
+import { Card, ProgressBar, Badge, SectionHeader, Button, EmptyState, JapaneseText } from '../components/common';
 
 interface ReviewItem {
   id: string;
@@ -26,10 +18,8 @@ interface ReviewItem {
 export default function ReviewPage() {
   const { getReviewLessons, getLessonProgress } = useLearningEngine();
 
-  // R\u00e9cup\u00e9rer les le\u00e7ons \u00e0 r\u00e9viser
   const reviewLessons = getReviewLessons();
 
-  // Convertir les le\u00e7ons en ReviewItem pour l'affichage
   const pendingReviews: ReviewItem[] = reviewLessons.map((lesson) => {
     const progress = getLessonProgress(lesson.id);
     return {
@@ -49,7 +39,6 @@ export default function ReviewPage() {
   const upcomingCount = pendingReviews.filter((r) => r.status === 'upcoming').length;
 
   const startSession = () => {
-    // Prendre uniquement les r\u00e9visions en retard, max 10
     const dueItems = pendingReviews
       .filter((r) => r.status === 'overdue')
       .slice(0, 10);
@@ -62,145 +51,187 @@ export default function ReviewPage() {
     setSessionItems([]);
   };
 
-  const getStatusLabel = (status: string) => {
+  const getStatusInfo = (status: string) => {
     switch (status) {
       case 'overdue':
-        return 'En retard';
+        return { label: 'En retard', variant: 'error' as const };
       case 'due':
-        return 'à réviser';
+        return { label: 'À réviser', variant: 'warning' as const };
       case 'upcoming':
-        return 'Prochainement';
+        return { label: 'Prochainement', variant: 'primary' as const };
       default:
-        return 'Inconnu';
+        return { label: 'Inconnu', variant: 'primary' as const };
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'kana':
-        return 'ཆ';
-      case 'vocab':
-        return 'Ὅa';
-      case 'kanji':
-        return '文';
-      case 'grammar':
-        return '✍';
-      default:
-        return '❓';
+      case 'kana': return 'あ';
+      case 'vocab': return '📖';
+      case 'kanji': return '漢';
+      case 'grammar': return '📝';
+      default: return '📌';
     }
   };
 
-  const getMasteryColor = (level: number) => {
-    if (level >= 0.8)
-      return 'mastery-high';
-    if (level >= 0.5)
-      return 'mastery-medium';
-    return 'mastery-low';
+  const getMasteryVariant = (level: number) => {
+    if (level >= 0.8) return 'success' as const;
+    if (level >= 0.5) return 'warning' as const;
+    return 'error' as const;
   };
 
   if (sessionActive) {
     return (
-      <div className="page review-page">
-        <div className="session-header">
-          <h1>Session de révision</h1>
-          <p>
+      <div className="page">
+        <div className="mb-lg">
+          <div className="flex justify-between items-center mb-sm">
+            <SectionHeader title="Session de révision" />
+            <Button variant="secondary" size="sm" onClick={endSession}>
+              Terminer
+            </Button>
+          </div>
+          <p className="text-secondary">
             {sessionItems.length} notion{sessionItems.length > 1 ? 's' : ''} à réviser
           </p>
-          <button onClick={endSession} className="btn btn-secondary">
-            Terminer la session
-          </button>
         </div>
 
-        <div className="session-items">
-          {sessionItems.map((item) => (
-            <div key={item.id} className={`review-item ${item.type}`}>
-              <div className="review-item-header">
-                <span className="type-icon">{getTypeIcon(item.type)}</span>
-                <span className={`status-badge ${item.status}`}>{getStatusLabel(item.status)}</span>
-              </div>
-
-              {item.japanese && <p className="japanese-text">{item.japanese}</p>}
-              {item.reading && <p className="reading-text">{item.reading}</p>}
-              {item.meaning && <p className="meaning-text">{item.meaning}</p>}
-
-              <div className={`mastery-bar ${getMasteryColor(item.masteryLevel)}`}>
-                <div
-                  className="mastery-fill"
-                  style={{ width: `${item.masteryLevel * 100}%` }}
-                />
-              </div>
-              <p className="mastery-label">
-                Ma\u00eetris\u00e9 : {Math.round(item.masteryLevel * 100)}%
-              </p>
-
-              <button className="btn btn-primary review-btn">
-                R\u00e9viser {item.title}
-              </button>
-            </div>
-          ))}
+        <div className="flex-col gap-md">
+          {sessionItems.map((item) => {
+            const statusInfo = getStatusInfo(item.status);
+            return (
+              <Card key={item.id}>
+                <div className="card-header">
+                  <div className="flex items-center gap-sm">
+                    <span style={{ fontSize: '24px' }}>{getTypeIcon(item.type)}</span>
+                    <div>
+                      <span style={{ fontWeight: 500 }}>{item.title}</span>
+                      <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+                    </div>
+                  </div>
+                </div>
+                {item.japanese && (
+                  <div className="mb-md">
+                    <JapaneseText text={item.japanese} size="large" />
+                  </div>
+                )}
+                {item.reading && (
+                  <p className="text-secondary mb-sm">{item.reading}</p>
+                )}
+                {item.meaning && (
+                  <p className="mb-md">{item.meaning}</p>
+                )}
+                <div className="mb-sm">
+                  <ProgressBar 
+                    progress={item.masteryLevel * 100} 
+                    size="sm" 
+                    color={
+                      item.masteryLevel >= 0.8 ? 'var(--color-success)' :
+                      item.masteryLevel >= 0.5 ? 'var(--color-warning)' :
+                      'var(--color-error)'
+                    }
+                  />
+                </div>
+                <p className="text-secondary" style={{ fontSize: '14px' }}>
+                  Maîtrisé : {Math.round(item.masteryLevel * 100)}%
+                </p>
+                <Button variant="primary" fullWidth className="mt-md">
+                  Réviser {item.title}
+                </Button>
+              </Card>
+            );
+          })}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="page review-page">
-      <h1>Révisions</h1>
+    <div className="page">
+      <SectionHeader title="Révisions" />
 
-      {/* R\u00e9sum\u00e9 des r\u00e9visions */}
-      <section className="review-summary">
-        <div className="summary-card overdue">
-          <h2>En retard</h2>
-          <p className="summary-count">{overdueCount}</p>
-          <p className="summary-hint">à faire en priorité</p>
-        </div>
-        <div className="summary-card upcoming">
-          <h2>Prochaines</h2>
-          <p className="summary-count">{upcomingCount}</p>
-          <p className="summary-hint">à venir</p>
-        </div>
-      </section>
+      {/* Résumé des révisions */}
+      <div className="flex gap-md mb-lg">
+        <Card className="flex-1">
+          <div className="text-center">
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>⚠️</div>
+            <p className="text-secondary" style={{ fontSize: '14px' }}>En retard</p>
+            <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-error)' }}>{overdueCount}</p>
+          </div>
+        </Card>
+        <Card className="flex-1">
+          <div className="text-center">
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>📅</div>
+            <p className="text-secondary" style={{ fontSize: '14px' }}>Prochaines</p>
+            <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-primary)' }}>{upcomingCount}</p>
+          </div>
+        </Card>
+      </div>
 
       {/* Lancer une session */}
       {overdueCount > 0 && (
-        <section className="start-session-section">
-          <button onClick={startSession} className="btn btn-primary btn-large">
-            Réviser maintenant ({overdueCount} notion{overdueCount > 1 ? 's' : ''})
-          </button>
-        </section>
+        <Card className="mb-lg">
+          <SectionHeader 
+            title="Prêt à réviser ?" 
+            subtitle={`${overdueCount} notion${overdueCount > 1 ? 's' : ''} en attente`}
+          />
+          <Button variant="accent" fullWidth onClick={startSession}>
+            Réviser maintenant ({overdueCount})
+          </Button>
+        </Card>
       )}
 
-      {/* Liste des r\u00e9visions */}
-      <section className="reviews-list">
-        <h2>Toutes les révisions</h2>
-
-        {pendingReviews.length === 0 && (
-          <p className="no-reviews">Aucune révision en attente. Bravo !</p>
-        )}
-
-        {pendingReviews.map((item) => (
-          <div key={item.id} className={`review-item ${item.type}`}>
-            <div className="review-item-header">
-              <span className="type-icon">{getTypeIcon(item.type)}</span>
-              <span className={`status-badge ${item.status}`}>{getStatusLabel(item.status)}</span>
-            </div>
-
-            {item.japanese && <p className="japanese-text">{item.japanese}</p>}
-            {item.reading && <p className="reading-text">{item.reading}</p>}
-            {item.meaning && <p className="meaning-text">{item.meaning}</p>}
-
-            <div className={`mastery-bar ${getMasteryColor(item.masteryLevel)}`}>
-              <div
-                className="mastery-fill"
-                style={{ width: `${item.masteryLevel * 100}%` }}
-              />
-            </div>
-            <p className="mastery-label">
-              Maîtrisé : {Math.round(item.masteryLevel * 100)}%
-            </p>
+      {/* Liste des révisions */}
+      <Card>
+        <SectionHeader title="Toutes les révisions" />
+        
+        {pendingReviews.length === 0 ? (
+          <EmptyState 
+            icon="🎉" 
+            title="Aucune révision en attente" 
+            text="Bravo ! Tu es à jour."
+          />
+        ) : (
+          <div className="flex-col gap-md">
+            {pendingReviews.map((item) => {
+              const statusInfo = getStatusInfo(item.status);
+              return (
+                <div key={item.id}>
+                  <div className="flex justify-between items-center mb-sm">
+                    <div className="flex items-center gap-sm">
+                      <span style={{ fontSize: '20px' }}>{getTypeIcon(item.type)}</span>
+                      <span style={{ fontWeight: 500 }}>{item.title}</span>
+                    </div>
+                    <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+                  </div>
+                  {item.japanese && (
+                    <JapaneseText text={item.japanese} size="medium" />
+                  )}
+                  {item.reading && (
+                    <p className="text-secondary" style={{ fontSize: '14px' }}>{item.reading}</p>
+                  )}
+                  {item.meaning && (
+                    <p className="text-secondary" style={{ fontSize: '14px' }}>{item.meaning}</p>
+                  )}
+                  <div className="mt-sm">
+                    <ProgressBar 
+                      progress={item.masteryLevel * 100} 
+                      size="sm" 
+                      color={
+                        item.masteryLevel >= 0.8 ? 'var(--color-success)' :
+                        item.masteryLevel >= 0.5 ? 'var(--color-warning)' :
+                        'var(--color-error)'
+                      }
+                    />
+                  </div>
+                  <p className="text-secondary" style={{ fontSize: '12px', marginTop: '4px' }}>
+                    Maîtrisé : {Math.round(item.masteryLevel * 100)}%
+                  </p>
+                </div>
+              );
+            })}
           </div>
-        ))}
-      </section>
+        )}
+      </Card>
     </div>
   );
 }

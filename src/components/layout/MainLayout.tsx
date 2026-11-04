@@ -1,14 +1,11 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import './MainLayout.css';
 
 function MainLayout() {
   const navItems = [
     { to: '/', label: 'Accueil', icon: '🏠' },
     { to: '/learning-path', label: 'Parcours', icon: '📚' },
     { to: '/reviews', label: 'Révisions', icon: '🔄' },
-    { to: '/dictionary', label: 'Dico', icon: '📖' },
-    { to: '/statistics', label: 'Stats', icon: '📊' },
-    { to: '/settings', label: 'Réglages', icon: '⚙️' },
+    { to: '/dictionary', label: 'Dico', icon: '🔍' },
   ];
 
   return (

@@ -1,18 +1,7 @@
-// Page d'accueil du Lot 5 - Interface pédagogique et parcours
-// Connectée au moteur pédagogique via useLearningEngine
-
 import { Link } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
+import { Card, ProgressBar, Badge, SectionHeader, JapaneseText, Button } from '../components/common';
 
-/**
- * Page d'accueil du Lot 5 - Interface pédagogique et parcours
- * 
- * Affiche :
- * - La progression globale (score)
- * - La prochaine leçon recommandée
- * - Les révisions à effectuer
- * - Un accès au parcours
- */
 export default function HomePage() {
   const { 
     getAllLessons, 
@@ -21,62 +10,70 @@ export default function HomePage() {
     getTotalScore 
   } = useLearningEngine();
 
-  // Récupérer les prochaines leçons
   const nextLessons = getNextLessons();
   const nextLesson = nextLessons[0];
-
-  // Récupérer les leçons à réviser
   const reviewLessons = getReviewLessons();
   const pendingReviews = reviewLessons.length;
-
-  // Récupérer le score global
   const totalScore = getTotalScore();
 
   return (
     <div className="page">
-      <h1>Accueil</h1>
-      
-      {/* Progression globale */}
-      <section className="progress-section">
-        <h2>Progression globale</h2>
-        <p className="progress-value">{totalScore}% complété</p>
-        {nextLesson && (
-          <Link to={`/lesson/${nextLesson.id}`} className="btn btn-primary">
-            Continuer le parcours
-          </Link>
-        )}
-      </section>
+      {/* Message d'accueil */}
+      <div className="mb-lg">
+        <h1 className="section-title" style={{ fontSize: '24px' }}>Bienvenue ! 👋</h1>
+        <p className="text-secondary">Prêt à apprendre le japonais aujourd'hui ?</p>
+      </div>
 
-      {/* Prochaine leçon recommandée */}
-      <section className="next-lesson-section">
-        <h2>Prochaine leçon</h2>
-        {nextLesson ? (
-          <Link to={`/lesson/${nextLesson.id}`} className="lesson-card">
-            <h3>{nextLesson.title}</h3>
-            <p>{nextLesson.description}</p>
+      {/* Carte progression globale */}
+      <Card className="mb-lg">
+        <div className="card-header">
+          <h3 className="card-title">Progression globale</h3>
+          <Badge variant="primary">{totalScore}%</Badge>
+        </div>
+        <div className="mb-md">
+          <ProgressBar progress={totalScore} size="lg" />
+        </div>
+        <p className="text-secondary" style={{ fontSize: '14px' }}>
+          {totalScore} % du parcours complété
+        </p>
+      </Card>
+
+      {/* Prochaine leçon */}
+      {nextLesson && (
+        <Card className="mb-lg">
+          <SectionHeader 
+            title="Prochaine leçon" 
+            action={<Badge variant="accent">À faire</Badge>}
+          />
+          <div className="mb-md">
+            <JapaneseText text={nextLesson.title} size="large" />
+            <p className="text-secondary mt-sm">{nextLesson.description}</p>
+          </div>
+          <Link to={`/lesson/${nextLesson.id}`}>
+            <Button variant="accent" fullWidth>Continuer</Button>
           </Link>
-        ) : (
-          <p>Aucune leçon disponible pour le moment</p>
-        )}
-      </section>
+        </Card>
+      )}
 
       {/* Révisions en attente */}
       {pendingReviews > 0 && (
-        <section className="reviews-section">
-          <h2>Révisions en attente</h2>
-          <p>{pendingReviews} notion{pendingReviews > 1 ? 's' : ''} à réviser</p>
-          <Link to="/reviews" className="btn btn-secondary">
-            Réviser maintenant
+        <Card className="mb-lg">
+          <SectionHeader 
+            title="Révisions" 
+            subtitle={`${pendingReviews} notion${pendingReviews > 1 ? 's' : ''} à réviser`}
+          />
+          <Link to="/reviews">
+            <Button variant="secondary" fullWidth>Réviser maintenant</Button>
           </Link>
-        </section>
+        </Card>
       )}
 
       {/* Accès rapide au parcours */}
-      <section className="path-section">
-        <Link to="/learning-path" className="btn btn-primary">
-          Voir le parcours complet
+      <div className="text-center">
+        <Link to="/learning-path">
+          <Button variant="primary" size="lg">Voir le parcours complet</Button>
         </Link>
-      </section>
+      </div>
     </div>
   );
 }
