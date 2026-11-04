@@ -281,6 +281,6 @@ function checkAnswer(exercise: Exercise, answer: string): boolean {
  */
 function getChoices(exercise: Exercise): string[] | null {
   if (exercise.answerFormat !== 'choice') return null;
-  const choices = (exercise.data?.choices as string[]) || null;
+  const choices = (exercise.data?.options as string[]) || null;
   return choices;
 }

@@ -11,7 +11,7 @@ import type { Exercise } from '../exercises/types';
 
 export default function LessonPage() {
   const navigate = useNavigate();
-  const { lessonId } = useParams<{ lessonId: string }>();
+  const { id } = useParams<{ id: string }>();
 
   const {
     getLesson,
@@ -22,7 +22,7 @@ export default function LessonPage() {
   } = useLearningEngine();
 
   // Récupérer les données de la leçon depuis le moteur
-  const lessonData = getLesson(lessonId || '');
+  const lessonData = getLesson(id || '');
 
   // État local pour suivre la progression
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
@@ -32,11 +32,11 @@ export default function LessonPage() {
 
   // Initialiser la leçon si elle n'est pas en cours
   useEffect(() => {
-    if (lessonId && !isStarted) {
-      startLesson(lessonId);
+    if (id && !isStarted) {
+      startLesson(id);
       setIsStarted(true);
     }
-  }, [lessonId, isStarted, startLesson]);
+  }, [id, isStarted, startLesson]);
 
   // Construire la liste des exercices à partir des données réelles du moteur
   const exercises: Exercise[] = useMemo(() => {
@@ -53,7 +53,7 @@ export default function LessonPage() {
     return (
       <div className="page lesson-page">
         <h1>Leçon non trouvée</h1>
-        <Link to="/path" className="btn btn-primary">Retour au parcours</Link>
+        <Link to="/learning-path" className="btn btn-primary">Retour au parcours</Link>
       </div>
     );
   }
@@ -79,7 +79,7 @@ export default function LessonPage() {
       setExerciseComplete(false);
       setExerciseResult(null);
     } else {
-      navigate('/path');
+      navigate('/learning-path');
     }
   };
 
@@ -91,7 +91,7 @@ export default function LessonPage() {
 
   const handleCompleteLesson = () => {
     completeLesson(lessonData.id);
-    navigate('/path');
+    navigate('/learning-path');
   };
 
   const isExerciseStep = () => {
@@ -121,7 +121,7 @@ export default function LessonPage() {
 
       {/* Titre de la leçon */}
       <div className="lesson-header">
-        <Link to="/path" className="back-link">← Retour au parcours</Link>
+        <Link to="/learning-path" className="back-link">← Retour au parcours</Link>
         <h1>{lessonData.title}</h1>
         <p className="lesson-description">{lessonData.description}</p>
       </div>
