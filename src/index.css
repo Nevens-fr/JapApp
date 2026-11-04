@@ -490,6 +490,284 @@ body {
 
 .flex-1 { flex: 1; }
 
+
+/* ====================================
+   Exercices
+   ==================================== */
+
+/* Carte d'exercice */
+.exercise-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border-light);
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-md);
+}
+
+.exercise-difficulty {
+  font-size: 16px;
+  color: var(--color-warning);
+}
+
+/* Exercice - Reconnaissance */
+.exercise-recognition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.exercise-choice {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 400px;
+}
+
+.choice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  min-height: 56px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.choice-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.choice-btn.selected {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.choice-btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* Exercice - Texte input */
+.exercise-text-input {
+  width: 100%;
+  max-width: 400px;
+}
+
+.exercise-input {
+  width: 100%;
+  padding: var(--space-md);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 16px;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.exercise-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.exercise-input:disabled {
+  background-color: var(--color-border-light);
+}
+
+/* Exercice - Traduction */
+.exercise-translation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.exercise-prompt {
+  font-size: 16px;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Exercice - Grammar fill */
+.exercise-grammar-fill {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Exercice - Écoute */
+.exercise-listening {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.play-audio-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.play-audio-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Exercice - Écriture */
+.exercise-writing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.exercise-textarea {
+  width: 100%;
+  padding: var(--space-md);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-jp);
+  font-size: 16px;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+}
+
+.exercise-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.exercise-textarea:disabled {
+  background-color: var(--color-border-light);
+}
+
+/* Exercice - Résultat */
+.exercise-result {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.exercise-result.correct {
+  background-color: var(--color-success-light);
+  border: 1px solid var(--color-success);
+}
+
+.exercise-result.incorrect {
+  background-color: var(--color-error-light);
+  border: 1px solid var(--color-error);
+}
+
+.result-message {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.result-feedback {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.result-explanation {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.retry-btn {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-primary);
+  font-family: var(--font-family);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.retry-btn:hover {
+  background-color: var(--color-primary-light);
+}
+
+/* Exercice - Actions */
+.exercise-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.submit-btn {
+  flex: 1;
+  padding: var(--space-md);
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.abandon-btn {
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-family);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.abandon-btn:hover {
+  background-color: var(--color-border-light);
+  color: var(--color-text-primary);
+}
+
 /* Responsive - mobile first */
 @media (max-width: 390px) {
   .main-content {
