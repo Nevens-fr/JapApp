@@ -64,8 +64,8 @@ export function useLearningEngine() {
   const startLesson = useCallback(
     (lessonId: string): Lesson | undefined => {
       const lesson = lessons.find((l) => l.id === lessonId);
-      if (!lesson) return undefined;
-
+      
+      // Toujours appeler engine.startLesson pour initialiser la progression
       engine.startLesson(lessonId);
       setCurrentLessonId(lessonId);
       setProgress((prev) => ({
@@ -74,7 +74,7 @@ export function useLearningEngine() {
       }));
       return lesson;
     },
-    [engine, lessons]
+    [engine]
   );
 
   const recordExerciseResult = useCallback(

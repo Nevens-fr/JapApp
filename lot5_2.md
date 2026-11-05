@@ -1,3 +1,5 @@
+# LOT 5.2 - TERMIN� ?
+
 LOT 5.2 — Identité visuelle, design UI/UX et refonte de l'interface
 
 1. Contexte et objectif

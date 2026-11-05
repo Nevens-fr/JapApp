@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
 import { ExerciseCard } from '../exercises/components/ExerciseCard';
@@ -18,13 +18,16 @@ export default function LessonPage() {
     exercises: allExercises,
   } = useLearningEngine();
 
+  // Récupérer les données de la leçon
   const lessonData = getLesson(id || '');
 
+  // Hooks d'état - toujours appelés dans le même ordre
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [exerciseComplete, setExerciseComplete] = useState(false);
   const [exerciseResult, setExerciseResult] = useState<ExerciseResultLot4 | null>(null);
   const [isStarted, setIsStarted] = useState(false);
 
+  // Effet pour démarrer la leçon
   useEffect(() => {
     if (id && !isStarted) {
       startLesson(id);
@@ -32,6 +35,7 @@ export default function LessonPage() {
     }
   }, [id, isStarted, startLesson]);
 
+  // Hooks de calcul mémorisé - toujours appelés dans le même ordre
   const exercises: Exercise[] = useMemo(() => {
     if (!lessonData?.exercises) return [];
     return lessonData.exercises
@@ -39,12 +43,55 @@ export default function LessonPage() {
       .filter((e): e is Exercise => e !== undefined);
   }, [lessonData, allExercises]);
 
+  // Valeurs dérivées
+  const currentExercise = exercises[currentExerciseIndex];
+  const isLastExercise = currentExerciseIndex >= exercises.length - 1;
+  const isExerciseStep = () => currentExercise !== undefined;
+
+  // Handlers de callbacks - toujours appelés dans le même ordre
+  const handleNext = useCallback(() => {
+    if (isExerciseStep() && !exerciseComplete) {
+      setExerciseComplete(true);
+    } else if (isLastExercise) {
+      completeLesson(id || '');
+      navigate('/learning-path');
+    } else {
+      setCurrentExerciseIndex((prev) => prev + 1);
+      setExerciseComplete(false);
+      setExerciseResult(null);
+    }
+  }, [exerciseComplete, isLastExercise, completeLesson, navigate, id]);
+
+  const handleBack = useCallback(() => {
+    if (currentExerciseIndex > 0) {
+      setCurrentExerciseIndex((prev) => prev - 1);
+      setExerciseComplete(false);
+      setExerciseResult(null);
+    } else {
+      navigate('/learning-path');
+    }
+  }, [currentExerciseIndex, navigate]);
+
+  const handleExerciseResult = useCallback((result: ExerciseResultLot4) => {
+    recordExerciseResult(id || '', result);
+    setExerciseResult(result);
+    setExerciseComplete(true);
+  }, [recordExerciseResult, id]);
+
+  // Fonction de progression
+  const getProgress = () => {
+    return exercises.length > 0
+      ? ((currentExerciseIndex + (exerciseComplete ? 1 : 0)) / exercises.length) * 100
+      : 0;
+  };
+
+  // RETURN CONDITIONNEL - avant le JSX mais après TOUS les hooks
   if (!lessonData) {
     return (
       <div className="page">
         <Card>
           <div className="text-center">
-            <div className="empty-state-icon">📭</div>
+            <div className="empty-state-icon">🚫</div>
             <h2 className="empty-state-title">Leçon non trouvée</h2>
             <Link to="/learning-path">
               <Button variant="primary">Retour au parcours</Button>
@@ -55,50 +102,7 @@ export default function LessonPage() {
     );
   }
 
-  const currentExercise = exercises[currentExerciseIndex];
-  const isLastExercise = currentExerciseIndex === exercises.length - 1;
-
-  const handleNext = () => {
-    if (isExerciseStep() && !exerciseComplete) {
-      setExerciseComplete(true);
-    } else if (isLastExercise) {
-      handleCompleteLesson();
-    } else {
-      setCurrentExerciseIndex(currentExerciseIndex + 1);
-      setExerciseComplete(false);
-      setExerciseResult(null);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentExerciseIndex > 0) {
-      setCurrentExerciseIndex(currentExerciseIndex - 1);
-      setExerciseComplete(false);
-      setExerciseResult(null);
-    } else {
-      navigate('/learning-path');
-    }
-  };
-
-  const handleExerciseResult = (result: ExerciseResultLot4) => {
-    recordExerciseResult(lessonData.id, result);
-    setExerciseResult(result);
-    setExerciseComplete(true);
-  };
-
-  const handleCompleteLesson = () => {
-    completeLesson(lessonData.id);
-    navigate('/learning-path');
-  };
-
-  const isExerciseStep = () => currentExercise !== undefined;
-
-  const getProgress = () => {
-    return exercises.length > 0
-      ? ((currentExerciseIndex + (exerciseComplete ? 1 : 0)) / exercises.length) * 100
-      : 0;
-  };
-
+  // JSX principal
   return (
     <div className="page">
       {/* Barre de progression */}
@@ -132,7 +136,7 @@ export default function LessonPage() {
             {exerciseResult && (
               <div className={`mt-md ${exerciseResult.isCorrect ? 'text-success' : 'text-error'}`}>
                 <p style={{ fontWeight: 500 }}>
-                  {exerciseResult.isCorrect ? '✅ Correct !' : '❌ Incorrect'}
+                  {exerciseResult.isCorrect ? '✓ Correct !' : '✗ Incorrect'}
                 </p>
                 <p className="text-secondary mt-sm">{currentExercise.explanation}</p>
               </div>
