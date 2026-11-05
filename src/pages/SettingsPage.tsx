@@ -1,11 +1,27 @@
+/**
+ * Page des paramètres
+ * Lot 5.2 - Refonte UI
+ */
+
 import { useState } from 'react';
 import { Card, SectionHeader, Button, Badge } from '../components/common';
+import { db } from '../database/local/database';
+import { exportBackup, backupToJson, importBackup, validateBackup } from '../database/local/migrations';
+
+// Constantes pour éviter les apostrophes dans les strings TS
+const ERR_EXPORT = "Erreur lors de l'export";
+const ERR_IMPORT = "Erreur lors de l'import";
+const MSG_RESET = "Cette action n'est pas encore implémentée.";
+const MSG_CONFIRM = 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.';
 
 export default function SettingsPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [autoPlay, setAutoPlay] = useState(false);
   const [language, setLanguage] = useState('fr');
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
 
   const ToggleSwitch = ({ enabled, onToggle }: { enabled: boolean; onToggle: () => void }) => (
     <button
@@ -37,6 +53,51 @@ export default function SettingsPage() {
     </button>
   );
 
+  const handleExport = async () => {
+    setIsExporting(true);
+    setImportError(null);
+    try {
+      const backup = await exportBackup(db, '1.0.0');
+      const json = backupToJson(backup);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `japapp-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : ERR_EXPORT);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsImporting(true);
+    setImportError(null);
+
+    try {
+      const text = await file.text();
+      const validation = validateBackup(text);
+      if (!validation.valid) {
+        throw new Error(validation.error || 'Backup invalide');
+      }
+      await importBackup(db, text, false);
+      alert('Données importées avec succès !');
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : ERR_IMPORT);
+    } finally {
+      setIsImporting(false);
+      event.target.value = '';
+    }
+  };
+
   const settingsGroups = [
     {
       title: 'Préférences',
@@ -50,12 +111,12 @@ export default function SettingsPage() {
         },
         {
           label: 'Langue',
-          description: 'Langue de l\'interface',
+          description: "Langue de l'interface",
           type: 'select' as const,
           options: [
-            { value: 'fr', label: '🇫🇷 Français' },
-            { value: 'ja', label: '🇯🇵 日本語' },
-            { value: 'en', label: '🇬🇧 English' },
+            { value: 'fr', label: 'Français' },
+            { value: 'ja', label: 'Japonais' },
+            { value: 'en', label: 'English' },
           ],
           value: language,
           onChange: (val: string) => setLanguage(val),
@@ -85,10 +146,32 @@ export default function SettingsPage() {
       title: 'Données',
       items: [
         {
+          label: 'Exporter les données',
+          description: 'Sauvegarder votre progression en fichier JSON',
+          type: 'action' as const,
+          action: handleExport,
+          actionLabel: 'Exporter',
+          actionDisabled: isExporting,
+        },
+        {
+          label: 'Importer des données',
+          description: 'Restaurer une sauvegarde depuis un fichier JSON',
+          type: 'action' as const,
+          action: undefined,
+          actionLabel: 'Importer',
+          actionDisabled: isImporting,
+          fileInput: true,
+        },
+        {
           label: 'Réinitialiser la progression',
           description: 'Effacer toutes les données et recommencer',
           type: 'action' as const,
-          action: () => alert('Cette action n\'est pas encore implémentée.'),
+          action: () => {
+            if (window.confirm(MSG_CONFIRM)) {
+              alert(MSG_RESET);
+            }
+          },
+          actionLabel: 'Réinitialiser',
         },
       ],
     },
@@ -112,6 +195,9 @@ export default function SettingsPage() {
                   <div>
                     <p style={{ fontWeight: 500 }}>{item.label}</p>
                     <p className="text-secondary" style={{ fontSize: '13px' }}>{item.description}</p>
+                    {importError && item.label === 'Importer des données' && (
+                      <p style={{ color: 'var(--color-error)', fontSize: '12px', marginTop: '4px' }}>{importError}</p>
+                    )}
                   </div>
                   <div>
                     {item.type === 'toggle' && (
@@ -137,9 +223,25 @@ export default function SettingsPage() {
                       </select>
                     )}
                     {item.type === 'action' && (
-                      <Button variant="error" size="sm" onClick={item.action}>
-                        Réinitialiser
-                      </Button>
+                      <>
+                        <Button
+                          variant={item.label === 'Réinitialiser la progression' ? 'secondary' : 'primary'}
+                          size="sm"
+                          onClick={item.action}
+                          disabled={item.actionDisabled}
+                        >
+                          {item.actionLabel}
+                        </Button>
+                        {item.fileInput && (
+                          <input
+                            type="file"
+                            accept=".json"
+                            onChange={handleImport}
+                            style={{ display: 'none' }}
+                            id={`file-import-${item.label}`}
+                          />
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
@@ -149,7 +251,6 @@ export default function SettingsPage() {
         ))}
       </div>
 
-      {/* Version */}
       <div className="text-center mt-lg">
         <p className="text-secondary" style={{ fontSize: '12px' }}>
           JapApp v1.0.0

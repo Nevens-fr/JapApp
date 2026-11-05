@@ -10,7 +10,7 @@
 | 3 | Moteur pédagogique | ✅ Terminé | 2026-11-03 |
 | 4 | Système d'exercices | ✅ Terminé | 2026-11-03 |
 | 5 | Interface pédagogique et parcours | 🔄 En cours | 2026-11-04 |
-| 6 | Stockage local et fonctionnement hors ligne | 🔒 En attente | - |
+| 6 | Stockage local et fonctionnement hors ligne | 🔒 En attente | 2026-11-05 |
 | 7 | PWA et installation | 🔒 En attente | - |
 | 8 | Répétition espacée | 🔒 En attente | - |
 | 9 | Gamification et progression | 🔒 En attente | - |
@@ -80,6 +80,17 @@
   - ReviewPage.tsx mis à jour : connectée au moteur via useLearningEngine
   - DictionaryPage.tsx mis à jour : données de démonstration avec caractères japonais et français valides
   - Build TypeScript validé (tsc --noEmit sans erreur)
+- LOT 6 : Stockage local et fonctionnement hors ligne (2026-11-05)
+  - Schéma Dexie.js défini (5 tables : progression, reviewSchedules, statistics, preferences, syncOperations)
+  - Repository CRUD complet avec sérialisation/désérialisation
+  - Hooks React : usePersistence, useStatistics, usePreferences, useSyncQueue
+  - Système de migrations et backup/export-import JSON
+  - Tests de sérialisation
+  - Correction hooks.ts : utilisation de createInitialProgression()
+  - SettingsPage.tsx : boutons export/import JSON fonctionnels
+  - Provider de persistance (PersistenceProvider) intégré dans main.tsx
+  - index.ts mis à jour pour exporter les migrations
+
 
 ## Déploiement et Test
 
@@ -120,6 +131,6 @@ npm run test
 
 - LOT 5 : Interface pédagogique et parcours
   - Finaliser l'intégration du moteur pédagogique (Lot 5.1 terminé)
-  - Implémenter la persistance locale (Lot 6)
+  - La persistance locale est implémentée (Lot 6 terminé)
   - Ajouter la répétition espacée (Lot 8)
   - Créer le contenu pédagogique initial (Lot 10)
