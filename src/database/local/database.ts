@@ -66,6 +66,7 @@ export interface StoredPreferences {
   dailyGoal: number;
   notificationsEnabled: boolean;
   showRomaji: boolean;
+  darkMode: boolean;
 }
 
 /**

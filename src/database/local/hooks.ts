@@ -324,8 +324,10 @@ export function usePreferences() {
     value: StoredPreferences[K]
   ) => {
     try {
+      // Charger les préférences actuelles depuis la DB pour éviter les stale closures
+      const current = await loadPreferences();
       await savePreferences({
-        ...preferences!,
+        ...current,
         [key]: value,
       });
       const updated = await loadPreferences();
@@ -333,7 +335,7 @@ export function usePreferences() {
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
     }
-  }, [preferences]);
+  }, []);
 
   return {
     preferences,

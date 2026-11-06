@@ -27,19 +27,20 @@ export default function SettingsPage() {
   const [autoPlay, setAutoPlay] = useState(false);
   const [language, setLanguage] = useState('fr');
 
-  // Appliquer le mode sombre au document
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-    }
-  }, [darkMode]);
+
 
   // Synchronisation avec les preferences persistées
   useEffect(() => {
     if (preferences) {
       setLanguage(preferences.language || 'fr');
+      const isDark = preferences.darkMode ?? false;
+      setDarkMode(isDark);
+      // Appliquer la classe CSS ici pour assurer la cohérence
+      if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+      }
       setNotifications(preferences.notificationsEnabled ?? true);
       setAutoPlay(preferences.showRomaji ?? false);
     }
@@ -132,7 +133,7 @@ export default function SettingsPage() {
           onChange: async () => {
             const newVal = !darkMode;
             setDarkMode(newVal);
-            // TODO: Persister darkMode dans IndexedDB
+            await update('darkMode', newVal);
           },
         },
         {

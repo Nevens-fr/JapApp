@@ -193,11 +193,16 @@ export async function loadPreferences(): Promise<StoredPreferences> {
       dailyGoal: 5,
       notificationsEnabled: false,
       showRomaji: false,
+      darkMode: false,
     };
     await savePreferences(defaults);
     return defaults;
   }
-  return stored;
+  // Assurer que darkMode existe même pour les anciennes entrées DB
+  return {
+    ...stored,
+    darkMode: stored.darkMode ?? false,
+  } as StoredPreferences;
 }
 
 /**
