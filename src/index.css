@@ -787,3 +787,41 @@ body {
     padding-bottom: var(--space-lg);
   }
 }
+/* --- Mode Sombre --- */
+:root.dark-mode {
+  /* Couleurs de fond */
+  --color-bg: #1A1A2E;
+  --color-surface: #16213E;
+  
+  /* Couleurs principales */
+  --color-primary: #6C63FF;
+  --color-primary-light: #2A2A4A;
+  --color-primary-hover: #5A52E0;
+  
+  /* Couleurs d'accent */
+  --color-accent: #FF6B6B;
+  --color-accent-hover: #E05555;
+  
+  /* Couleurs de feedback */
+  --color-success: #4ECB71;
+  --color-success-light: #1A3A2A;
+  --color-warning: #FFB347;
+  --color-warning-light: #3A2A1A;
+  --color-error: #FF6B6B;
+  --color-error-light: #3A1A1A;
+  
+  /* Couleurs de texte */
+  --color-text-primary: #EAEAEA;
+  --color-text-secondary: #A0A0B0;
+  --color-text-muted: #707080;
+  --color-text-inverse: #1A1A2E;
+  
+  /* Bordures et séparateurs */
+  --color-border: #2A2A4A;
+  --color-border-light: #222244;
+  
+  /* Ombres */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
+}

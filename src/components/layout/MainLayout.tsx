@@ -5,7 +5,8 @@ function MainLayout() {
     { to: '/', label: 'Accueil', icon: '🏠' },
     { to: '/learning-path', label: 'Parcours', icon: '📚' },
     { to: '/reviews', label: 'Révisions', icon: '🔄' },
-    { to: '/dictionary', label: 'Dico', icon: '🔍' },
+    { to: '/dictionary', label: 'Dico', icon: '📖' },
+    { to: '/settings', label: 'Paramètres', icon: '⚙️' },
   ];
 
   return (

@@ -16,6 +16,7 @@ export default function LessonPage() {
     completeLesson,
     startLesson,
     exercises: allExercises,
+    loading,
   } = useLearningEngine();
 
   // Récupérer les données de la leçon
@@ -26,14 +27,15 @@ export default function LessonPage() {
   const [exerciseComplete, setExerciseComplete] = useState(false);
   const [exerciseResult, setExerciseResult] = useState<ExerciseResultLot4 | null>(null);
   const [isStarted, setIsStarted] = useState(false);
+  const [progressError, setProgressError] = useState<string | null>(null);
 
   // Effet pour démarrer la leçon
   useEffect(() => {
-    if (id && !isStarted) {
+    if (id && !isStarted && !loading) {
       startLesson(id);
       setIsStarted(true);
     }
-  }, [id, isStarted, startLesson]);
+  }, [id, isStarted, loading, startLesson]);
 
   // Hooks de calcul mémorisé - toujours appelés dans le même ordre
   const exercises: Exercise[] = useMemo(() => {
@@ -46,21 +48,24 @@ export default function LessonPage() {
   // Valeurs dérivées
   const currentExercise = exercises[currentExerciseIndex];
   const isLastExercise = currentExerciseIndex >= exercises.length - 1;
-  const isExerciseStep = () => currentExercise !== undefined;
 
   // Handlers de callbacks - toujours appelés dans le même ordre
-  const handleNext = useCallback(() => {
-    if (isExerciseStep() && !exerciseComplete) {
+  const handleNext = useCallback(async () => {
+    if (currentExercise && !exerciseComplete) {
       setExerciseComplete(true);
     } else if (isLastExercise) {
-      completeLesson(id || '');
-      navigate('/learning-path');
+      try {
+        const completed = await completeLesson(id || '');
+        if (completed) navigate('/learning-path');
+      } catch {
+        setProgressError('La progression n’a pas pu être sauvegardée. Réessayez.');
+      }
     } else {
       setCurrentExerciseIndex((prev) => prev + 1);
       setExerciseComplete(false);
       setExerciseResult(null);
     }
-  }, [exerciseComplete, isLastExercise, completeLesson, navigate, id]);
+  }, [currentExercise, exerciseComplete, isLastExercise, completeLesson, navigate, id]);
 
   const handleBack = useCallback(() => {
     if (currentExerciseIndex > 0) {
@@ -72,10 +77,15 @@ export default function LessonPage() {
     }
   }, [currentExerciseIndex, navigate]);
 
-  const handleExerciseResult = useCallback((result: ExerciseResultLot4) => {
-    recordExerciseResult(id || '', result);
+  const handleExerciseResult = useCallback(async (result: ExerciseResultLot4) => {
     setExerciseResult(result);
     setExerciseComplete(true);
+    setProgressError(null);
+    try {
+      await recordExerciseResult(id || '', result);
+    } catch {
+      setProgressError('La progression n’a pas pu être sauvegardée. Réessayez.');
+    }
   }, [recordExerciseResult, id]);
 
   // Fonction de progression
@@ -86,6 +96,16 @@ export default function LessonPage() {
   };
 
   // RETURN CONDITIONNEL - avant le JSX mais après TOUS les hooks
+  if (loading) {
+    return (
+      <div className="page">
+        <Card>
+          <p className="text-secondary">Chargement de la progression...</p>
+        </Card>
+      </div>
+    );
+  }
+
   if (!lessonData) {
     return (
       <div className="page">
@@ -146,6 +166,9 @@ export default function LessonPage() {
       </Card>
 
       {/* Navigation */}
+      {progressError && (
+        <p className="text-error mb-sm" role="alert">{progressError}</p>
+      )}
       <div className="flex gap-sm">
         <Button 
           variant="secondary" 
@@ -154,12 +177,12 @@ export default function LessonPage() {
         >
           {currentExerciseIndex === 0 ? 'Quitter' : 'Précédent'}
         </Button>
-        {isExerciseStep() && !exerciseComplete && (
+        {currentExercise && !exerciseComplete && (
           <Button variant="primary" onClick={handleNext} className="flex-1">
             Valider ma réponse
           </Button>
         )}
-        {isExerciseStep() && exerciseComplete && (
+        {currentExercise && exerciseComplete && (
           <Button 
             variant="accent" 
             onClick={handleNext} 

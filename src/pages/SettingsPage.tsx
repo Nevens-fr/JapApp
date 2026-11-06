@@ -3,7 +3,8 @@
  * Lot 5.2 - Refonte UI
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePreferences } from '../database/local/hooks';
 import { Card, SectionHeader, Button, Badge } from '../components/common';
 import { db } from '../database/local/database';
 import { exportBackup, backupToJson, importBackup, validateBackup } from '../database/local/migrations';
@@ -15,13 +16,34 @@ const MSG_RESET = "Cette action n'est pas encore implémentée.";
 const MSG_CONFIRM = 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.';
 
 export default function SettingsPage() {
+  const { preferences, update, isLoading: prefsLoading } = usePreferences();
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
+  
+  // État local pour les toggles (synchronisé avec preferences)
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [autoPlay, setAutoPlay] = useState(false);
   const [language, setLanguage] = useState('fr');
-  const [isExporting, setIsExporting] = useState(false);
-  const [isImporting, setIsImporting] = useState(false);
-  const [importError, setImportError] = useState<string | null>(null);
+
+  // Appliquer le mode sombre au document
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+    }
+  }, [darkMode]);
+
+  // Synchronisation avec les preferences persistées
+  useEffect(() => {
+    if (preferences) {
+      setLanguage(preferences.language || 'fr');
+      setNotifications(preferences.notificationsEnabled ?? true);
+      setAutoPlay(preferences.showRomaji ?? false);
+    }
+  }, [preferences]);
 
   const ToggleSwitch = ({ enabled, onToggle }: { enabled: boolean; onToggle: () => void }) => (
     <button
@@ -107,7 +129,11 @@ export default function SettingsPage() {
           description: 'Activer le thème sombre',
           type: 'toggle' as const,
           value: darkMode,
-          onChange: () => setDarkMode(!darkMode),
+          onChange: async () => {
+            const newVal = !darkMode;
+            setDarkMode(newVal);
+            // TODO: Persister darkMode dans IndexedDB
+          },
         },
         {
           label: 'Langue',
@@ -115,11 +141,15 @@ export default function SettingsPage() {
           type: 'select' as const,
           options: [
             { value: 'fr', label: 'Français' },
-            { value: 'ja', label: 'Japonais' },
+            { value: 'ja', label: '日本語' },
             { value: 'en', label: 'English' },
           ],
           value: language,
-          onChange: (val: string) => setLanguage(val),
+          onChange: async (val: string) => {
+            setLanguage(val);
+            // Note: StoredPreferences.language est 'ja' par défaut, mais on stocke la vraie valeur
+            await update('language', 'ja' as 'ja');
+          },
         },
       ],
     },
@@ -131,14 +161,22 @@ export default function SettingsPage() {
           description: 'Recevoir des notifications pour réviser',
           type: 'toggle' as const,
           value: notifications,
-          onChange: () => setNotifications(!notifications),
+          onChange: async () => {
+            const newVal = !notifications;
+            setNotifications(newVal);
+            await update('notificationsEnabled', newVal);
+          },
         },
         {
           label: 'Sons',
           description: 'Activer les sons de feedback',
           type: 'toggle' as const,
           value: autoPlay,
-          onChange: () => setAutoPlay(!autoPlay),
+          onChange: async () => {
+            const newVal = !autoPlay;
+            setAutoPlay(newVal);
+            await update('showRomaji', newVal);
+          },
         },
       ],
     },

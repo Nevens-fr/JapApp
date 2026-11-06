@@ -15,6 +15,7 @@ import Dexie, { type Table } from 'dexie';
  * Progression utilisateur sérialisable pour le stockage
  */
 export interface StoredProgression {
+  id?: string;
   mastery: Record<string, {
     value: number;
     state: string;
@@ -45,6 +46,7 @@ export interface StoredReviewSchedule {
  * Statistiques utilisateur
  */
 export interface StoredStatistics {
+  id?: string;
   totalLessonsCompleted: number;
   totalExercisesCompleted: number;
   totalCorrectAnswers: number;
@@ -59,6 +61,7 @@ export interface StoredStatistics {
  * Préférences utilisateur
  */
 export interface StoredPreferences {
+  id?: string;
   language: 'ja';
   dailyGoal: number;
   notificationsEnabled: boolean;

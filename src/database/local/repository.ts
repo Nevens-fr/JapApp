@@ -6,7 +6,7 @@
  * via Dexie.js
  */
 
-import { db, type JapAppDatabase, type StoredProgression, type StoredStatistics, type StoredPreferences, type StoredSyncOperation, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID, generateSyncOperationId } from './database';
+import { db, type StoredProgression, type StoredStatistics, type StoredPreferences, type StoredSyncOperation, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID, generateSyncOperationId } from './database';
 import type { UserProgression } from '../../core/learning/progression';
 import type { MasteryLevel } from '../../core/learning/types';
 
@@ -71,7 +71,7 @@ export function deserializeProgression(stored: StoredProgression): UserProgressi
  */
 export async function saveProgression(progression: UserProgression): Promise<void> {
   const stored = serializeProgression(progression);
-  await db.progression.put(stored, PROGRESSION_ID);
+  await db.progression.put({ ...stored, id: PROGRESSION_ID });
 }
 
 /**
@@ -107,7 +107,7 @@ export async function hasProgression(): Promise<boolean> {
  * Sauvegarde les statistiques de l'utilisateur dans IndexedDB
  */
 export async function saveStatistics(stats: StoredStatistics): Promise<void> {
-  await db.statistics.put(stats, STATISTICS_ID);
+  await db.statistics.put({ ...stats, id: STATISTICS_ID });
 }
 
 /**
@@ -178,7 +178,7 @@ export async function recordExerciseCompletion(correct: boolean, xpGained: numbe
  * Sauvegarde les préférences de l'utilisateur dans IndexedDB
  */
 export async function savePreferences(prefs: StoredPreferences): Promise<void> {
-  await db.preferences.put(prefs, PREFERENCES_ID);
+  await db.preferences.put({ ...prefs, id: PREFERENCES_ID });
 }
 
 /**

@@ -11,8 +11,8 @@ import type {
   StoredProgression,
   StoredStatistics,
   StoredPreferences,
-  StoredSyncOperation,
 } from './database';
+import { PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID } from './database';
 import type { JapAppDatabase } from './database';
 
 // ============================================================
@@ -34,7 +34,7 @@ export const CURRENT_SCHEMA_VERSION = 1;
  * @param db - L'instance Dexie avec la version cible
  * @param previousVersion - La version précédente du schéma
  */
-export type MigrationFn = (db: Dexie, previousVersion: number) => Promise<void>;
+export type MigrationFn = (db: Dexie & JapAppDatabase, previousVersion: number) => Promise<void>;
 
 // ============================================================
 // Migrations
@@ -44,7 +44,7 @@ export type MigrationFn = (db: Dexie, previousVersion: number) => Promise<void>;
  * Migration v1 : Schéma initial
  * Tables : progression, reviewSchedules, statistics, preferences, syncOperations
  */
-const migrationV1: MigrationFn = async (db: Dexie) => {
+const migrationV1: MigrationFn = async () => {
   // Le schéma est défini dans database.ts via db.version(DB_VERSION).stores()
   // Cette migration sert de point d'extension pour les futures migrations
 };
@@ -67,10 +67,10 @@ export const MIGRATIONS: Record<number, MigrationFn> = {
  * @param currentVersion - La version cible du schéma
  */
 export async function applyMigrations(
-  db: Dexie,
+  db: Dexie & JapAppDatabase,
   currentVersion: number
 ): Promise<void> {
-  let currentSchemaVersion = CURRENT_SCHEMA_VERSION;
+  const currentSchemaVersion = CURRENT_SCHEMA_VERSION;
 
   // Vérifier si des migrations sont nécessaires
   if (currentSchemaVersion === currentVersion) {
@@ -116,13 +116,13 @@ export interface BackupData {
  * Exporte toutes les données locales dans un objet sérialisable
  */
 export async function exportBackup(
-  db: Dexie,
+  db: Dexie & JapAppDatabase,
   appVersion: string
 ): Promise<BackupData> {
   // Récupérer les tables
-  const progression = await db.table<StoredProgression>('progression').toArray();
-  const statistics = await db.table<StoredStatistics>('statistics').toArray();
-  const preferences = await db.table<StoredPreferences>('preferences').toArray();
+  const progression = await db.progression.toArray();
+  const statistics = await db.statistics.toArray();
+  const preferences = await db.preferences.toArray();
 
   return {
     version: 1,
@@ -171,7 +171,7 @@ export function parseBackup(json: string): BackupData {
  * @param overwrite - Si true, écrase les données existantes
  */
 export async function importBackup(
-  db: Dexie,
+  db: Dexie & JapAppDatabase,
   backupJson: string,
   overwrite: boolean = false
 ): Promise<void> {
@@ -186,7 +186,7 @@ export async function importBackup(
 
   // Si les données existent et overwrite est false, lancer une erreur
   if (!overwrite) {
-    const existingProgression = await db.table<StoredProgression>('progression').toArray();
+    const existingProgression = await db.progression.toArray();
     if (existingProgression.length > 0) {
       throw new Error(
         'Des données existent déjà. Utilisez overwrite=true pour les remplacer.'
@@ -196,15 +196,15 @@ export async function importBackup(
 
   // Importer les données
   if (backup.data.progression) {
-    await db.table<StoredProgression>('progression').put(backup.data.progression);
+    await db.progression.put({ ...backup.data.progression, id: backup.data.progression.id ?? PROGRESSION_ID });
   }
 
   if (backup.data.statistics) {
-    await db.table<StoredStatistics>('statistics').put(backup.data.statistics);
+    await db.statistics.put({ ...backup.data.statistics, id: backup.data.statistics.id ?? STATISTICS_ID });
   }
 
   if (backup.data.preferences) {
-    await db.table<StoredPreferences>('preferences').put(backup.data.preferences);
+    await db.preferences.put({ ...backup.data.preferences, id: backup.data.preferences.id ?? PREFERENCES_ID });
   }
 }
 

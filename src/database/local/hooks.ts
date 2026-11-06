@@ -48,7 +48,7 @@ const AUTO_SAVE_DELAY_MS = 2000;
  * @param progression - La progression à persister (issue du moteur pédagogique)
  * @returns Un objet contenant l'état de persistance et les actions
  */
-export function usePersistence(progression: UserProgression) {
+export function usePersistence(progression: UserProgression, enabled = true) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasData, setHasData] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
@@ -90,6 +90,8 @@ export function usePersistence(progression: UserProgression) {
   // ============================================================
 
   const scheduleSave = useCallback(() => {
+    if (!enabled) return;
+
     // Annuler le délai précédent
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
@@ -113,7 +115,7 @@ export function usePersistence(progression: UserProgression) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
     }, AUTO_SAVE_DELAY_MS);
-  }, [progression]);
+  }, [enabled, progression]);
 
   // Sauvegarder quand la progression change
   useEffect(() => {

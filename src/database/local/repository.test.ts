@@ -6,10 +6,56 @@
  * Les tests Dexie nécessitent un environnement avec IndexedDB
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { serializeProgression, deserializeProgression } from './repository';
+import { describe, it, expect, afterEach, vi } from 'vitest';
+import { db, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID } from './database';
+import {
+  serializeProgression,
+  deserializeProgression,
+  saveProgression,
+  saveStatistics,
+  savePreferences,
+} from './repository';
 import type { UserProgression } from '../../core/learning/progression';
 import type { StoredProgression } from './database';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+describe('repository key-path writes', () => {
+  it('stores the inline key in the record instead of passing an out-of-line key', async () => {
+    const progressionPut = vi.spyOn(db.progression, 'put').mockResolvedValue(PROGRESSION_ID);
+    const statisticsPut = vi.spyOn(db.statistics, 'put').mockResolvedValue(STATISTICS_ID);
+    const preferencesPut = vi.spyOn(db.preferences, 'put').mockResolvedValue(PREFERENCES_ID);
+
+    await saveProgression({ mastery: {}, lessons: {}, unlockedConcepts: [] });
+    await saveStatistics({
+      totalLessonsCompleted: 0,
+      totalExercisesCompleted: 0,
+      totalCorrectAnswers: 0,
+      totalIncorrectAnswers: 0,
+      xpTotal: 0,
+      currentStreak: 0,
+      lastActiveDate: null,
+      sessionsThisWeek: 0,
+    });
+    await savePreferences({
+      language: 'ja',
+      dailyGoal: 5,
+      notificationsEnabled: false,
+      showRomaji: false,
+    });
+
+    expect(progressionPut).toHaveBeenCalledWith({
+      id: PROGRESSION_ID,
+      mastery: {},
+      lessons: {},
+      unlockedConcepts: [],
+    });
+    expect(statisticsPut).toHaveBeenCalledWith(expect.objectContaining({ id: STATISTICS_ID }));
+    expect(preferencesPut).toHaveBeenCalledWith(expect.objectContaining({ id: PREFERENCES_ID }));
+  });
+});
 
 // ============================================================
 // Tests de sérialisation

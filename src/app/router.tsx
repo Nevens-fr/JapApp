@@ -7,20 +7,23 @@ import ReviewPage from '../pages/ReviewPage'
 import DictionaryPage from '../pages/DictionaryPage'
 import StatisticsPage from '../pages/StatisticsPage'
 import SettingsPage from '../pages/SettingsPage'
+import { LearningEngineProvider } from '../hooks/useLearningEngine'
 
 function Router() {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path="learning-path" element={<LearningPathPage />} />
-        <Route path="lesson/:id" element={<LessonPage />} />
-        <Route path="reviews" element={<ReviewPage />} />
-        <Route path="dictionary" element={<DictionaryPage />} />
-        <Route path="statistics" element={<StatisticsPage />} />
-        <Route path="settings" element={<SettingsPage />} />
-      </Route>
-    </Routes>
+    <LearningEngineProvider>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="learning-path" element={<LearningPathPage />} />
+          <Route path="lesson/:id" element={<LessonPage />} />
+          <Route path="reviews" element={<ReviewPage />} />
+          <Route path="dictionary" element={<DictionaryPage />} />
+          <Route path="statistics" element={<StatisticsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
+      </Routes>
+    </LearningEngineProvider>
   )
 }
 
