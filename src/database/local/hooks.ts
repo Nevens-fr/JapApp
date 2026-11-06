@@ -294,21 +294,25 @@ export function usePreferences() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const loadPrefs = useCallback(async () => {
+    try {
+      const prefs = await loadPreferences();
+      setPreferences(prefs);
+      setIsLoading(false);
+      return prefs;
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+      setIsLoading(false);
+      return null;
+    }
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
-      try {
-        const prefs = await loadPreferences();
-        if (!cancelled) {
-          setPreferences(prefs);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err : new Error(String(err)));
-          setIsLoading(false);
-        }
+      if (!cancelled) {
+        await loadPrefs();
       }
     };
 
@@ -317,7 +321,7 @@ export function usePreferences() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [loadPrefs]);
 
   const update = useCallback(async <K extends keyof StoredPreferences>(
     key: K,
@@ -342,6 +346,7 @@ export function usePreferences() {
     isLoading,
     error,
     update,
+    refresh: loadPrefs,
   };
 }
 

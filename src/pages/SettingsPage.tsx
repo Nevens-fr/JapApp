@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Page des paramètres
  * Lot 5.2 - Refonte UI
  */
@@ -16,7 +16,7 @@ const MSG_RESET = "Cette action n'est pas encore implémentée.";
 const MSG_CONFIRM = 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.';
 
 export default function SettingsPage() {
-  const { preferences, update, isLoading: prefsLoading } = usePreferences();
+  const { preferences, update, refresh } = usePreferences();
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
@@ -80,6 +80,17 @@ export default function SettingsPage() {
     setIsExporting(true);
     setImportError(null);
     try {
+      // Vérifier qu'il y a des données avant d'exporter
+      const progressionData = await db.progression.toArray();
+      const statsData = await db.statistics.toArray();
+      const prefsData = await db.preferences.toArray();
+      
+      if (progressionData.length === 0 && statsData.length === 0 && prefsData.length === 0) {
+        setImportError(`Aucune donnée à exporter. Commencez une leçon d'abord.`);
+        setIsExporting(false);
+        return;
+      }
+      
       const backup = await exportBackup(db, '1.0.0');
       const json = backupToJson(backup);
       const blob = new Blob([json], { type: 'application/json' });
@@ -111,7 +122,33 @@ export default function SettingsPage() {
       if (!validation.valid) {
         throw new Error(validation.error || 'Backup invalide');
       }
-      await importBackup(db, text, false);
+      
+      // Demander confirmation avant d'écraser les données existantes
+      const existingData = await db.progression.toArray();
+      if (existingData.length > 0 && !window.confirm('Des données existent déjà. Les remplacer par le backup ?')) {
+        return;
+      }
+      
+      await importBackup(db, text, true);
+      // Rafraîchir les préférences en forçant une relecture depuis la DB
+      try {
+        const freshPrefs = await refresh();
+        // Mettre à jour localement les toggles pour application immédiate
+        if (freshPrefs) {
+          setLanguage(freshPrefs.language || 'fr');
+          setDarkMode(freshPrefs.darkMode ?? false);
+          setNotifications(freshPrefs.notificationsEnabled ?? true);
+          setAutoPlay(freshPrefs.showRomaji ?? false);
+          // Appliquer le thème immédiatement
+          if (freshPrefs.darkMode) {
+            document.documentElement.classList.add('dark-mode');
+          } else {
+            document.documentElement.classList.remove('dark-mode');
+          }
+        }
+      } catch (e) {
+        console.error('Erreur rafraîchissement préférences:', e);
+      }
       alert('Données importées avec succès !');
     } catch (err) {
       setImportError(err instanceof Error ? err.message : ERR_IMPORT);
@@ -142,14 +179,14 @@ export default function SettingsPage() {
           type: 'select' as const,
           options: [
             { value: 'fr', label: 'Français' },
-            { value: 'ja', label: '日本語' },
+            { value: 'ja', label: 'Japanese' },
             { value: 'en', label: 'English' },
           ],
           value: language,
           onChange: async (val: string) => {
             setLanguage(val);
             // Note: StoredPreferences.language est 'ja' par défaut, mais on stocke la vraie valeur
-            await update('language', 'ja' as 'ja');
+            await update('language', val as any);
           },
         },
       ],
@@ -266,7 +303,7 @@ export default function SettingsPage() {
                         <Button
                           variant={item.label === 'Réinitialiser la progression' ? 'secondary' : 'primary'}
                           size="sm"
-                          onClick={item.action}
+                          onClick={item.fileInput ? () => { const el = document.getElementById('file-import-' + item.label); if (el) el.click(); } : item.action}
                           disabled={item.actionDisabled}
                         >
                           {item.actionLabel}
@@ -299,3 +336,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+
