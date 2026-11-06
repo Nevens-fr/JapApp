@@ -1,7 +1,6 @@
-import { RegisterOptions } from 'workbox-window'
 import { Workbox } from 'workbox-window'
 
-export function registerSW(options?: RegisterOptions) {
+export function registerSW() {
   if ('serviceWorker' in navigator) {
     const wb = new Workbox('/sw.js', {
       scope: '/',
@@ -13,6 +12,6 @@ export function registerSW(options?: RegisterOptions) {
       }
     })
 
-    wb.register(options)
+    wb.register()
   }
 }
