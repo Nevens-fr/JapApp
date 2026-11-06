@@ -1,10 +1,11 @@
-﻿/**
+/**
  * Page des paramètres
  * Lot 5.2 - Refonte UI
  */
 
 import { useState, useEffect } from 'react';
 import { usePreferences } from '../database/local/hooks';
+import { useLearningEngine } from '../hooks/useLearningEngine';
 import { Card, SectionHeader, Button, Badge } from '../components/common';
 import { db } from '../database/local/database';
 import { exportBackup, backupToJson, importBackup, validateBackup } from '../database/local/migrations';
@@ -17,6 +18,7 @@ const MSG_CONFIRM = 'Êtes-vous sûr de vouloir réinitialiser votre progression
 
 export default function SettingsPage() {
   const { preferences, update, refresh } = usePreferences();
+  const { refreshProgression } = useLearningEngine();
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
@@ -130,16 +132,15 @@ export default function SettingsPage() {
       }
       
       await importBackup(db, text, true);
-      // Rafraîchir les préférences en forçant une relecture depuis la DB
+      
+      // Rafraîchir les préférences
       try {
         const freshPrefs = await refresh();
-        // Mettre à jour localement les toggles pour application immédiate
         if (freshPrefs) {
           setLanguage(freshPrefs.language || 'fr');
           setDarkMode(freshPrefs.darkMode ?? false);
           setNotifications(freshPrefs.notificationsEnabled ?? true);
           setAutoPlay(freshPrefs.showRomaji ?? false);
-          // Appliquer le thème immédiatement
           if (freshPrefs.darkMode) {
             document.documentElement.classList.add('dark-mode');
           } else {
@@ -149,6 +150,10 @@ export default function SettingsPage() {
       } catch (e) {
         console.error('Erreur rafraîchissement préférences:', e);
       }
+      
+      // Rafraîchir la progression pour mettre à jour l'UI avec les données importées
+      await refreshProgression();
+      
       alert('Données importées avec succès !');
     } catch (err) {
       setImportError(err instanceof Error ? err.message : ERR_IMPORT);
@@ -185,7 +190,6 @@ export default function SettingsPage() {
           value: language,
           onChange: async (val: string) => {
             setLanguage(val);
-            // Note: StoredPreferences.language est 'ja' par défaut, mais on stocke la vraie valeur
             await update('language', val as any);
           },
         },
@@ -336,4 +340,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-

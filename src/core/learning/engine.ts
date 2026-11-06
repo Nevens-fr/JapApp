@@ -516,7 +516,7 @@ export class LearningEngine {
   }
 
   /**
-   * Obtient l'état complet de progression (sériealisable)
+   * Obtient l'état complet de progression (sérialisable)
    */
   getProgressionSnapshot(): UserProgression {
     return JSON.parse(JSON.stringify(this.progression));
@@ -524,9 +524,13 @@ export class LearningEngine {
 
   /**
    * Restaure une progression à partir d'un snapshot
+   * IMPORTANT: Fait un deep clone pour éviter les références partagées
    */
   restoreProgression(snapshot: UserProgression): void {
-    this.progression = snapshot;
+    // Deep clone pour éviter que les modifications ultérieures n'affectent le snapshot original
+    this.progression = JSON.parse(JSON.stringify(snapshot));
+    // Réinitialiser les événements car ils ne sont pas sérialisés dans le snapshot
+    this.events = [];
   }
 
   /**

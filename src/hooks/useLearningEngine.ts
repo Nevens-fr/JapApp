@@ -31,6 +31,53 @@ function useLearningEngineState() {
 
   const [totalScore, setTotalScore] = useState(0);
 
+  // Fonction pour rafraîchir la progression depuis la base de données
+  // Utilisé après un import de données pour synchroniser l'UI avec la DB
+  const refreshProgression = useCallback(async () => {
+    try {
+      const savedProgression = await loadProgression();
+      if (savedProgression) {
+        // Restaurer la progression dans le moteur
+        engine.restoreProgression(savedProgression);
+        const snapshot = engine.getProgressionSnapshot();
+        setUserProgression(snapshot);
+        setTotalScore(calculateLessonProgress(snapshot.lessons));
+
+        // Mettre à jour l'état local 'progress' pour refléter les statuts de la DB
+        // IMPORTANT: snapshot.lessons est de type Record<string, { completed: boolean, score: number }>
+        // Il faut mapper 'completed' vers 'status' correctement
+        const newProgress: Record<string, LessonProgress> = {};
+        for (const [lessonId, lessonData] of Object.entries(snapshot.lessons)) {
+          newProgress[lessonId] = {
+            status: lessonData.completed ? 'completed' : 'in_progress',
+            currentStep: 0,
+            score: lessonData.score,
+          };
+        }
+        setProgress(newProgress);
+
+        // IMPORTANT: Réinitialiser currentLessonId si la leçon en cours est complétée
+        // Cela permet de débloquer les leçons suivantes
+        if (currentLessonId) {
+          const currentState = engine.getLessonState(currentLessonId);
+          if (currentState?.status === 'completed') {
+            setCurrentLessonId(null);
+          }
+        }
+      } else {
+        // Si pas de progression, réinitialiser
+        const initial = createInitialProgression();
+        engine.restoreProgression(initial);
+        setUserProgression(initial);
+        setTotalScore(0);
+        setProgress({});
+        setCurrentLessonId(null);
+      }
+    } catch (err) {
+      console.error('Erreur rafraîchissement progression:', err);
+    }
+  }, [engine, currentLessonId]);
+
   useEffect(() => {
     const engineExercises = SAMPLE_EXERCISES.map(toEngineExercise);
 
@@ -47,14 +94,8 @@ function useLearningEngineState() {
     let cancelled = false;
     const initialize = async () => {
       try {
-        const savedProgression = await loadProgression();
-        if (cancelled) return;
-        if (savedProgression) {
-          engine.restoreProgression(savedProgression);
-        }
-        const progression = engine.getProgressionSnapshot();
-        setUserProgression(progression);
-        setTotalScore(calculateLessonProgress(progression.lessons));
+        // Charger la progression au démarrage
+        await refreshProgression();
       } catch (err) {
         console.error('Erreur chargement progression:', err);
       } finally {
@@ -70,7 +111,7 @@ function useLearningEngineState() {
     return () => {
       cancelled = true;
     };
-  }, [engine]);
+  }, [engine, refreshProgression]);
 
   const syncProgression = useCallback(async () => {
     const snapshot = engine.getProgressionSnapshot();
@@ -106,8 +147,16 @@ function useLearningEngineState() {
   const startLesson = useCallback(
     (lessonId: string): Lesson | undefined => {
       const lesson = lessons.find((l) => l.id === lessonId);
+      if (!lesson) return undefined;
 
-      // Toujours appeler engine.startLesson pour initialiser la progression
+      const currentState = engine.getLessonState(lessonId);
+
+      // Ne pas réinitialiser une leçon déjà complétée
+      if (currentState?.status === 'completed') {
+        console.log(`Leçon ${lessonId} déjà complétée.`);
+        return lesson;
+      }
+
       engine.startLesson(lessonId);
       setCurrentLessonId(lessonId);
       setProgress((prev) => ({
@@ -133,7 +182,6 @@ function useLearningEngineState() {
           }));
         }
 
-        // NOUVEAU : Sauvegarder le résultat dans IndexedDB
         const isCorrect = result.isCorrect;
         const xpGained = Math.round(result.score * 50);
         await syncProgression();
@@ -163,7 +211,6 @@ function useLearningEngineState() {
         const snapshot = await syncProgression();
         setTotalScore(calculateLessonProgress(snapshot.lessons));
 
-        // NOUVEAU : Incrémenter le compteur de leçons complétées dans IndexedDB
         if (!alreadyCompleted) {
           await incrementLessons();
         }
@@ -174,11 +221,8 @@ function useLearningEngineState() {
   );
 
   const getNextLessons = useCallback((): Lesson[] => {
-    // Retourne les leçons non commencées et non complétées
     return lessons.filter((l) => {
-      // Exclure la leçon en cours
       if (l.id === currentLessonId) return false;
-      // Exclure les leçons complétées
       if (engine.getLessonState(l.id)?.status === 'completed') return false;
       return true;
     });
@@ -209,6 +253,7 @@ function useLearningEngineState() {
     getNextLessons,
     getReviewLessons,
     getTotalScore,
+    refreshProgression, // Exposer la fonction de rafraîchissement
   };
 }
 
