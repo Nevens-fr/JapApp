@@ -1,4 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom';
+import { OfflineIndicator } from '../common/OfflineIndicator';
 
 function MainLayout() {
   const navItems = [
@@ -11,6 +12,7 @@ function MainLayout() {
 
   return (
     <div className="app-layout">
+      <OfflineIndicator />
       <main className="main-content">
         <Outlet />
       </main>

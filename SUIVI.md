@@ -9,9 +9,9 @@
 | 2 | Modèle de données pédagogiques | ✅ Terminé | 2026-11-03 |
 | 3 | Moteur pédagogique | ✅ Terminé | 2026-11-03 |
 | 4 | Système d'exercices | ✅ Terminé | 2026-11-03 |
-| 5 | Interface pédagogique et parcours | 🔄 En cours | 2026-11-04 |
-| 6 | Stockage local et fonctionnement hors ligne | 🔒 En attente | 2026-11-05 |
-| 7 | PWA et installation | 🔒 En attente | - |
+| 5 | Interface pédagogique et parcours | ✅ Terminé | 2026-11-04 |
+| 6 | Stockage local et fonctionnement hors ligne | ✅ Terminé | 2026-11-05 |
+| 7 | PWA et installation | ✅ Terminé | 2026-11-06 |
 | 8 | Répétition espacée | 🔒 En attente | - |
 | 9 | Gamification et progression | 🔒 En attente | - |
 | 10 | Création du contenu pédagogique initial | 🔒 En attente | - |
@@ -92,6 +92,17 @@
   - index.ts mis à jour pour exporter les migrations
 
 
+- LOT 7 : PWA et installation (2026-11-06)
+  - Dépendances installées (vite-plugin-pwa, workbox-window)
+  - Configuration Vite mise à jour avec VitePWA
+  - Manifest JSON créé (public/manifest.json)
+  - Icônes PWA générées (192x192, 512x512)
+  - index.html mis à jour (balises manifest, meta apple, theme-color)
+  - Service Worker enregistré via workbox-window
+  - Composant OfflineIndicator créé et intégré dans MainLayout
+  - Cache Workbox configuré (ressources statiques + JSON)
+  - Mécanisme autoUpdate activé pour les mises à jour
+
 ## Déploiement et Test
 
 ### Commandes de base
@@ -127,10 +138,8 @@ npm run test
 - React Router gérera automatiquement les routes sous `/japapp/`
 - Le build produit un dossier `dist/` compatible avec GitHub Pages
 
-## Prochaine Étape
+## Prochaine étape
 
-- LOT 5 : Interface pédagogique et parcours
-  - Finaliser l'intégration du moteur pédagogique (Lot 5.1 terminé)
-  - La persistance locale est implémentée (Lot 6 terminé)
-  - Ajouter la répétition espacée (Lot 8)
-  - Créer le contenu pédagogique initial (Lot 10)
+- LOT 7 : PWA et installation (Terminé)
+- LOT 8 : Répétition espacée
+- LOT 10 : Création du contenu pédagogique initial

@@ -4,6 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import Router from './app/router'
 import { PersistenceProvider } from './database/local/PersistenceProvider'
+import { registerSW } from 'virtual:pwa-register'
+
+registerSW()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
