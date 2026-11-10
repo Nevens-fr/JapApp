@@ -12,6 +12,8 @@ import { toEngineExercise, toLearningEngineResult } from '../adapters/exerciseAd
 import { useStatistics, usePersistence } from '../database/local/hooks';
 import { createInitialProgression } from '../core/learning/progression';
 import { loadProgression, saveProgression } from '../database/local/repository';
+import { isReviewOverdue } from '../core/learning/revision';
+import type { MasteryLevel } from '../core/learning/types';
 
 function useLearningEngineState() {
   const [engine] = useState(() => new LearningEngine());
@@ -246,8 +248,45 @@ function useLearningEngineState() {
   }, [engine, lessons, currentLessonId]);
 
   const getReviewLessons = useCallback((): Lesson[] => {
-    return [];
-  }, []);
+    // Récupérer les concepts à réviser depuis le moteur
+    const conceptsToReview = engine.getConceptsToReview();
+    
+    if (conceptsToReview.length === 0) {
+      return [];
+    }
+
+    // Filtrer les leçons associées aux concepts à réviser
+    return lessons.filter((lesson) => {
+      return conceptsToReview.includes(lesson.conceptId);
+    });
+  }, [engine, lessons]);
+
+  const getReviewInfo = useCallback((): Array<{
+    conceptId: string;
+    mastery: MasteryLevel;
+    isOverdue: boolean;
+    priority: number;
+  }> => {
+    const reviewConcepts = engine.getConceptsToReview();
+    const results: Array<{ conceptId: string; mastery: MasteryLevel; isOverdue: boolean; priority: number }> = [];
+    
+    for (const conceptId of reviewConcepts) {
+      const mastery = engine.getMastery(conceptId);
+      if (mastery) {
+        const overdue = isReviewOverdue(mastery);
+        results.push({
+          conceptId,
+          mastery,
+          isOverdue: overdue,
+          priority: overdue ? 100 : 0,
+        });
+      }
+    }
+    
+    // Trier par priorité
+    results.sort((a, b) => b.priority - a.priority);
+    return results;
+  }, [engine]);
 
   const getTotalScore = useCallback((): number => {
     return totalScore;
@@ -269,6 +308,7 @@ function useLearningEngineState() {
     completeLesson,
     getNextLessons,
     getReviewLessons,
+    getReviewInfo,
     getTotalScore,
     refreshProgression, // Exposer la fonction de rafraîchissement
   };

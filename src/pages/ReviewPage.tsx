@@ -15,21 +15,28 @@ interface ReviewItem {
 }
 
 export default function ReviewPage() {
-  const { getReviewLessons, getLessonProgress } = useLearningEngine();
+  const { getReviewInfo, lessons } = useLearningEngine();
 
-  const reviewLessons = getReviewLessons();
+  // Utilisation de getReviewInfo() pour obtenir les données réelles de révision
+  const reviewInfo = getReviewInfo();
 
-  const pendingReviews: ReviewItem[] = reviewLessons.map((lesson) => {
-    const progress = getLessonProgress(lesson.id);
+  // Mapping des informations de révision vers la structure ReviewItem
+  const pendingReviews: ReviewItem[] = reviewInfo.map((info) => {
+    const lesson = lessons.find(l => l.conceptId === info.conceptId);
+    if (!lesson) return null;
+
     return {
       id: lesson.id,
-      type: (lesson.conceptId.split('-')[0] || 'vocab') as 'kana' | 'vocab' | 'kanji' | 'grammar',
+      type: lesson.type || 'vocab',
       title: lesson.title,
       description: lesson.description,
-      masteryLevel: progress?.score || 0,
-      status: progress?.status === 'completed' ? 'upcoming' : 'overdue',
+      japanese: (lesson as any).japanese ?? undefined,
+      reading: (lesson as any).reading ?? undefined,
+      meaning: (lesson as any).meaning ?? undefined,
+      masteryLevel: info.mastery.value,
+      status: info.isOverdue ? 'overdue' : 'due',
     };
-  });
+  }).filter(Boolean) as ReviewItem[];
 
   const [sessionActive, setSessionActive] = useState(false);
   const [sessionItems, setSessionItems] = useState<ReviewItem[]>([]);
@@ -37,6 +44,7 @@ export default function ReviewPage() {
   const overdueCount = pendingReviews.filter((r) => r.status === 'overdue').length;
   const upcomingCount = pendingReviews.filter((r) => r.status === 'upcoming').length;
 
+  // Mise à jour de startSession() pour utiliser les données de getReviewInfo()
   const startSession = () => {
     const dueItems = pendingReviews
       .filter((r) => r.status === 'overdue')
@@ -65,11 +73,11 @@ export default function ReviewPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'kana': return 'あ';
+      case 'kana': return '🎭';
       case 'vocab': return '📖';
-      case 'kanji': return '漢';
+      case 'kanji': return '🐉';
       case 'grammar': return '📝';
-      default: return '📌';
+      default: return '📑';
     }
   };
 
@@ -125,7 +133,7 @@ export default function ReviewPage() {
                   />
                 </div>
                 <p className="text-secondary" style={{ fontSize: '14px' }}>
-                  Maîtrisé : {Math.round(item.masteryLevel * 100)}%
+                  Maîtrise : {Math.round(item.masteryLevel * 100)}%
                 </p>
                 <Button variant="primary" fullWidth className="mt-md">
                   Réviser {item.title}
@@ -146,7 +154,7 @@ export default function ReviewPage() {
       <div className="flex gap-md mb-lg">
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '32px', marginBottom: '8px' }}>⚠️</div>
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>💥</div>
             <p className="text-secondary" style={{ fontSize: '14px' }}>En retard</p>
             <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-error)' }}>{overdueCount}</p>
           </div>
@@ -217,7 +225,7 @@ export default function ReviewPage() {
                     />
                   </div>
                   <p className="text-secondary" style={{ fontSize: '12px', marginTop: '4px' }}>
-                    Maîtrisé : {Math.round(item.masteryLevel * 100)}%
+                    Maîtrise : {Math.round(item.masteryLevel * 100)}%
                   </p>
                 </div>
               );

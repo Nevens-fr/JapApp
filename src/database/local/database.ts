@@ -21,6 +21,9 @@ export interface StoredProgression {
     state: string;
     lastReviewedAt: string | null;
     nextReviewAt: string | null;
+    easinessFactor: number;
+    intervalDays: number;
+    repetitionCount: number;
     correctCount: number;
     incorrectCount: number;
     totalAttempts: number;

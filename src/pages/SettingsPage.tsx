@@ -9,11 +9,11 @@ import { useLearningEngine } from '../hooks/useLearningEngine';
 import { Card, SectionHeader, Button, Badge } from '../components/common';
 import { db } from '../database/local/database';
 import { exportBackup, backupToJson, importBackup, validateBackup } from '../database/local/migrations';
+import { resetProgression } from '../database/local/repository';
 
 // Constantes pour éviter les apostrophes dans les strings TS
 const ERR_EXPORT = "Erreur lors de l'export";
 const ERR_IMPORT = "Erreur lors de l'import";
-const MSG_RESET = "Cette action n'est pas encore implémentée.";
 const MSG_CONFIRM = 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.';
 
 export default function SettingsPage() {
@@ -246,9 +246,15 @@ export default function SettingsPage() {
           label: 'Réinitialiser la progression',
           description: 'Effacer toutes les données et recommencer',
           type: 'action' as const,
-          action: () => {
+          action: async () => {
             if (window.confirm(MSG_CONFIRM)) {
-              alert(MSG_RESET);
+              try {
+                await resetProgression();
+                await refreshProgression();
+                alert('Progression réinitialisée avec succès !');
+              } catch (err) {
+                alert('Erreur lors de la réinitialisation: ' + (err instanceof Error ? err.message : 'Erreur inconnue'));
+              }
             }
           },
           actionLabel: 'Réinitialiser',

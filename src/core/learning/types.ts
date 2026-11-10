@@ -18,10 +18,17 @@ export type KnowledgeState =
  * Value between 0.0 (discovery) and 1.0 (complete mastery)
  */
 export interface MasteryLevel {
-  value: number;           // 0.0 to 1.0
+  value: number;           // 0.0 to 1.0 (Global mastery score)
   state: KnowledgeState;
   lastReviewedAt: Date | null;
   nextReviewAt: Date | null;
+  
+  // Spaced Repetition System (SRS) fields (SM-2)
+  easinessFactor: number;  // EF factor (default 2.5), adjusts based on performance
+  intervalDays: number;    // Current interval in days (0 for new, increases with success)
+  repetitionCount: number; // Number of successful repetitions in a row
+  
+  // Statistics
   correctCount: number;
   incorrectCount: number;
   totalAttempts: number;
@@ -78,6 +85,10 @@ export interface LearningEngineConfig {
   reviewDecayFactor: number;
   // Maximum number of attempts per exercise
   maxAttemptsPerExercise: number;
+  
+  // SRS Defaults
+  initialEasinessFactor: number;
+  initialIntervalDays: number;
 }
 
 /**
@@ -88,6 +99,8 @@ export const DEFAULT_CONFIG: LearningEngineConfig = {
   minCorrectAnswers: 3,
   reviewDecayFactor: 1.5,
   maxAttemptsPerExercise: 3,
+  initialEasinessFactor: 2.5,
+  initialIntervalDays: 0,
 };
 
 // ============================================================
@@ -130,6 +143,7 @@ export interface Lesson {
   title: string;
   description: string;
   conceptId: string;
+  type?: "vocab" | "kana" | "kanji" | "grammar";
   steps?: LessonStep[];
   lessonSteps?: LessonStep[]; // Lot 7.1: Steps pédagogiques structurées
   exercises?: string[];

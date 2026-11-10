@@ -6,7 +6,7 @@
  * via Dexie.js
  */
 
-import { db, type StoredProgression, type StoredStatistics, type StoredPreferences, type StoredSyncOperation, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID, generateSyncOperationId } from './database';
+import { db, type StoredProgression, type StoredStatistics, type StoredPreferences, type StoredSyncOperation, type StoredReviewSchedule, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID, generateSyncOperationId } from './database';
 import type { UserProgression } from '../../core/learning/progression';
 import type { MasteryLevel } from '../../core/learning/types';
 
@@ -38,6 +38,9 @@ export function serializeProgression(progression: UserProgression): StoredProgre
           correctCount: value.correctCount,
           incorrectCount: value.incorrectCount,
           totalAttempts: value.totalAttempts,
+          easinessFactor: value.easinessFactor,
+          intervalDays: value.intervalDays,
+          repetitionCount: value.repetitionCount,
         }
       ])
     ),
@@ -62,6 +65,9 @@ export function deserializeProgression(stored: StoredProgression): UserProgressi
           correctCount: value.correctCount,
           incorrectCount: value.incorrectCount,
           totalAttempts: value.totalAttempts,
+          easinessFactor: value.easinessFactor,
+          intervalDays: value.intervalDays,
+          repetitionCount: value.repetitionCount,
         }
       ])
     ),
@@ -300,6 +306,37 @@ export async function getPendingOperationsCount(): Promise<number> {
   return db.syncOperations.where('status').equals('pending').count();
 }
 
+
+// ============================================================
+// Repository de planning de révision (reviewSchedules)
+// ============================================================
+
+export async function saveReviewSchedule(schedule: StoredReviewSchedule): Promise<void> {
+  await db.reviewSchedules.put(schedule);
+}
+
+export async function loadReviewSchedule(conceptId: string): Promise<StoredReviewSchedule | null> {
+  return db.reviewSchedules.get(conceptId) as any ?? null;
+}
+
+export async function deleteReviewSchedule(conceptId: string): Promise<void> {
+  await db.reviewSchedules.delete(conceptId);
+}
+
+export async function getAllReviewSchedules(): Promise<StoredReviewSchedule[]> {
+  return db.reviewSchedules.toArray();
+}
+
+export async function getDueReviewSchedules(currentDate: Date = new Date()): Promise<StoredReviewSchedule[]> {
+  const allSchedules = await getAllReviewSchedules();
+  return allSchedules.filter(s => s.nextReviewAt && new Date(s.nextReviewAt) <= currentDate);
+}
+
+export async function getOverdueReviewSchedules(currentDate: Date = new Date()): Promise<StoredReviewSchedule[]> {
+  const allSchedules = await getAllReviewSchedules();
+  return allSchedules.filter(s => s.nextReviewAt && new Date(s.nextReviewAt) < currentDate);
+}
+
 export default {
   progression: {
     save: saveProgression,
@@ -317,6 +354,14 @@ export default {
     save: savePreferences,
     load: loadPreferences,
     update: updatePreference,
+  },
+  reviewSchedules: {
+    save: saveReviewSchedule,
+    load: loadReviewSchedule,
+    delete: deleteReviewSchedule,
+    getAll: getAllReviewSchedules,
+    getDue: getDueReviewSchedules,
+    getOverdue: getOverdueReviewSchedules,
   },
   sync: {
     enqueue: enqueueSyncOperation,

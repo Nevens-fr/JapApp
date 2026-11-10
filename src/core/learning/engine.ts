@@ -15,6 +15,15 @@ import {
   DEFAULT_CONFIG,
 } from "./types";
 import {
+  updateMasteryWithSM2,
+  initializeMastery,
+  isReviewDue,
+  isReviewOverdue,
+  sortReviewsByPriority,
+  getRecallQuality,
+  type RecallQuality,
+} from "./revision";
+import {
   type UserProgression,
   createInitialProgression,
   getNextConceptToLearn,
@@ -332,121 +341,26 @@ export class LearningEngine {
 
   /**
    * Met à jour le niveau de maîtrise après un résultat d'exercice
+   * Utilise l'algorithme SM-2 pour la révision espacée
    */
   private updateMasteryFromResult(result: ExerciseResult): void {
-    // Trouver le concept associé à cet exercice
     const exercise = this.allExercises.find((ex) => ex.id === result.exerciseId);
     if (!exercise) return;
 
     for (const conceptId of exercise.associatedConcepts) {
-      // Créer l'entrée de maîtrise si elle n'existe pas
       if (!this.progression.mastery[conceptId]) {
-        this.progression.mastery[conceptId] = {
-          value: 0.0,
-          state: "introduced",
-          lastReviewedAt: null,
-          nextReviewAt: null,
-          correctCount: 0,
-          incorrectCount: 0,
-          totalAttempts: 0,
-        };
+        this.progression.mastery[conceptId] = initializeMastery(this.config);
       }
 
-      const mastery = this.progression.mastery[conceptId];
-
-      mastery.totalAttempts++;
-      if (result.isCorrect) {
-        mastery.correctCount++;
-      } else {
-        mastery.incorrectCount++;
-      }
-
-      // Mettre à jour la valeur de maîtrise
-      this.calculateMasteryValue(mastery);
-
-      // Mettre à jour l'état
-      this.updateKnowledgeState(mastery);
-
-      // Planifier la prochaine révision
-      this.scheduleNextReview(mastery);
+      const currentMastery = this.progression.mastery[conceptId];
+      const quality: RecallQuality = getRecallQuality(result.isCorrect, exercise.difficulty);
+      this.progression.mastery[conceptId] = updateMasteryWithSM2(currentMastery, quality, this.config);
     }
-  }
-
-  /**
-   * Calcule la valeur de maîtrise basée sur les résultats
-   */
-  private calculateMasteryValue(mastery: MasteryLevel): void {
-    if (mastery.totalAttempts === 0) {
-      mastery.value = 0;
-      return;
-    }
-
-    // Formule simple : proportion de bonnes réponses avec pondération
-
-    // Pondération : les bonnes réponses récentes comptent plus
-    // On utilise un facteur de decay pour les anciennes réponses
-    const decayFactor = 0.9; // Réduction de 10% par réponse supplémentaire
-    const weightedCorrect = mastery.correctCount * Math.pow(decayFactor, mastery.totalAttempts - mastery.correctCount);
-    const weightedTotal = mastery.totalAttempts;
-
-    mastery.value = Math.min(1, weightedCorrect / weightedTotal);
   }
 
   /**
    * Met à jour l'état de connaissance basé sur la maîtrise
    */
-  private updateKnowledgeState(mastery: MasteryLevel): void {
-    // Si la maîtrise atteint le seuil, passer à "mastered"
-    if (mastery.value >= this.config.masteryThreshold &&
-        mastery.correctCount >= this.config.minCorrectAnswers) {
-      mastery.state = "mastered";
-      return;
-    }
-
-    // Si la maîtrise est faible après plusieurs échecs, passer à "review"
-    if (mastery.incorrectCount >= 2 && mastery.totalAttempts >= 3) {
-      mastery.state = "review";
-      return;
-    }
-
-    // Si la maîtrise progresse, passer à "learning"
-    if (mastery.value > 0.2 && mastery.state !== "learning") {
-      mastery.state = "learning";
-    }
-  }
-
-  /**
-   * Planifie la prochaine révision basée sur la maîtrise actuelle
-   */
-  private scheduleNextReview(mastery: MasteryLevel): void {
-    const now = new Date();
-
-    // Intervalles de révision adaptatifs
-    let intervalDays: number;
-
-    switch (mastery.state) {
-      case "mastered":
-        intervalDays = 30; // Révision mensuelle pour les notions maîtrisées
-        break;
-      case "learning":
-        intervalDays = mastery.value > 0.5 ? 3 : 1; // 3 jours si >50%, sinon quotidien
-        break;
-      case "review":
-        intervalDays = 1; // Révision quotidienne
-        break;
-      default:
-        intervalDays = 2; // Par défaut
-    }
-
-    // Ajuster en fonction du nombre d'erreurs consécutives
-    if (mastery.incorrectCount > 0) {
-      intervalDays = Math.max(1, Math.floor(intervalDays / (1 + mastery.incorrectCount)));
-    }
-
-    mastery.nextReviewAt = new Date(now.getTime() + intervalDays * 24 * 60 * 60 * 1000);
-    mastery.lastReviewedAt = now;
-  }
-
   // ============================================================
   // Requêtes sur la progression
   // ============================================================
@@ -459,12 +373,21 @@ export class LearningEngine {
   }
 
   /**
-   * Obtient tous les concepts à réviser
+   * Obtient tous les concepts à réviser (triés par priorité SM-2)
    */
   getConceptsToReview(): string[] {
-    return Object.entries(this.progression.mastery)
-      .filter(([, mastery]) => mastery.state === "review")
-      .map(([id]) => id);
+    const masteries = Object.entries(this.progression.mastery)
+      .filter(([, mastery]) => {
+        return isReviewDue(mastery) || isReviewOverdue(mastery);
+      })
+      .map(([id, mastery]) => ({ id, mastery }));
+
+    const sorted = sortReviewsByPriority(masteries.map(m => m.mastery));
+
+    return sorted.map(sortedMastery => {
+      const original = masteries.find(m => m.mastery === sortedMastery);
+      return original?.id;
+    }).filter((id): id is string => id !== undefined);
   }
 
   /**
