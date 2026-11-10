@@ -2,7 +2,6 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -15,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'JapApp - Apprentissage du japonais',
         short_name: 'JapApp',
-        description: 'Application d\'apprentissage du japonais, mobile-first, ludique et hors ligne.',
+        description: "Application d'apprentissage du japonais, mobile-first, ludique et hors ligne.",
         theme_color: '#4a90d9',
         background_color: '#ffffff',
         display: 'standalone',
@@ -45,7 +44,7 @@ export default defineConfig({
               cacheName: 'google-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxAgeSeconds: 60 * 60 * 24 * 365
               },
               cacheableResponse: {
                 statuses: [0, 200]
@@ -59,7 +58,7 @@ export default defineConfig({
               cacheName: 'json-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                maxAgeSeconds: 60 * 60 * 24 * 30
               }
             }
           }
@@ -67,9 +66,9 @@ export default defineConfig({
       }
     })
   ],
-  base: process.env.NODE_ENV === 'production' ? '/japapp/' : '/',
+  base: '/JapApp/',
   server: {
-    host: '0.0.0.0', // Accessible depuis le réseau local (téléphone, autre PC)
+    host: '0.0.0.0',
     port: 5173,
   },
   test: {
