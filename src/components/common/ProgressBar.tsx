@@ -10,7 +10,6 @@ type ProgressBarProps = {
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   progress,
   size = 'md',
-  showLabel = false,
   color,
 }) => {
   const clampedProgress = Math.min(100, Math.max(0, progress));

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
 import { Card, ProgressBar, Badge, SectionHeader, Button, EmptyState, JapaneseText } from '../components/common';
 
@@ -72,12 +71,6 @@ export default function ReviewPage() {
       case 'grammar': return '📝';
       default: return '📌';
     }
-  };
-
-  const getMasteryVariant = (level: number) => {
-    if (level >= 0.8) return 'success' as const;
-    if (level >= 0.5) return 'warning' as const;
-    return 'error' as const;
   };
 
   if (sessionActive) {

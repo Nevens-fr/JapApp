@@ -7,7 +7,7 @@
  * Gestion de la progression et des prérequis
  * Lot 3 : Moteur pédagogique
  */
-import type { MasteryLevel, KnowledgeState, PedagogicalEvent } from "./types";
+import type { MasteryLevel, PedagogicalEvent } from "./types";
 
 /**
  * État complet de progression d'un utilisateur
@@ -33,7 +33,7 @@ export function createInitialProgression(): UserProgression {
  * Vérifie si toutes les prérequis d'une notion sont satisfaites
  */
 export function checkPrerequisites(
-  conceptId: string,
+  _conceptId: string,
   prerequisites: string[] | undefined,
   progression: UserProgression
 ): boolean {

@@ -8,7 +8,6 @@
 
 import {
   type MasteryLevel,
-  type KnowledgeState,
   type ExerciseResult,
   type LessonState,
   type PedagogicalEvent,
@@ -18,9 +17,7 @@ import {
 import {
   type UserProgression,
   createInitialProgression,
-  checkPrerequisites,
   getNextConceptToLearn,
-  introduceConcept,
   calculateGlobalProgression,
   getReviewCount,
   getLearningCount,
@@ -385,7 +382,6 @@ export class LearningEngine {
     }
 
     // Formule simple : proportion de bonnes réponses avec pondération
-    const correctRatio = mastery.correctCount / mastery.totalAttempts;
 
     // Pondération : les bonnes réponses récentes comptent plus
     // On utilise un facteur de decay pour les anciennes réponses

@@ -6,7 +6,7 @@
  * des fichiers JSON de contenu pédagogique.
  */
 
-import { VocabEntry, KanaEntry, KanjiEntry, GrammarEntry, SentenceEntry, LessonEntry, ExerciseEntry } from "./pedagogical";
+import type { VocabEntry, KanaEntry, KanjiEntry, GrammarEntry, SentenceEntry, LessonEntry, ExerciseEntry } from "./pedagogical";
 
 // --- Utilitaires ---
 
@@ -32,7 +32,7 @@ export function validateVocabEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée vocabulaire doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");
@@ -74,7 +74,7 @@ export function validateKanaEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée kana doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");
@@ -110,7 +110,7 @@ export function validateKanjiEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée kanji doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");
@@ -149,7 +149,7 @@ export function validateGrammarEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée grammaire doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");
@@ -188,7 +188,7 @@ export function validateSentenceEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée phrase doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");
@@ -224,7 +224,7 @@ export function validateLessonEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée leçon doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");
@@ -263,7 +263,7 @@ export function validateExerciseEntry(entry: unknown): ValidationResult {
     return createResult(["L'entrée exercice doit être un objet"]);  
   }
 
-  const data = entry as Record<string, unknown>;
+  const data = entry as any;
 
   if (!isValidId(data.id)) {
     errors.push("id est obligatoire et doit être une chaîne alphanumérique");

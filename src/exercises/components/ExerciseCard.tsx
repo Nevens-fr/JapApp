@@ -2,7 +2,7 @@
 // Affiche un exercice et gere les interactions utilisateur
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { Exercise, ExerciseState, ExerciseResult, ExerciseType } from '../types';
+import type { Exercise, ExerciseResult } from '../types';
 import { JapaneseText } from '../../components/common';
 
 interface ExerciseCardProps {
@@ -51,7 +51,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onResult, 
       attempts: attempts + 1,
       timeSpentMs: now - (exercise.data?.startedAt as number || now),
       timestamp: now,
-      explanation: exercise.explanation,
+      explanation: typeof exercise.explanation === 'string' ? exercise.explanation : undefined,
     };
 
     setResult(exerciseResult);
@@ -90,7 +90,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onResult, 
 
   const renderRecognitionExercise = () => {
     // Affiche le caractere japonais a reconnaitre
-    const displayChar = exercise.data?.character || exercise.data?.kanji || exercise.data?.question || '';
+    const displayChar = (exercise.data?.character as string) || (exercise.data?.kanji as string) || (exercise.data?.question as string) || '';
 
     return (
       <div className="exercise-recognition">

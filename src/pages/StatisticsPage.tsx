@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Card, Badge, SectionHeader, Button, EmptyState } from '../components/common';
+
+import { Card, SectionHeader } from '../components/common';
 
 interface StatisticsItem {
   label: string;

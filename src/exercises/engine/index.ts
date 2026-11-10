@@ -1,7 +1,7 @@
 // Moteur d'exercices - Lot 4
 // Gère la validation des réponses, le score, les tentatives et les événements
 
-import { Exercise, ExerciseState, ExerciseResult, ExerciseConfig, ExpectedAnswer } from '../../exercises/types';
+import type { Exercise, ExerciseState, ExerciseResult, ExerciseConfig, ExpectedAnswer } from '../../exercises/types';
 
 /**
  * Configuration par défaut d'un exercice

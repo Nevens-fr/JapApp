@@ -8,7 +8,6 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { UserProgression } from '../../core/learning/progression';
-import type { MasteryLevel } from '../../core/learning/types';
 import {
   loadProgression,
   saveProgression,
@@ -18,7 +17,6 @@ import {
   savePreferences,
   enqueueSyncOperation,
   getPendingOperations,
-  markSynced,
   hasProgression,
 } from './repository';
 import type { StoredStatistics, StoredPreferences } from './database';

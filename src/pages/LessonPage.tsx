@@ -3,21 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
 import { ExerciseCard } from '../exercises/components/ExerciseCard';
 import type { ExerciseResult as ExerciseResultLot4 } from '../exercises/types';
-import type { Exercise } from '../exercises/types';
 import type { LessonStep } from '../core/learning/types';
 import { Card, ProgressBar, Button, JapaneseText, Badge } from '../components/common';
-
-// Types pour les contenus pédagogiques
-type PedagogicalContent = {
-  type: 'presentation' | 'explanation' | 'example' | 'synthesis';
-  content: {
-    title: string;
-    body: string;
-    japanese?: string;
-    reading?: string;
-    meaning?: string;
-  };
-};
 
 export default function LessonPage() {
   const navigate = useNavigate();
@@ -55,13 +42,6 @@ export default function LessonPage() {
     if (!lessonData?.lessonSteps) return [];
     return lessonData.lessonSteps;
   }, [lessonData]);
-
-  const exercises: Exercise[] = useMemo(() => {
-    if (!lessonData?.exercises) return [];
-    return lessonData.exercises
-      .map((exerciseId) => allExercises.find((e) => e.id === exerciseId))
-      .filter((e): e is Exercise => e !== undefined);
-  }, [lessonData, allExercises]);
 
   // Valeurs dérivées
   const currentStep = lessonSteps[currentStepIndex];

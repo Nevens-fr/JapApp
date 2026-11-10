@@ -105,7 +105,7 @@ function useLearningEngineState() {
 
     setConcepts(SAMPLE_CONCEPTS);
     setExercises(SAMPLE_EXERCISES);
-    setLessons(SAMPLE_LESSONS);
+    setLessons(SAMPLE_LESSONS as Lesson[]);
     void initialize();
 
     return () => {
@@ -115,19 +115,12 @@ function useLearningEngineState() {
 
   const syncProgression = useCallback(async () => {
     try {
-      console.log('[syncProgression] Debut sauvegarde...');
       const snapshot = engine.getProgressionSnapshot();
-      console.log('[syncProgression] Snapshot:', JSON.stringify(snapshot, null, 2));
       setUserProgression(snapshot);
       await saveProgression(snapshot);
-      console.log('[syncProgression] Sauvegarde reussie');
       return snapshot;
     } catch (err) {
-      console.error('[syncProgression] Erreur detaillee:', {
-        message: err instanceof Error ? err.message : String(err),
-        stack: err instanceof Error ? err.stack : 'N/A',
-        snapshot: engine.getProgressionSnapshot()
-      });
+      console.error('Erreur syncProgression:', err);
       throw err;
     }
   }, [engine]);
@@ -197,16 +190,10 @@ function useLearningEngineState() {
         const isCorrect = result.isCorrect;
         const xpGained = Math.round(result.score * 50);
         try {
-          console.log('[recordExerciseResult] Sauvegarde resultat...');
           await syncProgression();
           await recordExercise(isCorrect, xpGained);
-          console.log('[recordExerciseResult] Sauvegarde reussie');
         } catch (err) {
-          console.error('[recordExerciseResult] Erreur sauvegarde resultat:', {
-            lessonId,
-            message: err instanceof Error ? err.message : String(err),
-            stack: err instanceof Error ? err.stack : 'N/A'
-          });
+          console.error('Erreur sauvegarde resultat:', err);
         }
       }
 
@@ -231,17 +218,10 @@ function useLearningEngineState() {
         }));
         setCurrentLessonId(null);
         try {
-          console.log('[completeLesson] Sauvegarde apres complition...');
           const snapshot = await syncProgression();
           setTotalScore(calculateLessonProgress(snapshot.lessons));
-          console.log('[completeLesson] Sauvegarde reussie');
         } catch (err) {
-          console.error('[completeLesson] Erreur sauvegarde detaillee:', {
-            lessonId,
-            message: err instanceof Error ? err.message : String(err),
-            stack: err instanceof Error ? err.stack : 'N/A',
-            engineState: engine.getLessonState(lessonId)
-          });
+          console.error('Erreur sauvegarde completeLesson:', err);
         }
 
         if (!alreadyCompleted) {

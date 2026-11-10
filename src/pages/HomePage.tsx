@@ -4,7 +4,7 @@ import { Card, ProgressBar, Badge, SectionHeader, JapaneseText, Button } from '.
 
 export default function HomePage() {
   const { 
-    getAllLessons, 
+    
     getNextLessons, 
     getReviewLessons, 
     getTotalScore 

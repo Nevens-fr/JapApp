@@ -1,7 +1,7 @@
 // Mécanisme d'enchaînement des exercices - Lot 4
 // Gère l'enchaînement séquentiel des exercices dans une session
 
-import {
+import type {
   Exercise,
   ExerciseState,
   ExerciseResult,
@@ -137,7 +137,7 @@ export function submitAnswer(
   session.results[current.id] = result;
 
   // Générer les événements
-  const events = generateExerciseEvents(previousState, newState, result);
+  const events = generateExerciseEvents(previousState, newState, result) as ExerciseEvent[];
   session.events.push(...events);
 
   // Si l'exercice est terminé, passer au suivant

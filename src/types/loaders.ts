@@ -15,10 +15,12 @@ import {
   validateLessonEntry,
   validateExerciseEntry,
   validateCrossReferences,
+} from "./schemas";
+import type {
   ValidationResult,
   CrossReferenceResult,
 } from "./schemas";
-import {
+import type {
   VocabEntry,
   KanaEntry,
   KanjiEntry,
@@ -45,7 +47,7 @@ async function loadJsonFile<T>(url: string): Promise<T[]> {
 
 // --- Validation individuelle ---
 
-function validateEntries<T>(entries: unknown[], validator: (entry: unknown) => ValidationResult): ValidationResult {
+function validateEntries(entries: unknown[], validator: (entry: unknown) => ValidationResult): ValidationResult {
   const errors: string[] = [];
 
   for (let i = 0; i < entries.length; i++) {

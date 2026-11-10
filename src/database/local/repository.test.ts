@@ -44,6 +44,7 @@ describe('repository key-path writes', () => {
       dailyGoal: 5,
       notificationsEnabled: false,
       showRomaji: false,
+      darkMode: false,
     });
 
     expect(progressionPut).toHaveBeenCalledWith({
