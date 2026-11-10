@@ -131,6 +131,7 @@ export interface Lesson {
   description: string;
   conceptId: string;
   steps?: LessonStep[];
+  lessonSteps?: LessonStep[]; // Lot 7.1: Steps pédagogiques structurées
   exercises?: string[];
   estimatedDuration?: number;
 }

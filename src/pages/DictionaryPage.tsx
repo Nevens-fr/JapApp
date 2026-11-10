@@ -51,9 +51,10 @@ export default function DictionaryPage() {
       );
     });
 
+  // Icônes distinctes pour chaque catégorie
   const tabs: { key: DictionaryEntry['type']; label: string; icon: string }[] = [
     { key: 'vocab', label: 'Vocabulaire', icon: '📖' },
-    { key: 'kana', label: 'Kana', icon: 'あ' },
+    { key: 'kana', label: 'Kana', icon: '🔤' },
     { key: 'kanji', label: 'Kanji', icon: '漢' },
     { key: 'grammar', label: 'Grammaire', icon: '📝' },
   ];
@@ -61,10 +62,10 @@ export default function DictionaryPage() {
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'vocab': return '📖';
-      case 'kana': return 'あ';
+      case 'kana': return '🔤';
       case 'kanji': return '漢';
       case 'grammar': return '📝';
-      default: return '📌';
+      default: return '❓';
     }
   };
 
@@ -153,7 +154,7 @@ export default function DictionaryPage() {
         <div className="flex-col gap-sm">
           {filteredEntries.length === 0 ? (
             <EmptyState 
-              icon="🔍" 
+              icon="❓" 
               title="Aucun résultat" 
               text={`Aucun résultat pour "${searchQuery}"`}
             />

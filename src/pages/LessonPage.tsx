@@ -4,7 +4,20 @@ import { useLearningEngine } from '../hooks/useLearningEngine';
 import { ExerciseCard } from '../exercises/components/ExerciseCard';
 import type { ExerciseResult as ExerciseResultLot4 } from '../exercises/types';
 import type { Exercise } from '../exercises/types';
+import type { LessonStep } from '../core/learning/types';
 import { Card, ProgressBar, Button, JapaneseText, Badge } from '../components/common';
+
+// Types pour les contenus pédagogiques
+type PedagogicalContent = {
+  type: 'presentation' | 'explanation' | 'example' | 'synthesis';
+  content: {
+    title: string;
+    body: string;
+    japanese?: string;
+    reading?: string;
+    meaning?: string;
+  };
+};
 
 export default function LessonPage() {
   const navigate = useNavigate();
@@ -23,7 +36,7 @@ export default function LessonPage() {
   const lessonData = getLesson(id || '');
 
   // Hooks d'état - toujours appelés dans le même ordre
-  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [exerciseComplete, setExerciseComplete] = useState(false);
   const [exerciseResult, setExerciseResult] = useState<ExerciseResultLot4 | null>(null);
   const [isStarted, setIsStarted] = useState(false);
@@ -37,7 +50,12 @@ export default function LessonPage() {
     }
   }, [id, isStarted, loading, startLesson]);
 
-  // Hooks de calcul mémorisé - toujours appelés dans le même ordre
+  // Hooks de calcul mémorisés - toujours appelés dans le même ordre
+  const lessonSteps = useMemo(() => {
+    if (!lessonData?.lessonSteps) return [];
+    return lessonData.lessonSteps;
+  }, [lessonData]);
+
   const exercises: Exercise[] = useMemo(() => {
     if (!lessonData?.exercises) return [];
     return lessonData.exercises
@@ -46,14 +64,23 @@ export default function LessonPage() {
   }, [lessonData, allExercises]);
 
   // Valeurs dérivées
-  const currentExercise = exercises[currentExerciseIndex];
-  const isLastExercise = currentExerciseIndex >= exercises.length - 1;
+  const currentStep = lessonSteps[currentStepIndex];
+  const isLastStep = currentStepIndex >= lessonSteps.length - 1;
+  const isExerciseStep = currentStep?.type === 'exercise';
+  
+  // Récupérer l'exercice pour cette étape si c'est une étape d'exercice
+  const currentExercise = useMemo(() => {
+    if (!currentStep?.exerciseId) return null;
+    return allExercises.find(e => e.id === currentStep.exerciseId) || null;
+  }, [currentStep?.exerciseId, allExercises]);
 
   // Handlers de callbacks - toujours appelés dans le même ordre
   const handleNext = useCallback(async () => {
-    if (currentExercise && !exerciseComplete) {
+    if (isExerciseStep && !exerciseComplete) {
+      // Si c'est un exercice et qu'il n'est pas complété, on marque comme complété
       setExerciseComplete(true);
-    } else if (isLastExercise) {
+    } else if (isLastStep) {
+      // Si c'est la dernière étape, on termine la leçon
       try {
         const completed = await completeLesson(id || '');
         if (completed) navigate('/learning-path');
@@ -61,21 +88,22 @@ export default function LessonPage() {
         setProgressError('La progression n’a pas pu être sauvegardée. Réessayez.');
       }
     } else {
-      setCurrentExerciseIndex((prev) => prev + 1);
+      // Sinon, on passe à l'étape suivante
+      setCurrentStepIndex((prev) => prev + 1);
       setExerciseComplete(false);
       setExerciseResult(null);
     }
-  }, [currentExercise, exerciseComplete, isLastExercise, completeLesson, navigate, id]);
+  }, [isExerciseStep, exerciseComplete, isLastStep, completeLesson, navigate, id]);
 
   const handleBack = useCallback(() => {
-    if (currentExerciseIndex > 0) {
-      setCurrentExerciseIndex((prev) => prev - 1);
+    if (currentStepIndex > 0) {
+      setCurrentStepIndex((prev) => prev - 1);
       setExerciseComplete(false);
       setExerciseResult(null);
     } else {
       navigate('/learning-path');
     }
-  }, [currentExerciseIndex, navigate]);
+  }, [currentStepIndex, navigate]);
 
   const handleExerciseResult = useCallback(async (result: ExerciseResultLot4) => {
     setExerciseResult(result);
@@ -90,9 +118,74 @@ export default function LessonPage() {
 
   // Fonction de progression
   const getProgress = () => {
-    return exercises.length > 0
-      ? ((currentExerciseIndex + (exerciseComplete ? 1 : 0)) / exercises.length) * 100
+    return lessonSteps.length > 0
+      ? ((currentStepIndex + (exerciseComplete ? 1 : 0)) / lessonSteps.length) * 100
       : 0;
+  };
+
+  // Rendu du contenu pédagogique
+  const renderPedagogicalContent = (step: LessonStep) => {
+    const { title, body, japanese, reading, meaning } = step.content;
+    
+    switch (step.type) {
+      case 'presentation':
+        return (
+          <div>
+            <h2 className="section-title mb-md">📚 {title}</h2>
+            <p className="mb-md">{body}</p>
+            {japanese && (
+              <div className="bg-primary-light p-md rounded">
+                <JapaneseText text={japanese} size="large" />
+                {reading && <p className="text-secondary mt-sm">{reading}</p>}
+              </div>
+            )}
+          </div>
+        );
+      case 'explanation':
+        return (
+          <div>
+            <h2 className="section-title mb-md">💡 {title}</h2>
+            <p className="mb-md">{body}</p>
+            {japanese && (
+              <div className="bg-accent-light p-md rounded">
+                <JapaneseText text={japanese} size="medium" />
+                {reading && <p className="text-secondary mt-sm">Lecture : {reading}</p>}
+                {meaning && <p className="text-secondary">Sens : {meaning}</p>}
+              </div>
+            )}
+          </div>
+        );
+      case 'example':
+        return (
+          <div>
+            <h2 className="section-title mb-md">📝 Exemple</h2>
+            <p className="mb-md">{body}</p>
+            {japanese && (
+              <div className="bg-success-light p-md rounded">
+                <JapaneseText text={japanese} size="large" />
+                {reading && <p className="text-secondary mt-sm">{reading}</p>}
+                {meaning && <p className="text-secondary mt-sm">{meaning}</p>}
+              </div>
+            )}
+          </div>
+        );
+      case 'synthesis':
+        return (
+          <div>
+            <h2 className="section-title mb-md">🎯 Synthèse</h2>
+            <p className="mb-md">{body}</p>
+            {japanese && (
+              <div className="bg-info-light p-md rounded">
+                <JapaneseText text={japanese} size="medium" />
+                {reading && <p className="text-secondary mt-sm">{reading}</p>}
+                {meaning && <p className="text-secondary">{meaning}</p>}
+              </div>
+            )}
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   // RETURN CONDITIONNEL - avant le JSX mais après TOUS les hooks
@@ -111,7 +204,7 @@ export default function LessonPage() {
       <div className="page">
         <Card>
           <div className="text-center">
-            <div className="empty-state-icon">🚫</div>
+            <div className="empty-state-icon">❓</div>
             <h2 className="empty-state-title">Leçon non trouvée</h2>
             <Link to="/learning-path">
               <Button variant="primary">Retour au parcours</Button>
@@ -132,7 +225,7 @@ export default function LessonPage() {
             ← Retour au parcours
           </Link>
           <Badge variant="primary">
-            Exercice {currentExerciseIndex + 1} / {exercises.length}
+            Étape {currentStepIndex + 1} / {lessonSteps.length}
           </Badge>
         </div>
         <ProgressBar progress={getProgress()} size="lg" />
@@ -144,23 +237,37 @@ export default function LessonPage() {
         <p className="text-secondary mt-sm">{lessonData.description}</p>
       </div>
 
-      {/* Contenu de l'exercice */}
+      {/* Contenu pédagogique ou exercice */}
       <Card className="mb-lg">
-        {currentExercise && (
+        {currentStep ? (
           <div>
-            <h2 className="section-title mb-md">{currentExercise.prompt}</h2>
-            <ExerciseCard
-              exercise={currentExercise}
-              onResult={handleExerciseResult}
-            />
-            {exerciseResult && (
-              <div className={`mt-md ${exerciseResult.isCorrect ? 'text-success' : 'text-error'}`}>
-                <p style={{ fontWeight: 500 }}>
-                  {exerciseResult.isCorrect ? '✓ Correct !' : '✗ Incorrect'}
-                </p>
-                <p className="text-secondary mt-sm">{currentExercise.explanation}</p>
+            {isExerciseStep && currentExercise ? (
+              // Affichage de l'exercice
+              <div>
+                <h2 className="section-title mb-md">{currentStep.content.title}</h2>
+                <ExerciseCard
+                  exercise={currentExercise}
+                  onResult={handleExerciseResult}
+                />
+                {exerciseResult && (
+                  <div className={`mt-md ${exerciseResult.isCorrect ? 'text-success' : 'text-error'}`}>
+                    <p style={{ fontWeight: 500 }}>
+                      {exerciseResult.isCorrect ? '✅ Correct !' : '❌ Incorrect'}
+                    </p>
+                    <p className="text-secondary mt-sm">{currentExercise.explanation}</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Affichage du contenu pédagogique
+              <div>
+                {renderPedagogicalContent(currentStep)}
               </div>
             )}
+          </div>
+        ) : (
+          <div className="text-center">
+            <p className="text-secondary">Aucune étape disponible</p>
           </div>
         )}
       </Card>
@@ -175,20 +282,20 @@ export default function LessonPage() {
           onClick={handleBack} 
           className="flex-1"
         >
-          {currentExerciseIndex === 0 ? 'Quitter' : 'Précédent'}
+          {currentStepIndex === 0 ? 'Quitter' : 'Précédent'}
         </Button>
-        {currentExercise && !exerciseComplete && (
+        {currentStep && !exerciseComplete && (
           <Button variant="primary" onClick={handleNext} className="flex-1">
-            Valider ma réponse
+            {isExerciseStep ? 'Valider ma réponse' : 'Suivant'}
           </Button>
         )}
-        {currentExercise && exerciseComplete && (
+        {currentStep && exerciseComplete && (
           <Button 
             variant="accent" 
             onClick={handleNext} 
             className="flex-1"
           >
-            {isLastExercise ? 'Terminer la leçon' : 'Exercice suivant'}
+            {isLastStep ? 'Terminer la leçon' : 'Étape suivante'}
           </Button>
         )}
       </div>

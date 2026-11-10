@@ -1,0 +1,213 @@
+﻿[
+    {
+        "id":  "lesson-1",
+        "description":  "Apprenez les caractères hiragana de base",
+        "exercises":  [
+                          "exercise-hiragana-1",
+                          "exercise-hiragana-2"
+                      ],
+        "estimatedDuration":  15,
+        "conceptId":  "kana-hiragana-1",
+        "steps":  [
+                      {
+                          "content":  {
+                                          "title":  "Découverte des Hiragana",
+                                          "body":  "Les hiragana sont les caractères fondamentaux du japonais.",
+                                          "reading":  "a i u e o",
+                                          "japanese":  "あ い う え お"
+                                      },
+                          "id":  "lesson-1-step-1",
+                          "type":  "presentation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "Le son a",
+                                          "body":  "Le caractère あ se prononce a.",
+                                          "reading":  "a",
+                                          "japanese":  "あ"
+                                      },
+                          "id":  "lesson-1-step-2",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "Le son i",
+                                          "body":  "Le caractère い se prononce i.",
+                                          "reading":  "i",
+                                          "japanese":  "い"
+                                      },
+                          "id":  "lesson-1-step-3",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "Exemple",
+                                          "body":  "Syllabes ka, ki, ku.",
+                                          "reading":  "ka ki ku",
+                                          "japanese":  "か き く"
+                                      },
+                          "id":  "lesson-1-step-4",
+                          "type":  "example"
+                      }
+                  ],
+        "title":  "Introduction aux Hiragana"
+    },
+    {
+        "id":  "lesson-2",
+        "description":  "Découvrez les mots japonais courants",
+        "exercises":  [
+                          "exercise-vocab-1",
+                          "exercise-vocab-2"
+                      ],
+        "estimatedDuration":  20,
+        "conceptId":  "vocab-essentials-1",
+        "steps":  [
+                      {
+                          "content":  {
+                                          "body":  "Apprenons quelques mots essentiels.",
+                                          "title":  "Les mots du quotidien"
+                                      },
+                          "id":  "lesson-2-step-1",
+                          "type":  "presentation"
+                      },
+                      {
+                          "content":  {
+                                          "meaning":  "eau",
+                                          "title":  "Mizu - Eau",
+                                          "body":  "Le kanji 水 représente l\u0027eau.",
+                                          "reading":  "mizu",
+                                          "japanese":  "水"
+                                      },
+                          "id":  "lesson-2-step-2",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "meaning":  "soleil",
+                                          "title":  "Taiyou - Soleil",
+                                          "body":  "Le soleil est représenté par les caractères 太陽.",
+                                          "reading":  "taiyou",
+                                          "japanese":  "太陽"
+                                      },
+                          "id":  "lesson-2-step-3",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "En contexte",
+                                          "body":  "Mizu wo kudasai.",
+                                          "reading":  "mizu wo kudasai",
+                                          "japanese":  "水をください"
+                                      },
+                          "id":  "lesson-2-step-4",
+                          "type":  "example"
+                      }
+                  ],
+        "title":  "Vocabulaire Essentiel"
+    },
+    {
+        "id":  "lesson-3",
+        "description":  "Les kanji les plus importants",
+        "exercises":  [
+                          "exercise-kanji-1",
+                          "exercise-kanji-2"
+                      ],
+        "estimatedDuration":  25,
+        "conceptId":  "kanji-basic-1",
+        "steps":  [
+                      {
+                          "content":  {
+                                          "body":  "Les kanji sont des caractères d\u0027origine chinoise.",
+                                          "title":  "Introduction aux Kanji"
+                                      },
+                          "id":  "lesson-3-step-1",
+                          "type":  "presentation"
+                      },
+                      {
+                          "content":  {
+                                          "meaning":  "personne",
+                                          "title":  "hito - Personne",
+                                          "body":  "Ce kanji représente une personne.",
+                                          "reading":  "hito",
+                                          "japanese":  "人"
+                                      },
+                          "id":  "lesson-3-step-2",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "meaning":  "montagne",
+                                          "title":  "yama - Montagne",
+                                          "body":  "La forme du kanji ressemble à une montagne.",
+                                          "reading":  "yama",
+                                          "japanese":  "山"
+                                      },
+                          "id":  "lesson-3-step-3",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "Combinaisons",
+                                          "body":  "Yama no ue.",
+                                          "reading":  "yama no ue",
+                                          "japanese":  "山の上部"
+                                      },
+                          "id":  "lesson-3-step-4",
+                          "type":  "example"
+                      }
+                  ],
+        "title":  "Kanji de Base"
+    },
+    {
+        "id":  "lesson-4",
+        "description":  "Les structures grammaticales essentielles",
+        "exercises":  [
+                          "exercise-grammar-1",
+                          "exercise-grammar-2"
+                      ],
+        "estimatedDuration":  30,
+        "conceptId":  "grammar-basic-1",
+        "steps":  [
+                      {
+                          "content":  {
+                                          "body":  "Le japonais suit un ordre différent du français.",
+                                          "title":  "Les bases de la grammaire"
+                                      },
+                          "id":  "lesson-4-step-1",
+                          "type":  "presentation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "La particule wa",
+                                          "body":  "La particule wa marque le thème.",
+                                          "reading":  "wa",
+                                          "japanese":  "は"
+                                      },
+                          "id":  "lesson-4-step-2",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "title":  "La particule o",
+                                          "body":  "La particule o marque l\u0027objet.",
+                                          "reading":  "o",
+                                          "japanese":  "を"
+                                      },
+                          "id":  "lesson-4-step-3",
+                          "type":  "explanation"
+                      },
+                      {
+                          "content":  {
+                                          "meaning":  "Je suis étudiant",
+                                          "title":  "Phrase complète",
+                                          "body":  "Watashi wa gakusei desu.",
+                                          "reading":  "watashi wa gakusei desu",
+                                          "japanese":  "私は学生です"
+                                      },
+                          "id":  "lesson-4-step-4",
+                          "type":  "example"
+                      }
+                  ],
+        "title":  "Grammaire Fondamentale"
+    }
+]
