@@ -25,8 +25,16 @@ export function serializeProgression(progression: UserProgression): StoredProgre
         key, {
           value: value.value,
           state: value.state,
-          lastReviewedAt: value.lastReviewedAt?.toISOString() ?? null,
-          nextReviewAt: value.nextReviewAt?.toISOString() ?? null,
+          lastReviewedAt: value.lastReviewedAt
+        ? (value.lastReviewedAt instanceof Date
+          ? value.lastReviewedAt.toISOString()
+          : new Date(value.lastReviewedAt).toISOString())
+        : null,
+          nextReviewAt: value.nextReviewAt
+        ? (value.nextReviewAt instanceof Date
+          ? value.nextReviewAt.toISOString()
+          : new Date(value.nextReviewAt).toISOString())
+        : null,
           correctCount: value.correctCount,
           incorrectCount: value.incorrectCount,
           totalAttempts: value.totalAttempts,

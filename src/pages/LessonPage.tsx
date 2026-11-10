@@ -83,9 +83,15 @@ export default function LessonPage() {
       // Si c'est la dernière étape, on termine la leçon
       try {
         const completed = await completeLesson(id || '');
-        if (completed) navigate('/learning-path');
-      } catch {
-        setProgressError('La progression n’a pas pu être sauvegardée. Réessayez.');
+        if (completed) {
+          navigate('/learning-path');
+        } else {
+          setProgressError('La progression n\'a pas pu être sauvegardée. Réessayez.');
+        }
+      } catch (err) {
+        console.error('Erreur complétion leçon:', err);
+        // Même en cas d'erreur, on permet à l'utilisateur de continuer
+        navigate('/learning-path');
       }
     } else {
       // Sinon, on passe à l'étape suivante
@@ -112,7 +118,7 @@ export default function LessonPage() {
     try {
       await recordExerciseResult(id || '', result);
     } catch {
-      setProgressError('La progression n’a pas pu être sauvegardée. Réessayez.');
+      setProgressError('La progression n\'a pas pu être sauvegardée. Réessayez.');
     }
   }, [recordExerciseResult, id]);
 
@@ -131,7 +137,7 @@ export default function LessonPage() {
       case 'presentation':
         return (
           <div>
-            <h2 className="section-title mb-md">📚 {title}</h2>
+            <h2 className="section-title mb-md">{title}</h2>
             <p className="mb-md">{body}</p>
             {japanese && (
               <div className="bg-primary-light p-md rounded">
@@ -144,7 +150,7 @@ export default function LessonPage() {
       case 'explanation':
         return (
           <div>
-            <h2 className="section-title mb-md">💡 {title}</h2>
+            <h2 className="section-title mb-md">{title}</h2>
             <p className="mb-md">{body}</p>
             {japanese && (
               <div className="bg-accent-light p-md rounded">
@@ -158,7 +164,7 @@ export default function LessonPage() {
       case 'example':
         return (
           <div>
-            <h2 className="section-title mb-md">📝 Exemple</h2>
+            <h2 className="section-title mb-md">Exemple</h2>
             <p className="mb-md">{body}</p>
             {japanese && (
               <div className="bg-success-light p-md rounded">
@@ -169,10 +175,17 @@ export default function LessonPage() {
             )}
           </div>
         );
+      case 'check':
+        return (
+          <div>
+            <h2 className="section-title mb-md">Vérification</h2>
+            <p className="mb-md">{body}</p>
+          </div>
+        );
       case 'synthesis':
         return (
           <div>
-            <h2 className="section-title mb-md">🎯 Synthèse</h2>
+            <h2 className="section-title mb-md">Synthèse</h2>
             <p className="mb-md">{body}</p>
             {japanese && (
               <div className="bg-info-light p-md rounded">
@@ -204,7 +217,6 @@ export default function LessonPage() {
       <div className="page">
         <Card>
           <div className="text-center">
-            <div className="empty-state-icon">❓</div>
             <h2 className="empty-state-title">Leçon non trouvée</h2>
             <Link to="/learning-path">
               <Button variant="primary">Retour au parcours</Button>
@@ -222,7 +234,7 @@ export default function LessonPage() {
       <div className="mb-lg">
         <div className="flex justify-between items-center mb-sm">
           <Link to="/learning-path" className="text-secondary" style={{ textDecoration: 'none', fontSize: '14px' }}>
-            ← Retour au parcours
+            Retour au parcours
           </Link>
           <Badge variant="primary">
             Étape {currentStepIndex + 1} / {lessonSteps.length}
@@ -252,7 +264,7 @@ export default function LessonPage() {
                 {exerciseResult && (
                   <div className={`mt-md ${exerciseResult.isCorrect ? 'text-success' : 'text-error'}`}>
                     <p style={{ fontWeight: 500 }}>
-                      {exerciseResult.isCorrect ? '✅ Correct !' : '❌ Incorrect'}
+                      {exerciseResult.isCorrect ? 'Correct !' : 'Incorrect'}
                     </p>
                     <p className="text-secondary mt-sm">{currentExercise.explanation}</p>
                   </div>
@@ -284,9 +296,9 @@ export default function LessonPage() {
         >
           {currentStepIndex === 0 ? 'Quitter' : 'Précédent'}
         </Button>
-        {currentStep && !exerciseComplete && (
+        {currentStep && !exerciseComplete && !isExerciseStep && (
           <Button variant="primary" onClick={handleNext} className="flex-1">
-            {isExerciseStep ? 'Valider ma réponse' : 'Suivant'}
+            Suivant
           </Button>
         )}
         {currentStep && exerciseComplete && (

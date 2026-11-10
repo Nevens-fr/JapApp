@@ -265,11 +265,12 @@ export class LearningEngine {
    * Termine une leçon et calcule le score
    */
   completeLesson(lessonId: string): PedagogicalEvent {
-    const lessonProgression = this.progression.lessons[lessonId];
-
-    if (!lessonProgression) {
-      throw new Error(`Leçon ${lessonId} non trouvée`);
+    // Créer l'entrée de leçon si elle n'existe pas (au cas où startLesson n'a pas été appelé)
+    if (!this.progression.lessons[lessonId]) {
+      this.progression.lessons[lessonId] = { completed: false, score: 0 };
     }
+
+    const lessonProgression = this.progression.lessons[lessonId];
 
     // Récupérer les résultats de cette leçon
     const lessonResults = this.events
