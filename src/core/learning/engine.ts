@@ -376,11 +376,17 @@ export class LearningEngine {
    * Obtient tous les concepts à réviser (triés par priorité SM-2)
    */
   getConceptsToReview(): string[] {
+    console.log('[EngineDebug] getConceptsToReview - all masteries:', Object.keys(this.progression.mastery));
+    for (const [id, m] of Object.entries(this.progression.mastery)) {
+      console.log(`[EngineDebug]   ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt?.toISOString()}, isReviewDue=${isReviewDue(m)}, isReviewOverdue=${isReviewOverdue(m)}`);
+    }
     const masteries = Object.entries(this.progression.mastery)
       .filter(([, mastery]) => {
         return isReviewDue(mastery) || isReviewOverdue(mastery);
       })
       .map(([id, mastery]) => ({ id, mastery }));
+
+    console.log('[EngineDebug] Filtered masteries:', masteries.map(m => m.id));
 
     const sorted = sortReviewsByPriority(masteries.map(m => m.mastery));
 
@@ -439,7 +445,18 @@ export class LearningEngine {
    * Obtient l'état complet de progression (sérialisable)
    */
   getProgressionSnapshot(): UserProgression {
-    return JSON.parse(JSON.stringify(this.progression));
+    const cloned = JSON.parse(JSON.stringify(this.progression));
+    // Reconstruire les objets Date dans les masteries (JSON convertit les Date en strings ISO)
+    const masteries = cloned.mastery as Record<string, any>;
+    for (const mastery of Object.values(masteries)) {
+      if (mastery.lastReviewedAt && typeof mastery.lastReviewedAt === 'string') {
+        mastery.lastReviewedAt = new Date(mastery.lastReviewedAt);
+      }
+      if (mastery.nextReviewAt && typeof mastery.nextReviewAt === 'string') {
+        mastery.nextReviewAt = new Date(mastery.nextReviewAt);
+      }
+    }
+    return cloned as UserProgression;
   }
 
   /**
@@ -448,7 +465,18 @@ export class LearningEngine {
    */
   restoreProgression(snapshot: UserProgression): void {
     // Deep clone pour éviter que les modifications ultérieures n'affectent le snapshot original
-    this.progression = JSON.parse(JSON.stringify(snapshot));
+    const cloned = JSON.parse(JSON.stringify(snapshot));
+    // Reconstruire les objets Date dans les masteries (JSON convertit les Date en strings ISO)
+    const masteries = cloned.mastery as Record<string, any>;
+    for (const mastery of Object.values(masteries)) {
+      if (mastery.lastReviewedAt && typeof mastery.lastReviewedAt === 'string') {
+        mastery.lastReviewedAt = new Date(mastery.lastReviewedAt);
+      }
+      if (mastery.nextReviewAt && typeof mastery.nextReviewAt === 'string') {
+        mastery.nextReviewAt = new Date(mastery.nextReviewAt);
+      }
+    }
+    this.progression = cloned as UserProgression;
     // Réinitialiser les événements car ils ne sont pas sérialisés dans le snapshot
     this.events = [];
   }

@@ -106,6 +106,60 @@ export async function resetProgression(): Promise<void> {
 }
 
 /**
+ * TEST UNIQUEMENT : Force toutes les révisions à être dues immédiatement
+ * Utile pour tester la page Révisions sans attendre 6 jours
+ * Introduit automatiquement les concepts de démonstration s'ils n'existent pas
+ */
+export async function forceReviewsDue(): Promise<void> {
+  const now = new Date();
+  const past = new Date(now.getTime() - 24 * 60 * 60 * 1000); // hier
+
+  // IDs des concepts de démonstration
+  const sampleConceptIds = [
+    'kana-hiragana-1',
+    'vocab-essentials-1',
+    'kanji-basic-1',
+    'grammar-basic-1',
+  ];
+
+  let stored = await db.progression.get(PROGRESSION_ID);
+  
+  // Si pas de progression, en créer une avec tous les concepts
+  if (!stored) {
+    stored = {
+      id: PROGRESSION_ID,
+      mastery: {},
+      lessons: {},
+      unlockedConcepts: [...sampleConceptIds],
+    };
+  }
+
+  // Introduire les concepts qui n'existent pas encore
+  for (const conceptId of sampleConceptIds) {
+    if (!stored.mastery[conceptId]) {
+      stored.mastery[conceptId] = {
+        value: 0.0,
+        state: 'review',
+        lastReviewedAt: null,
+        nextReviewAt: past.toISOString(),
+        easinessFactor: 2.5,
+        intervalDays: 0,
+        repetitionCount: 0,
+        correctCount: 0,
+        incorrectCount: 0,
+        totalAttempts: 0,
+      };
+    } else {
+      // Forcer en révision avec date passée
+      stored.mastery[conceptId].nextReviewAt = past.toISOString();
+      stored.mastery[conceptId].state = 'review';
+    }
+  }
+
+  await db.progression.put(stored);
+}
+
+/**
  * Vérifie si une progression existe dans le stockage local
  */
 export async function hasProgression(): Promise<boolean> {

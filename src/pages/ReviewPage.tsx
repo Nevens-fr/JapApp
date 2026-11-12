@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
 import { Card, ProgressBar, Badge, SectionHeader, Button, EmptyState, JapaneseText } from '../components/common';
 
@@ -15,12 +16,11 @@ interface ReviewItem {
 }
 
 export default function ReviewPage() {
-  const { getReviewInfo, lessons } = useLearningEngine();
+  const { getReviewInfo, lessons, forceReviewsDue, startLesson } = useLearningEngine();
+  const navigate = useNavigate();
 
-  // Utilisation de getReviewInfo() pour obtenir les données réelles de révision
   const reviewInfo = getReviewInfo();
 
-  // Mapping des informations de révision vers la structure ReviewItem
   const pendingReviews: ReviewItem[] = reviewInfo.map((info) => {
     const lesson = lessons.find(l => l.conceptId === info.conceptId);
     if (!lesson) return null;
@@ -44,7 +44,6 @@ export default function ReviewPage() {
   const overdueCount = pendingReviews.filter((r) => r.status === 'overdue').length;
   const upcomingCount = pendingReviews.filter((r) => r.status === 'upcoming').length;
 
-  // Mise à jour de startSession() pour utiliser les données de getReviewInfo()
   const startSession = () => {
     const dueItems = pendingReviews
       .filter((r) => r.status === 'overdue')
@@ -73,11 +72,11 @@ export default function ReviewPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'kana': return '🎭';
-      case 'vocab': return '📖';
-      case 'kanji': return '🐉';
+      case 'kana': return '🌀';
+      case 'vocab': return '🫃️';
+      case 'kanji': return '👩‍🎓';
       case 'grammar': return '📝';
-      default: return '📑';
+      default: return '📖';
     }
   };
 
@@ -135,7 +134,15 @@ export default function ReviewPage() {
                 <p className="text-secondary" style={{ fontSize: '14px' }}>
                   Maîtrise : {Math.round(item.masteryLevel * 100)}%
                 </p>
-                <Button variant="primary" fullWidth className="mt-md">
+                <Button 
+                  variant="primary" 
+                  fullWidth 
+                  className="mt-md"
+                  onClick={() => {
+                    startLesson(item.id);
+                    navigate(`/lesson/${item.id}`);
+                  }}
+                >
                   Réviser {item.title}
                 </Button>
               </Card>
@@ -150,25 +157,31 @@ export default function ReviewPage() {
     <div className="page">
       <SectionHeader title="Révisions" />
 
-      {/* Résumé des révisions */}
       <div className="flex gap-md mb-lg">
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '32px', marginBottom: '8px' }}>💥</div>
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>⏰</div>
             <p className="text-secondary" style={{ fontSize: '14px' }}>En retard</p>
             <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-error)' }}>{overdueCount}</p>
           </div>
         </Card>
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '32px', marginBottom: '8px' }}>📅</div>
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>🕓</div>
             <p className="text-secondary" style={{ fontSize: '14px' }}>Prochaines</p>
             <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-primary)' }}>{upcomingCount}</p>
           </div>
         </Card>
       </div>
 
-      {/* Lancer une session */}
+      <div className="mb-lg">
+        <Button variant="secondary" fullWidth onClick={async () => {
+          await forceReviewsDue();
+        }}>
+          🧪 Tester les révisions (forcer)
+        </Button>
+      </div>
+
       {overdueCount > 0 && (
         <Card className="mb-lg">
           <SectionHeader 
@@ -181,13 +194,12 @@ export default function ReviewPage() {
         </Card>
       )}
 
-      {/* Liste des révisions */}
       <Card>
         <SectionHeader title="Toutes les révisions" />
         
         {pendingReviews.length === 0 ? (
           <EmptyState 
-            icon="🎉" 
+            icon="📖" 
             title="Aucune révision en attente" 
             text="Bravo ! Tu es à jour."
           />
@@ -227,6 +239,17 @@ export default function ReviewPage() {
                   <p className="text-secondary" style={{ fontSize: '12px', marginTop: '4px' }}>
                     Maîtrise : {Math.round(item.masteryLevel * 100)}%
                   </p>
+                  <Button 
+                    variant="primary" 
+                    fullWidth 
+                    className="mt-sm"
+                    onClick={() => {
+                      startLesson(item.id);
+                      navigate(`/lesson/${item.id}`);
+                    }}
+                  >
+                    Réviser maintenant
+                  </Button>
                 </div>
               );
             })}

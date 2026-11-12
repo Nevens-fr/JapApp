@@ -11,7 +11,7 @@ import { SAMPLE_CONCEPTS, SAMPLE_EXERCISES, SAMPLE_LESSONS } from '../data/sampl
 import { toEngineExercise, toLearningEngineResult } from '../adapters/exerciseAdapter';
 import { useStatistics, usePersistence } from '../database/local/hooks';
 import { createInitialProgression } from '../core/learning/progression';
-import { loadProgression, saveProgression } from '../database/local/repository';
+import { loadProgression, saveProgression, forceReviewsDue } from '../database/local/repository';
 import { isReviewOverdue } from '../core/learning/revision';
 import type { MasteryLevel } from '../core/learning/types';
 
@@ -38,9 +38,21 @@ function useLearningEngineState() {
   const refreshProgression = useCallback(async () => {
     try {
       const savedProgression = await loadProgression();
+      console.log('[RefreshDebug] loaded progression:', savedProgression ? 'exists' : 'null');
       if (savedProgression) {
+        console.log('[RefreshDebug] mastery keys:', Object.keys(savedProgression.mastery));
+        for (const [id, m] of Object.entries(savedProgression.mastery)) {
+          console.log(`[RefreshDebug]   ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt?.toISOString() || 'null'}`);
+        }
         // Restaurer la progression dans le moteur
         engine.restoreProgression(savedProgression);
+        console.log('[RefreshDebug] engine restoration complete');
+        // Verify engine has the data
+        const engineMasteries = engine.getProgressionSnapshot().mastery;
+        console.log('[RefreshDebug] engine mastery keys:', Object.keys(engineMasteries));
+        for (const [id, m] of Object.entries(engineMasteries)) {
+          console.log(`[RefreshDebug]   engine ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt?.toISOString() || 'null'}`);
+        }
         const snapshot = engine.getProgressionSnapshot();
         setUserProgression(snapshot);
         setTotalScore(calculateLessonProgress(snapshot.lessons));
@@ -268,12 +280,22 @@ function useLearningEngineState() {
     priority: number;
   }> => {
     const reviewConcepts = engine.getConceptsToReview();
+    console.log('[ReviewDebug] getConceptsToReview:', reviewConcepts);
+    
+    // Debug: logger tous les masteries
+    const allMasteries = engine.getProgressionSnapshot().mastery;
+    console.log('[ReviewDebug] All masteries:', Object.keys(allMasteries));
+    for (const [id, m] of Object.entries(allMasteries)) {
+      console.log(`[ReviewDebug]   ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt}, value=${m.value}`);
+    }
+    
     const results: Array<{ conceptId: string; mastery: MasteryLevel; isOverdue: boolean; priority: number }> = [];
     
     for (const conceptId of reviewConcepts) {
       const mastery = engine.getMastery(conceptId);
       if (mastery) {
         const overdue = isReviewOverdue(mastery);
+        console.log(`[ReviewDebug]   Processing ${conceptId}: overdue=${overdue}`);
         results.push({
           conceptId,
           mastery,
@@ -285,12 +307,20 @@ function useLearningEngineState() {
     
     // Trier par priorité
     results.sort((a, b) => b.priority - a.priority);
+    console.log('[ReviewDebug] Final review results:', results.map(r => r.conceptId));
     return results;
   }, [engine]);
 
   const getTotalScore = useCallback((): number => {
     return totalScore;
   }, [totalScore]);
+
+  // Wrapper pour forceReviewsDue qui met aussi à jour le moteur en mémoire
+  const handleForceReviewsDue = useCallback(async () => {
+    await forceReviewsDue();
+    // Recharger la progression depuis la DB et mettre à jour le moteur
+    await refreshProgression();
+  }, [refreshProgression]);
 
   return {
     concepts,
@@ -311,6 +341,7 @@ function useLearningEngineState() {
     getReviewInfo,
     getTotalScore,
     refreshProgression, // Exposer la fonction de rafraîchissement
+    forceReviewsDue: handleForceReviewsDue, // Exposer la fonction de test pour les révisions
   };
 }
 
