@@ -16,7 +16,7 @@ interface ReviewItem {
 }
 
 export default function ReviewPage() {
-  const { getReviewInfo, lessons, forceReviewsDue, startLesson } = useLearningEngine();
+  const { getReviewInfo, lessons, forceReviewsDue, startLesson, getUpcomingReviews } = useLearningEngine();
   const navigate = useNavigate();
 
   const reviewInfo = getReviewInfo();
@@ -38,11 +38,31 @@ export default function ReviewPage() {
     };
   }).filter(Boolean) as ReviewItem[];
 
+  // Récupérer les révisions à venir (pas encore dues)
+  const upcomingConceptIds = getUpcomingReviews(7);
+  const upcomingReviews: ReviewItem[] = upcomingConceptIds.map((conceptId) => {
+    const lesson = lessons.find(l => l.conceptId === conceptId);
+    if (!lesson) return null;
+    const info = getReviewInfo().find(r => r.conceptId === conceptId);
+    const mastery = info ? info.mastery : { value: 0 };
+    return {
+      id: lesson.id,
+      type: lesson.type || 'vocab',
+      title: lesson.title,
+      description: lesson.description,
+      japanese: (lesson as any).japanese ?? undefined,
+      reading: (lesson as any).reading ?? undefined,
+      meaning: (lesson as any).meaning ?? undefined,
+      masteryLevel: mastery.value,
+      status: 'upcoming' as const,
+    };
+  }).filter(Boolean) as ReviewItem[];
+
   const [sessionActive, setSessionActive] = useState(false);
   const [sessionItems, setSessionItems] = useState<ReviewItem[]>([]);
 
   const overdueCount = pendingReviews.filter((r) => r.status === 'overdue').length;
-  const upcomingCount = pendingReviews.filter((r) => r.status === 'upcoming').length;
+  const upcomingCount = upcomingReviews.length;
 
   const startSession = () => {
     const dueItems = pendingReviews
@@ -191,6 +211,56 @@ export default function ReviewPage() {
           <Button variant="accent" fullWidth onClick={startSession}>
             Réviser maintenant ({overdueCount})
           </Button>
+        </Card>
+      )}
+
+      {upcomingCount > 0 && (
+        <Card className="mb-lg">
+          <SectionHeader 
+            title="Prochaines révisions" 
+            subtitle={`${upcomingCount} notion${upcomingCount > 1 ? 's' : ''} à venir`}
+          />
+          <div className="flex-col gap-md">
+            {upcomingReviews.slice(0, 5).map((item) => {
+              const statusInfo = getStatusInfo(item.status);
+              return (
+                <div key={item.id}>
+                  <div className="flex justify-between items-center mb-sm">
+                    <div className="flex items-center gap-sm">
+                      <span style={{ fontSize: '20px' }}>{getTypeIcon(item.type)}</span>
+                      <span style={{ fontWeight: 500 }}>{item.title}</span>
+                    </div>
+                    <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+                  </div>
+                  {item.japanese && (
+                    <JapaneseText text={item.japanese} size="medium" />
+                  )}
+                  <div className="mt-sm">
+                    <ProgressBar 
+                      progress={item.masteryLevel * 100} 
+                      size="sm" 
+                      color={
+                        item.masteryLevel >= 0.8 ? 'var(--color-success)' :
+                        item.masteryLevel >= 0.5 ? 'var(--color-warning)' :
+                        'var(--color-error)'
+                      }
+                    />
+                  </div>
+                  <Button 
+                    variant="primary" 
+                    fullWidth 
+                    className="mt-sm"
+                    onClick={() => {
+                      startLesson(item.id);
+                      navigate(`/lesson/${item.id}`);
+                    }}
+                  >
+                    Réviser maintenant
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
         </Card>
       )}
 

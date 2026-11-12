@@ -342,6 +342,7 @@ function useLearningEngineState() {
     getTotalScore,
     refreshProgression, // Exposer la fonction de rafraîchissement
     forceReviewsDue: handleForceReviewsDue, // Exposer la fonction de test pour les révisions
+    getUpcomingReviews: (daysAhead?: number) => engine.getUpcomingReviews(daysAhead), // Exposer les révisions à venir
   };
 }
 

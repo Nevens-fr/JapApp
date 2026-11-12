@@ -396,6 +396,30 @@ export class LearningEngine {
     }).filter((id): id is string => id !== undefined);
   }
 
+
+  /**
+   * Obtient les révisions à venir (dans les N prochains jours)
+   * Inclut les révisions dues aujourd'hui/hors mais pas encore affichées
+   */
+  getUpcomingReviews(daysAhead: number = 7): string[] {
+    const now = new Date();
+    // Définir maxDate à now + daysAhead
+    const maxDate = new Date(now);
+    maxDate.setDate(maxDate.getDate() + daysAhead);
+
+    const upcoming = Object.entries(this.progression.mastery)
+      .filter(([, mastery]) => {
+        // Exclure les concepts sans nextReviewAt
+        if (!mastery.nextReviewAt) return false;
+        // Exclure les concepts déjà révisés (nextReviewAt <= now)
+        if (mastery.nextReviewAt <= now) return false;
+        // Inclure les concepts dont nextReviewAt est dans la fenêtre future
+        return mastery.nextReviewAt <= maxDate;
+      })
+      .map(([id]) => id);
+
+    return upcoming;
+  }
   /**
    * Obtient la progression globale
    */
