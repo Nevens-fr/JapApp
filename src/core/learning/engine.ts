@@ -376,9 +376,7 @@ export class LearningEngine {
    * Obtient tous les concepts à réviser (triés par priorité SM-2)
    */
   getConceptsToReview(): string[] {
-    console.log('[EngineDebug] getConceptsToReview - all masteries:', Object.keys(this.progression.mastery));
     for (const [id, m] of Object.entries(this.progression.mastery)) {
-      console.log(`[EngineDebug]   ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt?.toISOString()}, isReviewDue=${isReviewDue(m)}, isReviewOverdue=${isReviewOverdue(m)}`);
     }
     const masteries = Object.entries(this.progression.mastery)
       .filter(([, mastery]) => {
@@ -386,7 +384,6 @@ export class LearningEngine {
       })
       .map(([id, mastery]) => ({ id, mastery }));
 
-    console.log('[EngineDebug] Filtered masteries:', masteries.map(m => m.id));
 
     const sorted = sortReviewsByPriority(masteries.map(m => m.mastery));
 

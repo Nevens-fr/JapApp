@@ -38,20 +38,14 @@ function useLearningEngineState() {
   const refreshProgression = useCallback(async () => {
     try {
       const savedProgression = await loadProgression();
-      console.log('[RefreshDebug] loaded progression:', savedProgression ? 'exists' : 'null');
       if (savedProgression) {
-        console.log('[RefreshDebug] mastery keys:', Object.keys(savedProgression.mastery));
-        for (const [id, m] of Object.entries(savedProgression.mastery)) {
-          console.log(`[RefreshDebug]   ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt?.toISOString() || 'null'}`);
+        for (const [] of Object.entries(savedProgression.mastery)) {
         }
         // Restaurer la progression dans le moteur
         engine.restoreProgression(savedProgression);
-        console.log('[RefreshDebug] engine restoration complete');
         // Verify engine has the data
         const engineMasteries = engine.getProgressionSnapshot().mastery;
-        console.log('[RefreshDebug] engine mastery keys:', Object.keys(engineMasteries));
-        for (const [id, m] of Object.entries(engineMasteries)) {
-          console.log(`[RefreshDebug]   engine ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt?.toISOString() || 'null'}`);
+        for (const [] of Object.entries(engineMasteries)) {
         }
         const snapshot = engine.getProgressionSnapshot();
         setUserProgression(snapshot);
@@ -172,7 +166,6 @@ function useLearningEngineState() {
 
       // Ne pas réinitialiser une leçon déjà complétée
       if (currentState?.status === 'completed') {
-        console.log(`Leçon ${lessonId} déjà complétée.`);
         return lesson;
       }
 
@@ -280,13 +273,10 @@ function useLearningEngineState() {
     priority: number;
   }> => {
     const reviewConcepts = engine.getConceptsToReview();
-    console.log('[ReviewDebug] getConceptsToReview:', reviewConcepts);
     
     // Debug: logger tous les masteries
     const allMasteries = engine.getProgressionSnapshot().mastery;
-    console.log('[ReviewDebug] All masteries:', Object.keys(allMasteries));
-    for (const [id, m] of Object.entries(allMasteries)) {
-      console.log(`[ReviewDebug]   ${id}: state=${m.state}, nextReviewAt=${m.nextReviewAt}, value=${m.value}`);
+    for (const [] of Object.entries(allMasteries)) {
     }
     
     const results: Array<{ conceptId: string; mastery: MasteryLevel; isOverdue: boolean; priority: number }> = [];
@@ -295,7 +285,6 @@ function useLearningEngineState() {
       const mastery = engine.getMastery(conceptId);
       if (mastery) {
         const overdue = isReviewOverdue(mastery);
-        console.log(`[ReviewDebug]   Processing ${conceptId}: overdue=${overdue}`);
         results.push({
           conceptId,
           mastery,
@@ -307,7 +296,6 @@ function useLearningEngineState() {
     
     // Trier par priorité
     results.sort((a, b) => b.priority - a.priority);
-    console.log('[ReviewDebug] Final review results:', results.map(r => r.conceptId));
     return results;
   }, [engine]);
 

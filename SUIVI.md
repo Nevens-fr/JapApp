@@ -12,7 +12,7 @@
 | 5 | Interface pédagogique et parcours | ✅ Terminé | 2026-11-04 |
 | 6 | Stockage local et fonctionnement hors ligne | ✅ Terminé | 2026-11-05 |
 | 7 | PWA et installation | ✅ Terminé | 2026-11-06 |
-| 8 | Répétition espacée | 🔒 En attente | - |
+| 8 | Répétition espacée | 🔒 Terminé | 2026-11-12 |
 | 9 | Gamification et progression | 🔒 En attente | - |
 | 10 | Création du contenu pédagogique initial | 🔒 En attente | - |
 | 11 | Audio et compréhension orale | 🔒 En attente | - |
@@ -103,6 +103,28 @@
   - Cache Workbox configuré (ressources statiques + JSON)
   - Mécanisme autoUpdate activé pour les mises à jour
 
+
+- LOT 8 : Répétition espacée SM-2 (2026-11-12)
+  - Algorithme SM-2 implémenté (`src/core/learning/revision.ts`)
+    - initializeMastery(), updateMasteryWithSM2(), isReviewDue(), isReviewOverdue()
+    - Facteur d'aisance (easinessFactor), intervalles adaptatifs
+    - Mapping qualité de réponse → score SM-2
+  - Moteur pédagogique enrichi (`engine.ts`)
+    - getConceptsToReview() : filtre les concepts à réviser
+    - getUpcomingReviews(daysAhead) : filtre les révisions futures
+    - Calcul de la progression globale
+  - Hook React mis à jour (`useLearningEngine.ts`)
+    - getReviewInfo(), getReviewLessons(), getUpcomingReviews(daysAhead)
+    - forceReviewsDue() pour tester les révisions
+    - startLesson() permet la revisite des leçons complétées
+  - Page de révision complète (`ReviewPage.tsx`)
+    - 3 sections : En retard, Prochaines révisions, Toutes les révisions
+    - Boutons "Réviser maintenant" fonctionnels avec navigation
+    - Affichage des statuts (overdue, upcoming, pending)
+  - Nettoyage des logs de debug dans engine.ts et useLearningEngine.ts
+  - Build TypeScript validé (npm run build)
+  - Corrections bugs : Date.toISOString sur objets clonés, cast any Dexie
+
 ## Déploiement et Test
 
 ### Commandes de base
@@ -140,6 +162,6 @@ npm run test
 
 ## Prochaine étape
 
-- LOT 7 : PWA et installation (Terminé)
-- LOT 8 : Répétition espacée
+- LOT 8 : Répétition espacée (Terminé)
+- LOT 9 : Gamification et progression
 - LOT 10 : Création du contenu pédagogique initial
