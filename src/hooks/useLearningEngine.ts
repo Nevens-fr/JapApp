@@ -1,19 +1,27 @@
-// Hook React central pour le moteur pédagogique
-// Connecte le LearningEngine (Lot 3) aux données de démonstration et expose la progression
+﻿// Hook React central pour le moteur p?dagogique
+// Connecte le LearningEngine (Lot 3 + Lot 9 Gamification) aux donn?es de d?monstration
 
-import { createContext, createElement, useContext, useState, useEffect, useCallback } from 'react';
-import type { ReactNode } from 'react';
-import { LearningEngine } from '../core/learning/engine';
-import type { Lesson, LessonProgress } from '../core/learning/types';
-import type { Concept } from '../core/learning/types';
-import type { Exercise, ExerciseResult as ExerciseResultLot4 } from '../exercises/types';
-import { SAMPLE_CONCEPTS, SAMPLE_EXERCISES, SAMPLE_LESSONS } from '../data/sampleData';
-import { toEngineExercise, toLearningEngineResult } from '../adapters/exerciseAdapter';
-import { useStatistics, usePersistence } from '../database/local/hooks';
-import { createInitialProgression } from '../core/learning/progression';
-import { loadProgression, saveProgression, forceReviewsDue } from '../database/local/repository';
-import { isReviewOverdue } from '../core/learning/revision';
-import type { MasteryLevel } from '../core/learning/types';
+import { createContext, createElement, useContext, useState, useEffect, useCallback } from "react";
+import type { ReactNode } from "react";
+import { LearningEngine } from "../core/learning/engine";
+import type { Lesson, LessonProgress } from "../core/learning/types";
+import type { ExerciseResult as ExerciseResultTypes } from "../exercises/types";
+import type { Concept } from "../core/learning/types";
+import type { Exercise } from "../exercises/types";
+import { SAMPLE_CONCEPTS, SAMPLE_EXERCISES, SAMPLE_LESSONS } from "../data/sampleData";
+import { toEngineExercise, toLearningEngineResult } from "../adapters/exerciseAdapter";
+import { usePersistence } from "../database/local/hooks";
+import { createInitialProgression } from "../core/learning/progression";
+import { loadProgression, saveProgression, forceReviewsDue } from "../database/local/repository";
+import { isReviewOverdue } from "../core/learning/revision";
+import type { MasteryLevel } from "../core/learning/types";
+import type {
+  GamificationState,
+  DailyGoal,
+  UserStatistics,
+  DailyActivity,
+  XPCalibration,
+} from "../core/learning/scoring";
 
 function useLearningEngineState() {
   const [engine] = useState(() => new LearningEngine());
@@ -25,55 +33,42 @@ function useLearningEngineState() {
   const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Hook de persistance pour les statistiques locales
-  const { recordExercise, incrementLessons } = useStatistics();
-
   // Hook de persistance pour la progression du moteur
   usePersistence(userProgression, !loading);
 
   const [totalScore, setTotalScore] = useState(0);
 
-  // Fonction pour rafraîchir la progression depuis la base de données
-  // Utilisé après un import de données pour synchroniser l'UI avec la DB
+  // Fonction pour rafra?chir la progression depuis la base de donn?es
   const refreshProgression = useCallback(async () => {
     try {
       const savedProgression = await loadProgression();
       if (savedProgression) {
-        for (const [] of Object.entries(savedProgression.mastery)) {
-        }
         // Restaurer la progression dans le moteur
         engine.restoreProgression(savedProgression);
-        // Verify engine has the data
-        const engineMasteries = engine.getProgressionSnapshot().mastery;
-        for (const [] of Object.entries(engineMasteries)) {
-        }
         const snapshot = engine.getProgressionSnapshot();
         setUserProgression(snapshot);
         setTotalScore(calculateLessonProgress(snapshot.lessons));
 
-        // Mettre à jour l'état local 'progress' pour refléter les statuts de la DB
-        // IMPORTANT: snapshot.lessons est de type Record<string, { completed: boolean, score: number }>
-        // Il faut mapper 'completed' vers 'status' correctement
+        // Mettre ? jour l'?tat local ?progress? pour refl?ter les statuts de la DB
         const newProgress: Record<string, LessonProgress> = {};
         for (const [lessonId, lessonData] of Object.entries(snapshot.lessons)) {
           newProgress[lessonId] = {
-            status: lessonData.completed ? 'completed' : 'in_progress',
+            status: lessonData.completed ? "completed" : "in_progress",
             currentStep: 0,
             score: lessonData.score,
           };
         }
         setProgress(newProgress);
 
-        // IMPORTANT: Réinitialiser currentLessonId si la leçon en cours est complétée
-        // Cela permet de débloquer les leçons suivantes
+        // R?initialiser currentLessonId si la le?on en cours est compl?t?e
         if (currentLessonId) {
           const currentState = engine.getLessonState(currentLessonId);
-          if (currentState?.status === 'completed') {
+          if (currentState?.status === "completed") {
             setCurrentLessonId(null);
           }
         }
       } else {
-        // Si pas de progression, réinitialiser
+        // Si pas de progression, r?initialiser
         const initial = createInitialProgression();
         engine.restoreProgression(initial);
         setUserProgression(initial);
@@ -82,7 +77,7 @@ function useLearningEngineState() {
         setCurrentLessonId(null);
       }
     } catch (err) {
-      console.error('Erreur rafraîchissement progression:', err);
+      console.error("Erreur rafra?chissement progression:", err);
     }
   }, [engine, currentLessonId]);
 
@@ -102,10 +97,9 @@ function useLearningEngineState() {
     let cancelled = false;
     const initialize = async () => {
       try {
-        // Charger la progression au démarrage
         await refreshProgression();
       } catch (err) {
-        console.error('Erreur chargement progression:', err);
+        console.error("Erreur chargement progression:", err);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -128,7 +122,7 @@ function useLearningEngineState() {
       await saveProgression(snapshot);
       return snapshot;
     } catch (err) {
-      console.error('Erreur syncProgression:', err);
+      console.error("Erreur syncProgression:", err);
       throw err;
     }
   }, [engine]);
@@ -164,8 +158,8 @@ function useLearningEngineState() {
 
       const currentState = engine.getLessonState(lessonId);
 
-      // Ne pas réinitialiser une leçon déjà complétée
-      if (currentState?.status === 'completed') {
+      // Ne pas r?initialiser une le?on d?j? compl?t?e
+      if (currentState?.status === "completed") {
         return lesson;
       }
 
@@ -173,19 +167,24 @@ function useLearningEngineState() {
       setCurrentLessonId(lessonId);
       setProgress((prev) => ({
         ...prev,
-        [lessonId]: { status: 'in_progress', currentStep: 0, score: null },
+        [lessonId]: { status: "in_progress", currentStep: 0, score: null },
       }));
       return lesson;
     },
     [engine, lessons]
   );
 
+  // ============================================================
+  // Lot 9 : Enregistrement de r?sultat avec gamification
+  // ============================================================
   const recordExerciseResult = useCallback(
-    async (lessonId: string, result: ExerciseResultLot4): Promise<boolean> => {
+    async (lessonId: string, result: ExerciseResultTypes): Promise<boolean> => {
       const engineResult = toLearningEngineResult(result);
-      const success = engine.recordExerciseResult(lessonId, engineResult);
 
-      if (success) {
+      // Utiliser la m?thode avec scoring (Lot 9)
+      const scoringResult = engine.recordExerciseResultWithScoring(lessonId, engineResult);
+
+      if (scoringResult.exerciseResult) {
         const lessonProgress = getLessonProgress(lessonId);
         if (lessonProgress) {
           setProgress((prev) => ({
@@ -194,73 +193,65 @@ function useLearningEngineState() {
           }));
         }
 
-        const isCorrect = result.isCorrect;
-        const xpGained = Math.round(result.score * 50);
         try {
           await syncProgression();
-          await recordExercise(isCorrect, xpGained);
         } catch (err) {
-          console.error('Erreur sauvegarde resultat:', err);
+          console.error("Erreur sauvegarde r?sultat:", err);
         }
       }
 
-      return !!success;
+      return !!scoringResult.exerciseResult;
     },
-    [engine, getLessonProgress, recordExercise, syncProgression]
+    [engine, getLessonProgress, syncProgression]
   );
 
+  // ============================================================
+  // Lot 9 : Compl?tion de le?on avec gamification
+  // ============================================================
   const completeLesson = useCallback(
     async (lessonId: string): Promise<boolean> => {
-      const alreadyCompleted = engine.getLessonState(lessonId)?.status === 'completed';
-      const success = engine.completeLesson(lessonId);
+      const success = engine.completeLessonWithScoring(lessonId);
+
       if (success) {
         const lessonProgress = getLessonProgress(lessonId);
         setProgress((prev) => ({
           ...prev,
           [lessonId]: lessonProgress || {
-            status: 'completed',
+            status: "completed",
             currentStep: 0,
             score: 0,
           },
         }));
         setCurrentLessonId(null);
+
         try {
           const snapshot = await syncProgression();
           setTotalScore(calculateLessonProgress(snapshot.lessons));
         } catch (err) {
-          console.error('Erreur sauvegarde completeLesson:', err);
-        }
-
-        if (!alreadyCompleted) {
-          try {
-            await incrementLessons();
-          } catch (err) {
-            console.error('Erreur incrément leçons:', err);
-          }
+          console.error("Erreur sauvegarde completeLesson:", err);
         }
       }
+
       return !!success;
     },
-    [engine, getLessonProgress, incrementLessons, syncProgression]
+    [engine, getLessonProgress, syncProgression]
   );
 
   const getNextLessons = useCallback((): Lesson[] => {
     return lessons.filter((l) => {
       if (l.id === currentLessonId) return false;
-      if (engine.getLessonState(l.id)?.status === 'completed') return false;
+      if (engine.getLessonState(l.id)?.status === "completed") return false;
       return true;
     });
   }, [engine, lessons, currentLessonId]);
 
   const getReviewLessons = useCallback((): Lesson[] => {
-    // Récupérer les concepts à réviser depuis le moteur
     const conceptsToReview = engine.getConceptsToReview();
-    
+
     if (conceptsToReview.length === 0) {
       return [];
     }
 
-    // Filtrer les leçons associées aux concepts à réviser
     return lessons.filter((lesson) => {
       return conceptsToReview.includes(lesson.conceptId);
     });
@@ -273,14 +264,9 @@ function useLearningEngineState() {
     priority: number;
   }> => {
     const reviewConcepts = engine.getConceptsToReview();
-    
-    // Debug: logger tous les masteries
-    const allMasteries = engine.getProgressionSnapshot().mastery;
-    for (const [] of Object.entries(allMasteries)) {
-    }
-    
+
     const results: Array<{ conceptId: string; mastery: MasteryLevel; isOverdue: boolean; priority: number }> = [];
-    
+
     for (const conceptId of reviewConcepts) {
       const mastery = engine.getMastery(conceptId);
       if (mastery) {
@@ -293,8 +279,7 @@ function useLearningEngineState() {
         });
       }
     }
-    
-    // Trier par priorité
+
     results.sort((a, b) => b.priority - a.priority);
     return results;
   }, [engine]);
@@ -303,12 +288,54 @@ function useLearningEngineState() {
     return totalScore;
   }, [totalScore]);
 
-  // Wrapper pour forceReviewsDue qui met aussi à jour le moteur en mémoire
+  // Wrapper pour forceReviewsDue
   const handleForceReviewsDue = useCallback(async () => {
     await forceReviewsDue();
-    // Recharger la progression depuis la DB et mettre à jour le moteur
     await refreshProgression();
   }, [refreshProgression]);
+
+  // ============================================================
+  // Lot 9 : Accesseurs gamification
+  // ============================================================
+  const getGamificationState = useCallback((): GamificationState => {
+    return engine.getGamificationState();
+  }, [engine]);
+
+  const getXP = useCallback((): number => {
+    return engine.getXP();
+  }, [engine]);
+
+  const getLevel = useCallback((): number => {
+    return engine.getLevel();
+  }, [engine]);
+
+  const getStreak = useCallback((): number => {
+    return engine.getStreak();
+  }, [engine]);
+
+  const getDailyGoal = useCallback((): DailyGoal => {
+    return engine.getDailyGoal();
+  }, [engine]);
+
+  const getStatistics = useCallback((): UserStatistics => {
+    return engine.getStatistics();
+  }, [engine]);
+
+  const getProgressionToNextLevel = useCallback((): number => {
+    return engine.getProgressionToNextLevel();
+  }, [engine]);
+
+  const getActivityHistory = useCallback((): DailyActivity[] => {
+    return engine.getActivityHistory();
+  }, [engine]);
+
+  const getXPCalibration = useCallback((): XPCalibration => {
+    return engine.getXPCalibration();
+  }, [engine]);
+
+  const setXPCalibration = useCallback((partial: Partial<XPCalibration>): void => {
+    engine.setXPCalibration(partial);
+  }, [engine]);
 
   return {
     concepts,
@@ -328,9 +355,21 @@ function useLearningEngineState() {
     getReviewLessons,
     getReviewInfo,
     getTotalScore,
-    refreshProgression, // Exposer la fonction de rafraîchissement
-    forceReviewsDue: handleForceReviewsDue, // Exposer la fonction de test pour les révisions
-    getUpcomingReviews: (daysAhead?: number) => engine.getUpcomingReviews(daysAhead), // Exposer les révisions à venir
+    refreshProgression,
+    forceReviewsDue: handleForceReviewsDue,
+    getUpcomingReviews: (daysAhead?: number) => engine.getUpcomingReviews(daysAhead),
+
+    // Lot 9 : Gamification
+    getGamificationState,
+    getXP,
+    getLevel,
+    getStreak,
+    getDailyGoal,
+    getStatistics,
+    getProgressionToNextLevel,
+    getActivityHistory,
+    getXPCalibration,
+    setXPCalibration,
   };
 }
 
@@ -351,7 +390,7 @@ export function LearningEngineProvider({ children }: { children: ReactNode }) {
 export function useLearningEngine(): LearningEngineState {
   const context = useContext(LearningEngineContext);
   if (!context) {
-    throw new Error('useLearningEngine doit être utilisé dans un LearningEngineProvider');
+    throw new Error("useLearningEngine doit ?tre utilis? dans un LearningEngineProvider");
   }
   return context;
 }

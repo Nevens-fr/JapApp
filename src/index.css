@@ -787,6 +787,235 @@ body {
     padding-bottom: var(--space-lg);
   }
 }
+
+/* ====================================
+   Gamification - Lot 9
+   ==================================== */
+
+/* En-tête de gamification */
+.gamification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  border: 1px solid var(--color-border-light);
+}
+
+.gamification-header__level {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.gamification-header__level-icon {
+  font-size: 28px;
+}
+
+.gamification-header__level-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.gamification-header__xp {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gamification-header__xp-icon {
+  font-size: 18px;
+}
+
+.gamification-header__xp-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.gamification-header__xp-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.gamification-header__streak {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gamification-header__streak-icon {
+  font-size: 18px;
+}
+
+.gamification-header__streak-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.gamification-header__streak-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* Barre d'objectif quotidien */
+.daily-goal-bar {
+  margin-bottom: var(--space-md);
+}
+
+.daily-goal-bar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.daily-goal-bar__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.daily-goal-bar__completed {
+  font-size: 14px;
+  color: var(--color-success);
+  font-weight: 500;
+}
+
+.daily-goal-bar__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.daily-goal-bar__section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.daily-goal-bar__section-icon {
+  font-size: 16px;
+}
+
+.daily-goal-bar__section-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+.daily-goal-bar__section-value {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Résumé des statistiques */
+.stats-summary {
+  margin-bottom: var(--space-md);
+}
+
+.stats-summary__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.stats-summary__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+}
+
+.stats-summary__icon {
+  font-size: 24px;
+}
+
+.stats-summary__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-summary__value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.stats-summary__label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* Page statistiques */
+.stats-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.stats-detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+}
+
+.stats-detail-icon {
+  font-size: 20px;
+}
+
+.stats-detail-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-detail-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.stats-detail-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.daily-goal-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Responsive */
+@media (max-width: 390px) {
+  .gamification-header {
+    padding: var(--space-sm);
+  }
+
+  .gamification-header__level-text {
+    font-size: 14px;
+  }
+
+  .gamification-header__xp-value,
+  .gamification-header__streak-value {
+    font-size: 14px;
+  }
+
+  .stats-summary__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* --- Mode Sombre --- */
 :root.dark-mode {
   /* Couleurs de fond */

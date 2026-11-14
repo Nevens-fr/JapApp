@@ -1,6 +1,7 @@
-/**
+﻿/**
  * Moteur pédagogique principal
  * Lot 3 : Moteur pédagogique
+ * Lot 9 : Gamification et progression
  *
  * Ce module est indépendant de React et du navigateur.
  * Il peut être testé unitairement sans interface graphique.
@@ -31,6 +32,31 @@ import {
   getReviewCount,
   getLearningCount,
 } from "./progression";
+import {
+  type GamificationState,
+  type XPCalibration,
+  type DailyGoal,
+  type UserStatistics,
+  DEFAULT_XP_CALIBRATION,
+  calculateAnswerXP,
+  calculateLessonCompletionXP,
+  updateStreakAfterActivity,
+  createNewDayGoal,
+  updateDailyGoalXP,
+  updateDailyGoalLessons,
+  updateDailyGoalReviews,
+  updateStatisticsAfterExercise,
+  updateStatisticsAfterLesson,
+  updateStatisticsMastery,
+  createDailyActivityEntry,
+  addActivityToHistory,
+  checkLevelUp,
+  getProgressionToNextLevel as calculateProgression,
+  updateLevelFromXP,
+  getTodayString,
+  type DailyActivity,
+  createInitialGamificationState,
+} from "./scoring";
 
 // ============================================================
 // Types d'exercices liés au moteur
@@ -47,7 +73,7 @@ export interface EvaluationContext {
 }
 
 /**
- * Résultat de l'évaluation d'une réponse
+ * Résultat de l\'évaluation d\'une réponse
  */
 export interface EvaluationResult {
   isCorrect: boolean;
@@ -70,6 +96,19 @@ export interface EngineExercise {
 }
 
 // ============================================================
+// Résultat enrichi avec gamification
+// ============================================================
+
+/**
+ * Résultat d\'exercice incluant les informations de gamification
+ */
+export interface ExerciseResultWithScoring {
+  exerciseResult: ExerciseResult;
+  xpEarned: number;
+  levelUp: boolean;
+}
+
+// ============================================================
 // Moteur pédagogique principal
 // ============================================================
 
@@ -85,12 +124,28 @@ export class LearningEngine {
   }>;
   private allExercises: EngineExercise[];
 
+  // ============================================================
+  // Champs de gamification (Lot 9)
+  // ============================================================
+  private gamificationState: GamificationState;
+  private xpCalibration: XPCalibration;
+  private exercisesToday: number;
+  private correctToday: number;
+  private incorrectToday: number;
+  private lessonsToday: number;
+
   constructor(config?: Partial<LearningEngineConfig>) {
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.progression = createInitialProgression();
     this.events = [];
     this.allConcepts = [];
     this.allExercises = [];
+    this.xpCalibration = { ...DEFAULT_XP_CALIBRATION };
+    this.gamificationState = createInitialGamificationState();
+    this.exercisesToday = 0;
+    this.correctToday = 0;
+    this.incorrectToday = 0;
+    this.lessonsToday = 0;
   }
 
   // ============================================================
@@ -117,7 +172,7 @@ export class LearningEngine {
   }
 
   // ============================================================
-  // Sélection d'exercices
+  // Sélection d\'exercices
   // ============================================================
 
   /**
@@ -176,11 +231,11 @@ export class LearningEngine {
   }
 
   // ============================================================
-  // Évaluation des réponses
+  // évaluation des réponses
   // ============================================================
 
   /**
-   * Évalue la réponse de l'utilisateur pour un exercice
+   * évalue la réponse de l\'utilisateur pour un exercice
    */
   evaluateAnswer(context: EvaluationContext): EvaluationResult {
     const expected = context.expectedAnswer;
@@ -211,7 +266,7 @@ export class LearningEngine {
     // Cas simple : égalité stricte
     if (expected === actual) return true;
 
-    // Cas des strings : comparaison insensible à la casse et aux espaces
+    // Cas des strings : comparaison insensible ê la casse et aux espaces
     if (typeof expected === "string" && typeof actual === "string") {
       return expected.trim().toLowerCase() === actual.trim().toLowerCase();
     }
@@ -226,11 +281,11 @@ export class LearningEngine {
   }
 
   // ============================================================
-  // Gestion des leçons
+  // Gestion des leéons
   // ============================================================
 
   /**
-   * Démarre une leçon
+   * Démarre une leéon
    */
   startLesson(lessonId: string): PedagogicalEvent {
     const event: PedagogicalEvent = {
@@ -248,7 +303,7 @@ export class LearningEngine {
   }
 
   /**
-   * Enregistre le résultat d'un exercice dans le contexte d'une leçon
+   * Enregistre le résultat d\'un exercice dans le contexte d\'une leéon
    */
   recordExerciseResult(
     lessonId: string,
@@ -261,24 +316,24 @@ export class LearningEngine {
     };
     this.events.push(event);
 
-    // Mettre à jour la maîtrise liée à l'exercice
+    // Mettre ê jour la maǩtrise liée ê l\'exercice
     this.updateMasteryFromResult(result);
 
     return event;
   }
 
   /**
-   * Termine une leçon et calcule le score
+   * Termine une leéon et calcule le score
    */
   completeLesson(lessonId: string): PedagogicalEvent {
-    // Créer l'entrée de leçon si elle n'existe pas (au cas où startLesson n'a pas été appelé)
+    // Créer l\'entrée de leéon si elle n\'existe pas (au cas oê startLesson n\'a pas êté appelé)
     if (!this.progression.lessons[lessonId]) {
       this.progression.lessons[lessonId] = { completed: false, score: 0 };
     }
 
     const lessonProgression = this.progression.lessons[lessonId];
 
-    // Récupérer les résultats de cette leçon
+    // Récupérer les résultats de cette leéon
     const lessonResults = this.events
       .filter((e) => e.type === "exercise_answered" && (e.data as any).lessonId === lessonId)
       .map((e) => (e.data as any).exerciseId);
@@ -308,7 +363,7 @@ export class LearningEngine {
   }
 
   /**
-   * Abandonne une leçon en cours
+   * Abandonne une leéon en cours
    */
   abandonLesson(lessonId: string): PedagogicalEvent {
     const event: PedagogicalEvent = {
@@ -322,7 +377,7 @@ export class LearningEngine {
   }
 
   /**
-   * Vérifie si une leçon est réussie selon les règles du moteur
+   * Vérifie si une leéon est réussie selon les régles du moteur
    */
   isLessonSuccessful(lessonId: string): boolean {
     const lessonProgression = this.progression.lessons[lessonId];
@@ -331,17 +386,17 @@ export class LearningEngine {
       return false;
     }
 
-    // Règle : score minimum de 70% pour valider la leçon
+    // Régle : score minimum de 70% pour valider la leéon
     return (lessonProgression.score ?? 0) >= 70;
   }
 
   // ============================================================
-  // Mise à jour de la maîtrise
+  // Mise ê jour de la maǩtrise
   // ============================================================
 
   /**
-   * Met à jour le niveau de maîtrise après un résultat d'exercice
-   * Utilise l'algorithme SM-2 pour la révision espacée
+   * Met ê jour le niveau de maǩtrise aprés un résultat d\'exercice
+   * Utilise l\'algorithme SM-2 pour la révision espacée
    */
   private updateMasteryFromResult(result: ExerciseResult): void {
     const exercise = this.allExercises.find((ex) => ex.id === result.exerciseId);
@@ -358,49 +413,42 @@ export class LearningEngine {
     }
   }
 
-  /**
-   * Met à jour l'état de connaissance basé sur la maîtrise
-   */
   // ============================================================
-  // Requêtes sur la progression
+  // Requétes sur la progression
   // ============================================================
 
   /**
-   * Obtient la maîtrise actuelle pour un concept donné
+   * Obtient la maǩtrise actuelle pour un concept donné
    */
   getMastery(conceptId: string): MasteryLevel | undefined {
     return this.progression.mastery[conceptId];
   }
 
   /**
-   * Obtient tous les concepts à réviser (triés par priorité SM-2)
+   * Obtient tous les concepts ê réviser (triés par priorité SM-2)
    */
   getConceptsToReview(): string[] {
-    for (const [id, m] of Object.entries(this.progression.mastery)) {
-    }
     const masteries = Object.entries(this.progression.mastery)
       .filter(([, mastery]) => {
         return isReviewDue(mastery) || isReviewOverdue(mastery);
       })
       .map(([id, mastery]) => ({ id, mastery }));
 
+    const sorted = sortReviewsByPriority(masteries.map((m) => m.mastery));
 
-    const sorted = sortReviewsByPriority(masteries.map(m => m.mastery));
-
-    return sorted.map(sortedMastery => {
-      const original = masteries.find(m => m.mastery === sortedMastery);
+    return sorted.map((sortedMastery) => {
+      const original = masteries.find((m) => m.mastery === sortedMastery);
       return original?.id;
     }).filter((id): id is string => id !== undefined);
   }
 
-
   /**
-   * Obtient les révisions à venir (dans les N prochains jours)
-   * Inclut les révisions dues aujourd'hui/hors mais pas encore affichées
+   * Obtient les révisions ê venir (dans les N prochains jours)
+   * Inclut les révisions dues aujourd\'hui/hors mais pas encore affichées
    */
   getUpcomingReviews(daysAhead: number = 7): string[] {
     const now = new Date();
-    // Définir maxDate à now + daysAhead
+    // Définir maxDate ê now + daysAhead
     const maxDate = new Date(now);
     maxDate.setDate(maxDate.getDate() + daysAhead);
 
@@ -408,7 +456,7 @@ export class LearningEngine {
       .filter(([, mastery]) => {
         // Exclure les concepts sans nextReviewAt
         if (!mastery.nextReviewAt) return false;
-        // Exclure les concepts déjà révisés (nextReviewAt <= now)
+        // Exclure les concepts déjê révisés (nextReviewAt <= now)
         if (mastery.nextReviewAt <= now) return false;
         // Inclure les concepts dont nextReviewAt est dans la fenêtre future
         return mastery.nextReviewAt <= maxDate;
@@ -417,6 +465,7 @@ export class LearningEngine {
 
     return upcoming;
   }
+
   /**
    * Obtient la progression globale
    */
@@ -425,7 +474,7 @@ export class LearningEngine {
   }
 
   /**
-   * Obtient le nombre de concepts à réviser
+   * Obtient le nombre de concepts ê réviser
    */
   getReviewCount(): number {
     return getReviewCount(this.progression);
@@ -439,7 +488,7 @@ export class LearningEngine {
   }
 
   /**
-   * Obtient l'état d'une leçon
+   * Obtient l\'état d\'une leéon
    */
   getLessonState(lessonId: string): LessonState | undefined {
     const lp = this.progression.lessons[lessonId];
@@ -448,7 +497,7 @@ export class LearningEngine {
     return {
       lessonId,
       status: lp.completed ? "completed" : "in_progress",
-      results: [], // À remplir avec les résultats réels
+      results: [], // ê remplir avec les résultats réels
       startedAt: new Date(),
       completedAt: lp.completed ? new Date() : null,
       score: lp.score,
@@ -463,17 +512,17 @@ export class LearningEngine {
   }
 
   /**
-   * Obtient l'état complet de progression (sérialisable)
+   * Obtient l\'état complet de progression (sérialisable)
    */
   getProgressionSnapshot(): UserProgression {
     const cloned = JSON.parse(JSON.stringify(this.progression));
     // Reconstruire les objets Date dans les masteries (JSON convertit les Date en strings ISO)
     const masteries = cloned.mastery as Record<string, any>;
     for (const mastery of Object.values(masteries)) {
-      if (mastery.lastReviewedAt && typeof mastery.lastReviewedAt === 'string') {
+      if (mastery.lastReviewedAt && typeof mastery.lastReviewedAt === "string") {
         mastery.lastReviewedAt = new Date(mastery.lastReviewedAt);
       }
-      if (mastery.nextReviewAt && typeof mastery.nextReviewAt === 'string') {
+      if (mastery.nextReviewAt && typeof mastery.nextReviewAt === "string") {
         mastery.nextReviewAt = new Date(mastery.nextReviewAt);
       }
     }
@@ -481,19 +530,19 @@ export class LearningEngine {
   }
 
   /**
-   * Restaure une progression à partir d'un snapshot
+   * Restaure une progression ê partir d\'un snapshot
    * IMPORTANT: Fait un deep clone pour éviter les références partagées
    */
   restoreProgression(snapshot: UserProgression): void {
-    // Deep clone pour éviter que les modifications ultérieures n'affectent le snapshot original
+    // Deep clone pour éviter que les modifications ultérieures n\'affectent le snapshot original
     const cloned = JSON.parse(JSON.stringify(snapshot));
     // Reconstruire les objets Date dans les masteries (JSON convertit les Date en strings ISO)
     const masteries = cloned.mastery as Record<string, any>;
     for (const mastery of Object.values(masteries)) {
-      if (mastery.lastReviewedAt && typeof mastery.lastReviewedAt === 'string') {
+      if (mastery.lastReviewedAt && typeof mastery.lastReviewedAt === "string") {
         mastery.lastReviewedAt = new Date(mastery.lastReviewedAt);
       }
-      if (mastery.nextReviewAt && typeof mastery.nextReviewAt === 'string') {
+      if (mastery.nextReviewAt && typeof mastery.nextReviewAt === "string") {
         mastery.nextReviewAt = new Date(mastery.nextReviewAt);
       }
     }
@@ -510,9 +559,269 @@ export class LearningEngine {
   }
 
   /**
-   * Met à jour la configuration
+   * Met ê jour la configuration
    */
   updateConfig(config: Partial<LearningEngineConfig>): void {
     this.config = { ...this.config, ...config };
+  }
+
+  // ============================================================
+  // Gamification - Lot 9
+  // ============================================================
+
+  /**
+   * Vérifie et réinitialise l\'objectif quotidien si c\'est un nouveau jour
+   */
+  private checkAndResetDailyGoal(): void {
+    const today = getTodayString();
+
+    if (this.gamificationState.dailyGoal.date !== today) {
+      // Nouveau jour : reset de l\'objectif
+      this.gamificationState.dailyGoal = createNewDayGoal(
+        this.gamificationState.dailyGoal,
+        today
+      );
+      this.exercisesToday = 0;
+      this.correctToday = 0;
+      this.incorrectToday = 0;
+      this.lessonsToday = 0;
+
+      // Mise ê jour des statistiques de maǩtrise
+      this.gamificationState.statistics = updateStatisticsMastery(
+        this.gamificationState.statistics,
+        this.progression.mastery
+      );
+    }
+  }
+
+  /**
+   * Ajoute des XP ê l\'utilisateur
+   */
+  private addXP(xp: number): void {
+    this.gamificationState.xp += xp;
+    this.gamificationState.level = updateLevelFromXP(this.gamificationState.xp);
+    this.gamificationState.statistics.totalXP = this.gamificationState.xp;
+
+    // Mise ê jour de l\'objectif quotidien
+    this.gamificationState.dailyGoal = updateDailyGoalXP(
+      this.gamificationState.dailyGoal,
+      xp
+    );
+  }
+
+  /**
+   * Enregistre un résultat d\'exercice avec calcul des XP
+   */
+  recordExerciseResultWithScoring(
+    lessonId: string,
+    result: ExerciseResult
+  ): ExerciseResultWithScoring {
+    // Vérifier le reset quotidien
+    this.checkAndResetDailyGoal();
+
+    // Enregistrer le résultat pédagogique
+    this.recordExerciseResult(lessonId, result);
+
+    // Trouver l\'exercice pour obtenir la difficulté
+    const exercise = this.allExercises.find((ex) => ex.id === result.exerciseId);
+    const difficulty = exercise ? exercise.difficulty : 0.5;
+
+    // Calculer les XP
+    const xpEarned = calculateAnswerXP(this.xpCalibration, result.isCorrect, difficulty);
+
+    // Mise ê jour des statistiques
+    this.gamificationState.statistics = updateStatisticsAfterExercise(
+      this.gamificationState.statistics,
+      result.isCorrect,
+      getTodayString()
+    );
+
+    // Mise ê jour des compteurs quotidiens
+    this.exercisesToday += 1;
+    if (result.isCorrect) {
+      this.correctToday += 1;
+    } else {
+      this.incorrectToday += 1;
+    }
+
+    // Ajouter les XP
+    const oldLevel = this.gamificationState.level;
+    this.addXP(xpEarned);
+    const levelUp = checkLevelUp(oldLevel, this.gamificationState.xp);
+
+    // Mise ê jour de l\'activité quotidienne
+    const today = getTodayString();
+    const dailyActivity = createDailyActivityEntry(
+      today,
+      xpEarned,
+      this.lessonsToday,
+      this.exercisesToday,
+      this.correctToday,
+      this.incorrectToday
+    );
+    this.gamificationState.history = addActivityToHistory(
+      this.gamificationState.history,
+      dailyActivity
+    );
+
+    return {
+      exerciseResult: result,
+      xpEarned,
+      levelUp,
+    };
+  }
+
+  /**
+   * Termine une leéon avec calcul des XP de gamification
+   */
+  completeLessonWithScoring(lessonId: string): PedagogicalEvent {
+    // Enregistrer la complétion pédagogique
+    const event = this.completeLesson(lessonId);
+
+    // Vérifier le reset quotidien
+    this.checkAndResetDailyGoal();
+
+    // Récupérer le score
+    const lessonProgression = this.progression.lessons[lessonId];
+    const score = lessonProgression?.score ?? 0;
+
+    // Calculer les XP pour la complétion
+    const xpEarned = calculateLessonCompletionXP(this.xpCalibration, score);
+
+    // Mise ê jour des statistiques
+    this.gamificationState.statistics = updateStatisticsAfterLesson(
+      this.gamificationState.statistics,
+      score,
+      getTodayString()
+    );
+
+    // Mise ê jour des compteurs quotidiens
+    this.lessonsToday += 1;
+
+    // Ajouter les XP
+    const oldLevel = this.gamificationState.level;
+    this.addXP(xpEarned);
+    checkLevelUp(oldLevel, this.gamificationState.xp);
+
+    // Mise ê jour de l\'objectif quotidien
+    this.gamificationState.dailyGoal = updateDailyGoalLessons(
+      this.gamificationState.dailyGoal,
+      this.lessonsToday
+    );
+
+    // Mise ê jour de la série
+    this.gamificationState.streak = updateStreakAfterActivity(
+      this.gamificationState.streak,
+      getTodayString()
+    );
+
+    // Mise ê jour de l\'activité quotidienne
+    const today = getTodayString();
+    const dailyActivity = createDailyActivityEntry(
+      today,
+      xpEarned,
+      this.lessonsToday,
+      this.exercisesToday,
+      this.correctToday,
+      this.incorrectToday
+    );
+    this.gamificationState.history = addActivityToHistory(
+      this.gamificationState.history,
+      dailyActivity
+    );
+
+    // Mise ê jour des statistiques de maǩtrise
+    this.gamificationState.statistics = updateStatisticsMastery(
+      this.gamificationState.statistics,
+      this.progression.mastery
+    );
+
+    return event;
+  }
+
+  /**
+   * Enregistre des révisions complétées pour l\'objectif quotidien
+   */
+  recordReviewsCompleted(count: number): void {
+    this.checkAndResetDailyGoal();
+
+    this.gamificationState.dailyGoal = updateDailyGoalReviews(
+      this.gamificationState.dailyGoal,
+      this.gamificationState.dailyGoal.currentReviews + count
+    );
+  }
+
+  // ============================================================
+  // Accesseurs gamification
+  // ============================================================
+
+  /**
+   * Obtient l\'état complet de gamification
+   */
+  getGamificationState(): GamificationState {
+    return { ...this.gamificationState };
+  }
+
+  /**
+   * Obtient les XP totaux
+   */
+  getXP(): number {
+    return this.gamificationState.xp;
+  }
+
+  /**
+   * Obtient le niveau utilisateur
+   */
+  getLevel(): number {
+    return this.gamificationState.level;
+  }
+
+  /**
+   * Obtient la série d\'activité
+   */
+  getStreak(): number {
+    return this.gamificationState.streak.currentStreak;
+  }
+
+  /**
+   * Obtient l\'objectif quotidien
+   */
+  getDailyGoal(): DailyGoal {
+    return { ...this.gamificationState.dailyGoal };
+  }
+
+  /**
+   * Obtient les statistiques utilisateur
+   */
+  getStatistics(): UserStatistics {
+    return { ...this.gamificationState.statistics };
+  }
+
+  /**
+   * Obtient la progression vers le prochain niveau (0-100%)
+   */
+  getProgressionToNextLevel(): number {
+    return calculateProgression(this.gamificationState.xp);
+  }
+
+  /**
+   * Obtient la configuration XP
+   */
+  getXPCalibration(): XPCalibration {
+    return { ...this.xpCalibration };
+  }
+
+  /**
+   * Met ê jour la configuration XP
+   */
+  setXPCalibration(partial: Partial<XPCalibration>): void {
+    this.xpCalibration = { ...this.xpCalibration, ...partial };
+  }
+
+  /**
+   * Obtient l\'historique d\'activité
+   */
+  getActivityHistory(): DailyActivity[] {
+    return [...this.gamificationState.history];
   }
 }

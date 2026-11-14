@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useLearningEngine } from '../hooks/useLearningEngine';
 import { Card, ProgressBar, Badge, SectionHeader, JapaneseText, Button } from '../components/common';
+import { GamificationHeader, DailyGoalBar } from '../components/learning';
 
 export default function HomePage() {
   const { 
-    
     getNextLessons, 
     getReviewLessons, 
-    getTotalScore 
+    getTotalScore,
   } = useLearningEngine();
 
   const nextLessons = getNextLessons();
@@ -15,13 +15,16 @@ export default function HomePage() {
   const reviewLessons = getReviewLessons();
   const pendingReviews = reviewLessons.length;
   const totalScore = getTotalScore();
-
+      
   return (
     <div className="page">
+      {/* En-tête de gamification */}
+      <GamificationHeader />
+
       {/* Message d'accueil */}
       <div className="mb-lg">
-        <h1 className="section-title" style={{ fontSize: '24px' }}>Bienvenue ! 👋</h1>
-        <p className="text-secondary">Prêt à apprendre le japonais aujourd'hui ?</p>
+        <h1 className="section-title" style={{ fontSize: '24px' }}>Bienvenue ! {"\u{1F44B}"}</h1>
+        <p className="text-secondary">Prêt pour apprendre le japonais aujourd'hui ?</p>
       </div>
 
       {/* Carte progression globale */}
@@ -68,8 +71,11 @@ export default function HomePage() {
         </Card>
       )}
 
+      {/* Objectif quotidien */}
+      <DailyGoalBar />
+
       {/* Accès rapide au parcours */}
-      <div className="text-center">
+      <div className="text-center mt-lg">
         <Link to="/learning-path">
           <Button variant="primary" size="lg">Voir le parcours complet</Button>
         </Link>
