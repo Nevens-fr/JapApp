@@ -1,4 +1,4 @@
-import { useLearningEngine } from '../../hooks/useLearningEngine';
+﻿import { useLearningEngine } from '../../hooks/useLearningEngine';
 import { getTitleForLevel } from '../../core/learning/scoring';
 
 /**
@@ -19,13 +19,14 @@ export function GamificationHeader() {
       <div className="gamification-header__level">
         <span className="gamification-header__level-icon">{'\u{1F3C6}'}</span>
         <div className="gamification-header__level-info">
-          {title && (
-            <span className="gamification-header__title">
-              {title.icon} {title.name}
-            </span>
-          )}
-          <span className="gamification-header__level-text">Niveau {level}</span>
-          <br />
+          <div className="gamification-header__level-title-row">
+            {title && (
+              <span className="gamification-header__title">
+                {title.icon} {title.name}
+              </span>
+            )}
+            <span className="gamification-header__level-text">Niveau {level}</span>
+          </div>
           <span className="gamification-header__level-progress">
             {Math.round(progression)}% vers niveau {level + 1}
           </span>

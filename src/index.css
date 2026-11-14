@@ -811,6 +811,19 @@ body {
   gap: var(--space-sm);
 }
 
+.gamification-header__level-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gamification-header__level-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .gamification-header__level-icon {
   font-size: 28px;
 }

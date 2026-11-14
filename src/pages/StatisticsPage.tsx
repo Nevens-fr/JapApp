@@ -1,4 +1,4 @@
-import { useLearningEngine } from '../hooks/useLearningEngine';
+﻿import { useLearningEngine } from '../hooks/useLearningEngine';
 import { Card, SectionHeader } from '../components/common';
 
 interface StatisticsItem {
@@ -17,14 +17,14 @@ export default function StatisticsPage() {
   const dailyGoal = getDailyGoal();
 
   const statItems: StatisticsItem[] = [
-    { label: 'XP total', value: xp, icon: '⭐', color: 'var(--color-accent)' },
-    { label: 'Niveau', value: level, icon: '🏆', color: 'var(--color-primary)' },
-    { label: 'Leçons complétées', value: stats.totalLessonsCompleted, icon: '📖', color: 'var(--color-success)' },
-    { label: 'Exercices réussis', value: stats.totalCorrectAnswers, icon: '✅', color: 'var(--color-success)' },
-    { label: 'Précision', value: `${stats.accuracyRate}%`, icon: '🎯', color: 'var(--color-accent)' },
-    { label: 'Score moyen', value: `${stats.averageLessonScore}%`, icon: '📊', color: 'var(--color-warning)' },
-    { label: 'Série actuelle', value: `${streak} jours`, icon: '🔥', color: 'var(--color-warning)' },
-    { label: 'Meilleure série', value: `${stats.totalLessonsCompleted > 0 ? streak : 0} jours`, icon: '🏅', color: 'var(--color-primary)' },
+    { label: 'XP total', value: xp, icon: '\u2B50', color: 'var(--color-accent)' },
+    { label: 'Niveau', value: level, icon: '\u{1F3C6}', color: 'var(--color-primary)' },
+    { label: 'Le\u00e7ons compl\u00e9t\u00e9es', value: stats.totalLessonsCompleted, icon: '\u{1F4D6}', color: 'var(--color-success)' },
+    { label: 'Exercices r\u00e9ussis', value: stats.totalCorrectAnswers, icon: '\u2705', color: 'var(--color-success)' },
+    { label: 'Pr\u00e9cision', value: `${stats.accuracyRate}%`, icon: '\u{1F4CA}', color: 'var(--color-accent)' },
+    { label: 'Score moyen', value: `${stats.averageLessonScore}%`, icon: '\u{1F4C8}', color: 'var(--color-warning)' },
+    { label: 'S\u00e9rie actuelle', value: `${streak} jours`, icon: '\u{1F525}', color: 'var(--color-warning)' },
+    { label: 'Meilleure s\u00e9rie', value: `${stats.totalLessonsCompleted > 0 ? streak : 0} jours`, icon: '\u{1F3C6}', color: 'var(--color-primary)' },
   ];
 
   const categoryData = [
@@ -34,25 +34,31 @@ export default function StatisticsPage() {
     { name: 'Grammaire', percent: stats.totalExercisesAnswered > 0 ? Math.min(100, (stats.totalCorrectAnswers / stats.totalExercisesAnswered) * 100) : 0, color: 'var(--color-warning)' },
   ];
 
-  // Données hebdomadaires réelles depuis getActivityHistory()
+  // Donn\u00e9es hebdomadaires r\u00e9elles depuis getActivityHistory()
   const activityHistory = getActivityHistory();
-  
-  const getWeeklyData = (): Array<{ day: string; score: number }> => {
+
+  const getWeeklyData = (): Array<{ day: string; score: number; isToday: boolean }> => {
     const days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+    const today = new Date();
     const weeklyMap: Record<string, number> = {};
-    
-    // Remplir avec les données réelles
+
+    // Remplir avec les donn\u00e9es r\u00e9elles
     activityHistory.forEach((activity) => {
-      const activityDate = new Date(activity.date);
-      const dayName = days[activityDate.getDay()];
-      weeklyMap[dayName] = activity.xpEarned;
+      weeklyMap[activity.date] = activity.xpEarned;
     });
-    
-    // Retourner les 7 derniers jours (lundi à dimanche)
-    return days.slice(1).map((day) => ({
-      day,
-      score: Math.min(100, (weeklyMap[day] || 0) * 2), // Normaliser à 100% max
-    }));
+
+    // Retourner les 7 derniers jours (du plus ancien au plus r\u00e9cent)
+    const result = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const dayName = days[d.getDay()];
+      const isToday = i === 0;
+      const xpEarned = weeklyMap[dateStr] || 0;
+      result.push({ day: dayName, score: Math.min(100, xpEarned * 2), isToday });
+    }
+    return result;
   };
 
   const weeklyData = getWeeklyData();
@@ -61,11 +67,11 @@ export default function StatisticsPage() {
     <div className="page">
       <SectionHeader title="Statistiques" />
 
-      {/* Résumé rapide */}
+      {/* R\u00e9sum\u00e9 rapide */}
       <div className="flex gap-md mb-lg">
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>⭐</div>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>\u2B50</div>
             <p style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-accent)' }}>
               {xp}
             </p>
@@ -74,7 +80,7 @@ export default function StatisticsPage() {
         </Card>
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🏆</div>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>{'\u{1F3C6}'}</div>
             <p style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-primary)' }}>
               {level}
             </p>
@@ -83,18 +89,18 @@ export default function StatisticsPage() {
         </Card>
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🔥</div>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>{'\u{1F525}'}</div>
             <p style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-warning)' }}>
               {streak}
             </p>
-            <p className="text-secondary" style={{ fontSize: '12px' }}>Jours de série</p>
+            <p className="text-secondary" style={{ fontSize: '12px' }}>Jours de s\u00e9rie</p>
           </div>
         </Card>
       </div>
 
-      {/* Détails des statistiques */}
+      {/* D\u00e9tails des statistiques */}
       <Card className="mb-lg">
-        <SectionHeader title="Détails" />
+        <SectionHeader title="D\u00e9tails" />
         <div className="stats-detail-grid">
           {statItems.slice(3).map((stat) => (
             <div key={stat.label} className="stats-detail-item">
@@ -112,11 +118,11 @@ export default function StatisticsPage() {
 
       {/* Objectif quotidien */}
       <Card className="mb-lg">
-        <SectionHeader 
-          title="Objectif du jour" 
+        <SectionHeader
+          title="Objectif du jour"
           action={
-            dailyGoal.isCompleted 
-              ? <span className="text-success">✅ Atteint</span> 
+            dailyGoal.isCompleted
+              ? <span className="text-success">\u2705 Atteint</span>
               : <span className="text-secondary">En cours</span>
           }
         />
@@ -135,7 +141,7 @@ export default function StatisticsPage() {
             />
           </div>
           <div className="flex justify-between mb-sm">
-            <span>Leçons</span>
+            <span>Le\u00e7ons</span>
             <span>{dailyGoal.currentLessons}/{dailyGoal.targetLessons}</span>
           </div>
           <div className="progress-bar mb-md">
@@ -148,7 +154,7 @@ export default function StatisticsPage() {
             />
           </div>
           <div className="flex justify-between mb-sm">
-            <span>Révisions</span>
+            <span>R\u00e9visions</span>
             <span>{dailyGoal.currentReviews}/{dailyGoal.targetReviews}</span>
           </div>
           <div className="progress-bar">
@@ -172,7 +178,7 @@ export default function StatisticsPage() {
               <div
                 className="flex-1"
                 style={{
-                  backgroundColor: 'var(--color-primary)',
+                  backgroundColor: data.isToday ? 'var(--color-accent)' : 'var(--color-primary)',
                   borderRadius: '4px',
                   height: `${data.score}%`,
                   minHeight: '8px',
@@ -187,9 +193,9 @@ export default function StatisticsPage() {
         </div>
       </Card>
 
-      {/* Répartition par catégorie */}
+      {/* R\u00e9partition par cat\u00e9gorie */}
       <Card>
-        <SectionHeader title="Répartition par catégorie" />
+        <SectionHeader title="R\u00e9partition par cat\u00e9gorie" />
         <div className="flex-col gap-md">
           {categoryData.map((cat) => (
             <div key={cat.name}>
