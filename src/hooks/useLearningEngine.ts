@@ -1,5 +1,5 @@
-﻿// Hook React central pour le moteur p?dagogique
-// Connecte le LearningEngine (Lot 3 + Lot 9 Gamification) aux donn?es de d?monstration
+// Hook React central pour le moteur pédagogique
+// Connecte le LearningEngine (Lot 3 + Lot 9 Gamification) aux données de démonstration
 
 import { createContext, createElement, useContext, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
@@ -12,7 +12,7 @@ import { SAMPLE_CONCEPTS, SAMPLE_EXERCISES, SAMPLE_LESSONS } from "../data/sampl
 import { toEngineExercise, toLearningEngineResult } from "../adapters/exerciseAdapter";
 import { usePersistence } from "../database/local/hooks";
 import { createInitialProgression } from "../core/learning/progression";
-import { loadProgression, saveProgression, forceReviewsDue } from "../database/local/repository";
+import { loadProgression, saveProgression, forceReviewsDue, saveGamification } from "../database/local/repository";
 import { isReviewOverdue } from "../core/learning/revision";
 import type { MasteryLevel } from "../core/learning/types";
 import type {
@@ -37,8 +37,21 @@ function useLearningEngineState() {
   usePersistence(userProgression, !loading);
 
   const [totalScore, setTotalScore] = useState(0);
+  const [lastKnownLevel, setLastKnownLevel] = useState(0);
+  const [showLevelUp, setShowLevelUp] = useState(false);
 
-  // Fonction pour rafra?chir la progression depuis la base de donn?es
+  // Détection du passage de niveau
+  useEffect(() => {
+    const currentLevel = engine.getLevel();
+    if (lastKnownLevel > 0 && currentLevel > lastKnownLevel) {
+      // Niveau augmenté !
+      setShowLevelUp(true);
+      setTimeout(() => setShowLevelUp(false), 3000); // Disparaît après 3s
+    }
+    setLastKnownLevel(currentLevel);
+  }, [engine.getLevel(), lastKnownLevel, engine]);
+
+  // Fonction pour rafraîchir la progression depuis la base de données
   const refreshProgression = useCallback(async () => {
     try {
       const savedProgression = await loadProgression();
@@ -49,7 +62,7 @@ function useLearningEngineState() {
         setUserProgression(snapshot);
         setTotalScore(calculateLessonProgress(snapshot.lessons));
 
-        // Mettre ? jour l'?tat local ?progress? pour refl?ter les statuts de la DB
+        // Mettre à jour l'état local àprogress?
         const newProgress: Record<string, LessonProgress> = {};
         for (const [lessonId, lessonData] of Object.entries(snapshot.lessons)) {
           newProgress[lessonId] = {
@@ -60,7 +73,7 @@ function useLearningEngineState() {
         }
         setProgress(newProgress);
 
-        // R?initialiser currentLessonId si la le?on en cours est compl?t?e
+        // Réinitialiser currentLessonId si la leçon en cours est complétée
         if (currentLessonId) {
           const currentState = engine.getLessonState(currentLessonId);
           if (currentState?.status === "completed") {
@@ -68,7 +81,7 @@ function useLearningEngineState() {
           }
         }
       } else {
-        // Si pas de progression, r?initialiser
+        // Si pas de progression, réinitialiser
         const initial = createInitialProgression();
         engine.restoreProgression(initial);
         setUserProgression(initial);
@@ -77,7 +90,7 @@ function useLearningEngineState() {
         setCurrentLessonId(null);
       }
     } catch (err) {
-      console.error("Erreur rafra?chissement progression:", err);
+      console.error("Erreur rafraîchissement progression:", err);
     }
   }, [engine, currentLessonId]);
 
@@ -120,6 +133,9 @@ function useLearningEngineState() {
       const snapshot = engine.getProgressionSnapshot();
       setUserProgression(snapshot);
       await saveProgression(snapshot);
+      // Sauvegarder aussi la gamification
+      const gamificationState = engine.getGamificationState();
+      await saveGamification(gamificationState);
       return snapshot;
     } catch (err) {
       console.error("Erreur syncProgression:", err);
@@ -158,7 +174,7 @@ function useLearningEngineState() {
 
       const currentState = engine.getLessonState(lessonId);
 
-      // Ne pas r?initialiser une le?on d?j? compl?t?e
+      // Ne pas réinitialiser une leçon déjà complétée
       if (currentState?.status === "completed") {
         return lesson;
       }
@@ -175,13 +191,13 @@ function useLearningEngineState() {
   );
 
   // ============================================================
-  // Lot 9 : Enregistrement de r?sultat avec gamification
+  // Lot 9 : Enregistrement de résultat avec gamification
   // ============================================================
   const recordExerciseResult = useCallback(
     async (lessonId: string, result: ExerciseResultTypes): Promise<boolean> => {
       const engineResult = toLearningEngineResult(result);
 
-      // Utiliser la m?thode avec scoring (Lot 9)
+      // Utiliser la méthode avec scoring (Lot 9)
       const scoringResult = engine.recordExerciseResultWithScoring(lessonId, engineResult);
 
       if (scoringResult.exerciseResult) {
@@ -196,7 +212,7 @@ function useLearningEngineState() {
         try {
           await syncProgression();
         } catch (err) {
-          console.error("Erreur sauvegarde r?sultat:", err);
+          console.error("Erreur sauvegarde résultat:", err);
         }
       }
 
@@ -206,7 +222,7 @@ function useLearningEngineState() {
   );
 
   // ============================================================
-  // Lot 9 : Compl?tion de le?on avec gamification
+  // Lot 9 : Complétion de leçon avec gamification
   // ============================================================
   const completeLesson = useCallback(
     async (lessonId: string): Promise<boolean> => {
@@ -337,6 +353,10 @@ function useLearningEngineState() {
     engine.setXPCalibration(partial);
   }, [engine]);
 
+  const getLevelUpState = useCallback((): { show: boolean; level: number } => {
+    return { show: showLevelUp, level: engine.getLevel() };
+  }, [showLevelUp, engine]);
+
   return {
     concepts,
     exercises,
@@ -364,6 +384,7 @@ function useLearningEngineState() {
     getXP,
     getLevel,
     getStreak,
+    getLevelUpState,
     getDailyGoal,
     getStatistics,
     getProgressionToNextLevel,
@@ -390,7 +411,7 @@ export function LearningEngineProvider({ children }: { children: ReactNode }) {
 export function useLearningEngine(): LearningEngineState {
   const context = useContext(LearningEngineContext);
   if (!context) {
-    throw new Error("useLearningEngine doit ?tre utilis? dans un LearningEngineProvider");
+    throw new Error("useLearningEngine doit être utilisé dans un LearningEngineProvider");
   }
   return context;
 }

@@ -90,12 +90,56 @@ export interface StoredSyncOperation {
 /**
  * Schéma complet de la base de données locale
  */
+
+/**
+ * État de gamification sérialisable pour le stockage
+ * Lot 9 : Gamification - Persistance de l'état XP, niveau, streak, etc.
+ */
+export interface StoredGamification {
+  id?: string;
+  xp: number;
+  level: number;
+  currentStreak: number;
+  longestStreak: number;
+  lastActiveDate: string | null;
+  totalActiveDays: number;
+  dailyGoalTargetXP: number;
+  dailyGoalCurrentXP: number;
+  dailyGoalTargetLessons: number;
+  dailyGoalCurrentLessons: number;
+  dailyGoalTargetReviews: number;
+  dailyGoalCurrentReviews: number;
+  dailyGoalIsCompleted: boolean;
+  dailyGoalDate: string;
+  statisticsTotalXP: number;
+  statisticsTotalLessonsCompleted: number;
+  statisticsTotalExercisesAnswered: number;
+  statisticsTotalCorrectAnswers: number;
+  statisticsTotalIncorrectAnswers: number;
+  statisticsAccuracyRate: number;
+  statisticsAverageLessonScore: number;
+  statisticsConceptsMastered: number;
+  statisticsConceptsInLearning: number;
+  statisticsConceptsInReview: number;
+  statisticsFirstActivityDate: string;
+  statisticsLastActivityDate: string;
+  history: Array<{
+    date: string;
+    xpEarned: number;
+    lessonsCompleted: number;
+    exercisesAnswered: number;
+    correctAnswers: number;
+    incorrectAnswers: number;
+  }>;
+}
+
 export interface JapAppDatabase {
   progression: Table<StoredProgression, string>;
   reviewSchedules: Table<StoredReviewSchedule, string>;
   statistics: Table<StoredStatistics, string>;
   preferences: Table<StoredPreferences, string>;
   syncOperations: Table<StoredSyncOperation, string>;
+  gamification: Table<StoredGamification, string>;
 }
 
 // ============================================================
@@ -148,6 +192,9 @@ db.version(DB_VERSION).stores({
   
   // Opérations de synchronisation : clé = id (uuid)
   syncOperations: '&id, status, createdAt',
+  
+  // Gamification : cl� = 'user_gamification' (une seule entr�e)
+  gamification: '&id',
 });
 
 // ============================================================
@@ -177,3 +224,8 @@ export function generateSyncOperationId(): string {
 }
 
 export default db;
+
+/**
+ * ID unique pour la gamification
+ */
+export const GAMIFICATION_ID = 'user_gamification';

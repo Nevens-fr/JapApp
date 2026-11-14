@@ -6,7 +6,8 @@
  * via Dexie.js
  */
 
-import { db, type StoredProgression, type StoredStatistics, type StoredPreferences, type StoredSyncOperation, type StoredReviewSchedule, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID, generateSyncOperationId } from './database';
+import { db, PROGRESSION_ID, STATISTICS_ID, PREFERENCES_ID, GAMIFICATION_ID, generateSyncOperationId } from './database';
+import type { StoredProgression, StoredStatistics, StoredPreferences, StoredSyncOperation, StoredReviewSchedule, StoredGamification } from './database';
 import type { UserProgression } from '../../core/learning/progression';
 import type { MasteryLevel } from '../../core/learning/types';
 
@@ -73,6 +74,82 @@ export function deserializeProgression(stored: StoredProgression): UserProgressi
     ),
     lessons: { ...stored.lessons },
     unlockedConcepts: [...stored.unlockedConcepts],
+  };
+}
+
+/**
+ * Convertit une GamificationState (moteur) en StoredGamification (stockage)
+ */
+export function serializeGamification(gamification: any): StoredGamification {
+  return {
+    xp: gamification.xp || 0,
+    level: gamification.level || 1,
+    currentStreak: gamification.streak?.currentStreak || 0,
+    longestStreak: gamification.streak?.longestStreak || 0,
+    lastActiveDate: gamification.streak?.lastActiveDate || null,
+    totalActiveDays: gamification.streak?.totalActiveDays || 0,
+    dailyGoalTargetXP: gamification.dailyGoal?.targetXP || 0,
+    dailyGoalCurrentXP: gamification.dailyGoal?.currentXP || 0,
+    dailyGoalTargetLessons: gamification.dailyGoal?.targetLessons || 0,
+    dailyGoalCurrentLessons: gamification.dailyGoal?.currentLessons || 0,
+    dailyGoalTargetReviews: gamification.dailyGoal?.targetReviews || 0,
+    dailyGoalCurrentReviews: gamification.dailyGoal?.currentReviews || 0,
+    dailyGoalIsCompleted: gamification.dailyGoal?.isCompleted || false,
+    dailyGoalDate: gamification.dailyGoal?.date || '',
+    statisticsTotalXP: gamification.statistics?.totalXP || 0,
+    statisticsTotalLessonsCompleted: gamification.statistics?.totalLessonsCompleted || 0,
+    statisticsTotalExercisesAnswered: gamification.statistics?.totalExercisesAnswered || 0,
+    statisticsTotalCorrectAnswers: gamification.statistics?.totalCorrectAnswers || 0,
+    statisticsTotalIncorrectAnswers: gamification.statistics?.totalIncorrectAnswers || 0,
+    statisticsAccuracyRate: gamification.statistics?.accuracyRate || 0,
+    statisticsAverageLessonScore: gamification.statistics?.averageLessonScore || 0,
+    statisticsConceptsMastered: gamification.statistics?.conceptsMastered || 0,
+    statisticsConceptsInLearning: gamification.statistics?.conceptsInLearning || 0,
+    statisticsConceptsInReview: gamification.statistics?.conceptsInReview || 0,
+    statisticsFirstActivityDate: gamification.statistics?.firstActivityDate || '',
+    statisticsLastActivityDate: gamification.statistics?.lastActivityDate || '',
+    history: gamification.history || [],
+  };
+}
+
+/**
+ * Convertit une StoredGamification (stockage) en GamificationState (moteur)
+ */
+export function deserializeGamification(stored: StoredGamification): any {
+  return {
+    xp: stored.xp || 0,
+    level: stored.level || 1,
+    streak: {
+      currentStreak: stored.currentStreak || 0,
+      longestStreak: stored.longestStreak || 0,
+      lastActiveDate: stored.lastActiveDate || '',
+      totalActiveDays: stored.totalActiveDays || 0,
+    },
+    dailyGoal: {
+      targetXP: stored.dailyGoalTargetXP || 0,
+      currentXP: stored.dailyGoalCurrentXP || 0,
+      targetLessons: stored.dailyGoalTargetLessons || 0,
+      currentLessons: stored.dailyGoalCurrentLessons || 0,
+      targetReviews: stored.dailyGoalTargetReviews || 0,
+      currentReviews: stored.dailyGoalCurrentReviews || 0,
+      isCompleted: stored.dailyGoalIsCompleted || false,
+      date: stored.dailyGoalDate || '',
+    },
+    statistics: {
+      totalXP: stored.statisticsTotalXP || 0,
+      totalLessonsCompleted: stored.statisticsTotalLessonsCompleted || 0,
+      totalExercisesAnswered: stored.statisticsTotalExercisesAnswered || 0,
+      totalCorrectAnswers: stored.statisticsTotalCorrectAnswers || 0,
+      totalIncorrectAnswers: stored.statisticsTotalIncorrectAnswers || 0,
+      accuracyRate: stored.statisticsAccuracyRate || 0,
+      averageLessonScore: stored.statisticsAverageLessonScore || 0,
+      conceptsMastered: stored.statisticsConceptsMastered || 0,
+      conceptsInLearning: stored.statisticsConceptsInLearning || 0,
+      conceptsInReview: stored.statisticsConceptsInReview || 0,
+      firstActivityDate: stored.statisticsFirstActivityDate || '',
+      lastActivityDate: stored.statisticsLastActivityDate || '',
+    },
+    history: stored.history || [],
   };
 }
 
@@ -165,6 +242,28 @@ export async function forceReviewsDue(): Promise<void> {
 export async function hasProgression(): Promise<boolean> {
   const stored = await db.progression.get(PROGRESSION_ID);
   return stored != null;
+}
+
+// ============================================================
+// Repository de gamification
+// ============================================================
+
+/**
+ * Sauvegarde la gamification de l'utilisateur dans IndexedDB
+ */
+export async function saveGamification(gamification: any): Promise<void> {
+  const stored = serializeGamification(gamification);
+  await db.gamification.put({ ...stored, id: GAMIFICATION_ID });
+}
+
+/**
+ * Charge la gamification de l'utilisateur depuis IndexedDB
+ * Retourne null si aucune gamification n'existe
+ */
+export async function loadGamification(): Promise<any | null> {
+  const stored = await db.gamification.get(GAMIFICATION_ID);
+  if (!stored) return null;
+  return deserializeGamification(stored);
 }
 
 // ============================================================

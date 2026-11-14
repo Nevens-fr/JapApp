@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Système de gamification et scoring
  * Lot 9 : Gamification et progression
  * 
@@ -19,23 +19,23 @@ export interface XPCalibration {
   correctAnswer: number;        // XP pour une bonne réponse normale
   hardCorrectAnswer: number;    // XP pour une bonne réponse difficile
   easyCorrectAnswer: number;    // XP pour une bonne réponse facile
-  lessonCompletion: number;     // XP pour compléter une leçon
+  lessonCompletion: number;     // XP pour compléter une leçon (désormais 0 - pas d'XP pour le cours)
   dailyGoalCompletion: number;  // XP bonus pour atteindre l'objectif quotidien
   streakBonus: number;          // XP bonus par jour de série
   masteryLevelUp: number;       // XP pour passer à un niveau de maîtrise supérieur
 }
 
 /**
- * Configuration par défaut des XP
+ * Configuration par défaut des XP - Équilibrée pour progression lente
  */
 export const DEFAULT_XP_CALIBRATION: XPCalibration = {
-  correctAnswer: 10,
-  hardCorrectAnswer: 15,
-  easyCorrectAnswer: 5,
-  lessonCompletion: 50,
-  dailyGoalCompletion: 30,
-  streakBonus: 5,
-  masteryLevelUp: 100,
+  correctAnswer: 5,             // Réponse normale correcte
+  hardCorrectAnswer: 8,         // Réponse difficile correcte
+  easyCorrectAnswer: 2,         // Réponse facile correcte
+  lessonCompletion: 0,          // AUCUN XP pour compléter une leçon (seulement les réponses comptent)
+  dailyGoalCompletion: 20,      // Bonus objectif quotidien
+  streakBonus: 5,               // Bonus série quotidienne
+  masteryLevelUp: 100,          // Bonus maîtrise
 };
 
 /**
@@ -56,7 +56,7 @@ export interface DailyGoal {
   currentXP: number;            // XP gagnés aujourd'hui
   targetLessons: number;        // Leçons cible du jour
   currentLessons: number;       // Leçons complétées aujourd'hui
-  targetReviews: number;        // Révisions cible du jour
+  targetReviews: number;        // Révisions cible du jour (réduit pour être atteignable)
   currentReviews: number;       // Révisions complétées aujourd'hui
   isCompleted: boolean;         // Objectif atteint ?
   date: string;                 // Date de l'objectif (YYYY-MM-DD)
@@ -90,6 +90,52 @@ export interface DailyActivity {
   exercisesAnswered: number;
   correctAnswers: number;
   incorrectAnswers: number;
+}
+
+/**
+ * Titre de compétence associé à un niveau
+ */
+export interface TitleDefinition {
+  level: number;              // Niveau requis
+  name: string;               // Nom du titre
+  icon: string;               // Icône associée
+}
+
+/**
+ * Liste des titres de compétence par niveau
+ * Progression exponentielle pour une longue durée de jeu
+ */
+export const LEVEL_TITLES: TitleDefinition[] = [
+  { level: 1, name: "Apprenti", icon: "\u{1F331}" },
+  { level: 2, name: "Débutant", icon: "\u{1F4D6}" },
+  { level: 3, name: "Étudiant", icon: "\u{1F393}" },
+  { level: 4, name: "Praticien", icon: "\u{1F6E0}\uFE0F" },
+  { level: 5, name: "Expert", icon: "\u{1F947}" },
+  { level: 6, name: "Maître", icon: "\u{1F3C6}" },
+  { level: 7, name: "Sensei", icon: "\u{1F468}\u200D\u{1F3EB}" },
+  { level: 8, name: "Rōshi", icon: "\u{1F9D1}\u200D\u{1F3EB}" },
+  { level: 9, name: "Shihan", icon: "\u{1F3C5}" },
+  { level: 10, name: "Soke", icon: "\u{1F451}" },
+  { level: 11, name: "Kagemusha", icon: "\u{1F6E1}\uFE0F" },
+  { level: 12, name: "Tennin", icon: "\u2728" },
+  { level: 13, name: "Kami", icon: "\u{1F32C}\uFE0F" },
+  { level: 14, name: "Tsukuyomi", icon: "\u{1F319}" },
+  { level: 15, name: "Amaterasu", icon: "\u2600\uFE0F" },
+];
+
+/**
+ * Récupère le titre correspondant à un niveau
+ */
+export function getTitleForLevel(level: number): TitleDefinition | undefined {
+  let title: TitleDefinition | undefined = undefined;
+  for (const t of LEVEL_TITLES) {
+    if (t.level <= level) {
+      title = t;
+    } else {
+      break;
+    }
+  }
+  return title;
 }
 
 /**
@@ -171,15 +217,12 @@ export function updateStreakAfterActivity(streak: LearningStreak, today: string)
   let newStreak = { ...streak };
 
   if (today === streak.lastActiveDate) {
-    // Déjà actif aujourd'hui, pas de changement
     return newStreak;
   }
 
   if (streak.lastActiveDate === yesterdayString) {
-    // Série continue
     newStreak.currentStreak += 1;
   } else if (streak.lastActiveDate !== today && streak.lastActiveDate !== yesterdayString) {
-    // Série brisée, recommence à 1
     newStreak.currentStreak = 1;
   }
 
@@ -210,11 +253,11 @@ export function isStreakActive(streak: LearningStreak, today: string): boolean {
  */
 export function createDailyGoal(today: string): DailyGoal {
   return {
-    targetXP: 100,
+    targetXP: 50,
     currentXP: 0,
     targetLessons: 2,
     currentLessons: 0,
-    targetReviews: 10,
+    targetReviews: 5,
     currentReviews: 0,
     isCompleted: false,
     date: today,
@@ -227,7 +270,9 @@ export function createDailyGoal(today: string): DailyGoal {
 export function updateDailyGoalXP(goal: DailyGoal, xpEarned: number): DailyGoal {
   const newGoal = { ...goal };
   newGoal.currentXP += xpEarned;
-  newGoal.isCompleted = newGoal.currentXP >= newGoal.targetXP;
+  newGoal.isCompleted = newGoal.currentXP >= newGoal.targetXP &&
+                        newGoal.currentLessons >= newGoal.targetLessons &&
+                        newGoal.currentReviews >= newGoal.targetReviews;
   return newGoal;
 }
 
@@ -236,7 +281,7 @@ export function updateDailyGoalXP(goal: DailyGoal, xpEarned: number): DailyGoal 
  */
 export function updateDailyGoalLessons(goal: DailyGoal, lessonsCompleted: number): DailyGoal {
   const newGoal = { ...goal };
-  newGoal.currentLessons += lessonsCompleted;
+  newGoal.currentLessons = lessonsCompleted;
   newGoal.isCompleted = newGoal.currentXP >= newGoal.targetXP &&
                         newGoal.currentLessons >= newGoal.targetLessons &&
                         newGoal.currentReviews >= newGoal.targetReviews;
@@ -296,14 +341,14 @@ export function calculateAnswerXP(
 
 /**
  * Calcule les XP pour la complétion d'une leçon
+ * NOTE : Désormais retourne toujours 0 car les XP ne doivent être attribués
+ * que pour les réponses d'exercices, pas pour la lecture du cours
  */
 export function calculateLessonCompletionXP(
-  calibration: XPCalibration,
-  score: number
+  _calibration: XPCalibration,
+  _score: number
 ): number {
-  const baseXP = calibration.lessonCompletion;
-  const bonus = Math.round(baseXP * (score / 100));
-  return baseXP + bonus;
+  return 0;
 }
 
 // ============================================================

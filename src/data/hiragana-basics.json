@@ -1,0 +1,337 @@
+{
+  "version": "1.0.0",
+  "type": "kana",
+  "category": "hiragana-basics",
+  "description": "Les 5 voyelles hiragana de base (a, i, u, e, o)",
+  "prerequisites": [],
+  "concepts": [
+    {
+      "id": "kana-a",
+      "character": "あ",
+      "reading": "a",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 1,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-i",
+      "character": "い",
+      "reading": "i",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 2,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-u",
+      "character": "う",
+      "reading": "u",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 3,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-e",
+      "character": "え",
+      "reading": "e",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 4,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-o",
+      "character": "お",
+      "reading": "o",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 5,
+      "difficulty": 1
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex-hiragana-recog-a",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana あ (a)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "あ",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "a",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "あ se prononce 'a'. C'est la première voyelle hiragana.",
+      "conceptId": "kana-a"
+    },
+    {
+      "id": "ex-hiragana-recog-i",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana い (i)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "い",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 1
+      },
+      "expectedAnswers": [
+        {
+          "value": "i",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "い se prononce 'i'.",
+      "conceptId": "kana-i"
+    },
+    {
+      "id": "ex-hiragana-recog-u",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana う (u)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "う",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 2
+      },
+      "expectedAnswers": [
+        {
+          "value": "u",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "う se prononce 'u'.",
+      "conceptId": "kana-u"
+    },
+    {
+      "id": "ex-hiragana-recog-e",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana え (e)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "え",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "e",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "え se prononce 'e'.",
+      "conceptId": "kana-e"
+    },
+    {
+      "id": "ex-hiragana-recog-o",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana お (o)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "お",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "o"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "o",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "お se prononce 'o'.",
+      "conceptId": "kana-o"
+    },
+    {
+      "id": "ex-hiragana-reading-aio",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Lire la séquence a-i-o",
+      "difficulty": 2,
+      "prompt": "Comment lit-on cette séquence ?",
+      "data": {
+        "character": "あいお",
+        "options": [
+          "a-i-o",
+          "a-e-o",
+          "i-u-o",
+          "a-i-u"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "a-i-o",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "あいお se lit 'a-i-o'. Ce sont trois voyelles hiragana.",
+      "conceptId": "kana-a"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-hiragana-vowels",
+      "title": "Les 5 voyelles hiragana",
+      "description": "Apprenez les 5 voyelles fondamentales du japonais : あ, い, う, え, お",
+      "conceptId": "kana-vowels",
+      "conceptType": "kana",
+      "order": 1,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "id": "step-vowels-intro",
+          "type": "presentation",
+          "content": {
+            "title": "Les voyelles hiragana",
+            "body": "Le japonais possède 5 voyelles de base qui sont fondamentales pour tout apprentissage. Chaque voyelle a un caractère hiragana unique.",
+            "japanese": "あ い う え お",
+            "reading": "a i u e o"
+          }
+        },
+        {
+          "id": "step-vowels-a",
+          "type": "explanation",
+          "content": {
+            "title": "あ (a)",
+            "body": "Le premier caractère hiragana se prononce 'a'. C'est la voyelle la plus simple.",
+            "japanese": "あ",
+            "reading": "a",
+            "meaning": "Première voyelle"
+          }
+        },
+        {
+          "id": "step-vowels-i",
+          "type": "explanation",
+          "content": {
+            "title": "い (i)",
+            "body": "い se prononce 'i'. Sa forme ressemble à deux piliers verticaux.",
+            "japanese": "い",
+            "reading": "i",
+            "meaning": "Deuxième voyelle"
+          }
+        },
+        {
+          "id": "step-vowels-u",
+          "type": "explanation",
+          "content": {
+            "title": "う (u)",
+            "body": "う se prononce 'u'. Sa forme est fluide et courbe.",
+            "japanese": "う",
+            "reading": "u",
+            "meaning": "Troisième voyelle"
+          }
+        },
+        {
+          "id": "step-vowels-e",
+          "type": "explanation",
+          "content": {
+            "title": "え (e)",
+            "body": "え se prononce 'e'. Sa forme ressemble à un caractère stylisé.",
+            "japanese": "え",
+            "reading": "e",
+            "meaning": "Quatrième voyelle"
+          }
+        },
+        {
+          "id": "step-vowels-o",
+          "type": "explanation",
+          "content": {
+            "title": "お (o)",
+            "body": "お se prononce 'o'. Sa forme est unique avec une boucle.",
+            "japanese": "お",
+            "reading": "o",
+            "meaning": "Cinquième voyelle"
+          }
+        },
+        {
+          "id": "step-vowels-exercise",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice de reconnaissance",
+            "body": "Testez vos connaissances sur les voyelles hiragana !"
+          },
+          "exerciseId": "ex-hiragana-recog-a"
+        },
+        {
+          "id": "step-vowels-check",
+          "type": "check",
+          "content": {
+            "title": "Vérification",
+            "body": "Bien joué ! あ se prononce 'a'. Vous ma®trisez la première voyelle !"
+          }
+        },
+        {
+          "id": "step-vowels-exercise-2",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice 2",
+            "body": "Continuons avec les autres voyelles."
+          },
+          "exerciseId": "ex-hiragana-recog-i"
+        },
+        {
+          "id": "step-vowels-synthesis",
+          "type": "synthesis",
+          "content": {
+            "title": "Synthèse",
+            "body": "Vous avez appris les 5 voyelles hiragana : あ (a), い (i), う (u), え (e), お (o). Ces voyelles sont la base de tout apprentissage du japonais."
+          }
+        }
+      ],
+      "exercises": [
+        "ex-hiragana-recog-a",
+        "ex-hiragana-recog-i",
+        "ex-hiragana-recog-u",
+        "ex-hiragana-recog-e",
+        "ex-hiragana-recog-o"
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@ interface StatisticsItem {
 }
 
 export default function StatisticsPage() {
-  const { getStatistics, getStreak, getXP, getLevel, getDailyGoal } = useLearningEngine();
+  const { getStatistics, getStreak, getXP, getLevel, getDailyGoal, getActivityHistory } = useLearningEngine();
   const stats = getStatistics();
   const streak = getStreak();
   const xp = getXP();
@@ -34,15 +34,28 @@ export default function StatisticsPage() {
     { name: 'Grammaire', percent: stats.totalExercisesAnswered > 0 ? Math.min(100, (stats.totalCorrectAnswers / stats.totalExercisesAnswered) * 100) : 0, color: 'var(--color-warning)' },
   ];
 
-  const weeklyData = [
-    { day: 'Lun', score: 65 },
-    { day: 'Mar', score: 80 },
-    { day: 'Mer', score: 45 },
-    { day: 'Jeu', score: 90 },
-    { day: 'Ven', score: 70 },
-    { day: 'Sam', score: 55 },
-    { day: 'Dim', score: 85 },
-  ];
+  // Données hebdomadaires réelles depuis getActivityHistory()
+  const activityHistory = getActivityHistory();
+  
+  const getWeeklyData = (): Array<{ day: string; score: number }> => {
+    const days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+    const weeklyMap: Record<string, number> = {};
+    
+    // Remplir avec les données réelles
+    activityHistory.forEach((activity) => {
+      const activityDate = new Date(activity.date);
+      const dayName = days[activityDate.getDay()];
+      weeklyMap[dayName] = activity.xpEarned;
+    });
+    
+    // Retourner les 7 derniers jours (lundi à dimanche)
+    return days.slice(1).map((day) => ({
+      day,
+      score: Math.min(100, (weeklyMap[day] || 0) * 2), // Normaliser à 100% max
+    }));
+  };
+
+  const weeklyData = getWeeklyData();
 
   return (
     <div className="page">

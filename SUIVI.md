@@ -14,7 +14,7 @@
 | 7 | PWA et installation | ✅ Terminê | 2026-11-06 |
 | 8 | Rêpêtition espacêe | ✅ Terminê | 2026-11-12 |
 | 9 | Gamification et progression | ✅ Terminé | 2026-11-14 |
-| 10 | Crêêation du contenu pêdagogique initial | 🔒 En attente | - |
+| 10 | Crêêation du contenu pêdagogique initial | 🔄 En cours | 2026-11-14 |
 | 11 | Audio et comprêêhension orale | 🔒 En attente | - |
 | 12 | Authentification et backend Supabase | 🔒 En attente | - |
 | 13 | Synchronisation multi-appareils | 🔒 En attente | - |
