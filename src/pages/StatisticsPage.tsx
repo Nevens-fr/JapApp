@@ -23,8 +23,8 @@ export default function StatisticsPage() {
     { label: 'Exercices r\u00e9ussis', value: stats.totalCorrectAnswers, icon: '\u2705', color: 'var(--color-success)' },
     { label: 'Pr\u00e9cision', value: `${stats.accuracyRate}%`, icon: '\u{1F4CA}', color: 'var(--color-accent)' },
     { label: 'Score moyen', value: `${stats.averageLessonScore}%`, icon: '\u{1F4C8}', color: 'var(--color-warning)' },
-    { label: 'S\u00e9rie actuelle', value: `${streak} jours`, icon: '\u{1F525}', color: 'var(--color-warning)' },
-    { label: 'Meilleure s\u00e9rie', value: `${stats.totalLessonsCompleted > 0 ? streak : 0} jours`, icon: '\u{1F3C6}', color: 'var(--color-primary)' },
+    { label: 'série actuelle', value: `${streak} jours`, icon: '\u{1F525}', color: 'var(--color-warning)' },
+    { label: 'Meilleure série', value: `${stats.totalLessonsCompleted > 0 ? streak : 0} jours`, icon: '\u{1F3C6}', color: 'var(--color-primary)' },
   ];
 
   const categoryData = [
@@ -93,7 +93,7 @@ export default function StatisticsPage() {
             <p style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-warning)' }}>
               {streak}
             </p>
-            <p className="text-secondary" style={{ fontSize: '12px' }}>Jours de s\u00e9rie</p>
+            <p className="text-secondary" style={{ fontSize: '12px' }}>Jours de série</p>
           </div>
         </Card>
       </div>

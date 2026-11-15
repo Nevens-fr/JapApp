@@ -193,7 +193,7 @@ db.version(DB_VERSION).stores({
   // Opérations de synchronisation : clé = id (uuid)
   syncOperations: '&id, status, createdAt',
   
-  // Gamification : cl� = 'user_gamification' (une seule entr�e)
+  // Gamification : clé = 'user_gamification' (une seule entrée)
   gamification: '&id',
 });
 
