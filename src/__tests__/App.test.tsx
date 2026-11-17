@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Router from '../app/router'
 
@@ -34,5 +34,20 @@ describe('App', () => {
     expect(screen.getByText('Dico')).toBeTruthy()
     expect(screen.getByText('Stats')).toBeTruthy()
     expect(screen.getByText('Réglages')).toBeTruthy()
+  })
+
+  it('navigates away from the statistics page without a reload', async () => {
+    render(
+      <MemoryRouter initialEntries={['/statistics']}>
+        <Router />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('heading', { name: 'Statistiques' })).toBeTruthy()
+    fireEvent.click(screen.getByRole('link', { name: /Accueil/ }))
+
+    await waitFor(() => {
+      expect(screen.getByText('Bienvenue ! 👋')).toBeTruthy()
+    })
   })
 })
