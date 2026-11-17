@@ -222,22 +222,28 @@ export default function StatisticsPage() {
   const totalCount = achievements.length;
 
   const renderAchievementCard = (achievement: Achievement) => (
-    <div
-      key={achievement.id}
-      className={`achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`}
-    >
-      <div className='achievement-card__icon'>
-        {achievement.unlocked ? achievement.icon : '🔒'}
-      </div>
-      <div className='achievement-card__info'>
-        <span className='achievement-card__name'>{achievement.name}</span>
-        <span className='achievement-card__description'>{achievement.description}</span>
-      </div>
-      <div className='achievement-card__badge'>
-        {achievement.unlocked ? '🏆' : '🔒'}
-      </div>
+  <div
+    key={achievement.id}
+    className={`achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`}
+  >
+    <div className="achievement-card__icon">
+      {achievement.unlocked ? achievement.icon : '🔒'}
     </div>
-  );
+
+    <div className="achievement-card__info">
+      <span className="achievement-card__name">{achievement.name}</span>
+      <span className="achievement-card__description">
+        {achievement.description}
+      </span>
+    </div>
+
+    {achievement.unlocked && (
+      <div className="achievement-card__badge" aria-label="Succès débloqué">
+        🏆
+      </div>
+    )}
+  </div>
+);
 
   return (
     <div className='page'>
