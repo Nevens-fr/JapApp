@@ -23,7 +23,7 @@ export default function HomePage() {
 
       {/* Message d'accueil */}
       <div className="mb-lg">
-        <h1 className="section-title" style={{ fontSize: '24px' }}>Bienvenue ! {"\u{1F44B}"}</h1>
+        <h1 className="section-title" style={{ fontSize: '24px' }}>Bienvenue ! 👋</h1>
         <p className="text-secondary">Prêt pour apprendre le japonais aujourd'hui ?</p>
       </div>
 

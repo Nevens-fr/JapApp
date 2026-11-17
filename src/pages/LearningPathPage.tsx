@@ -63,6 +63,17 @@ export default function LearningPathPage() {
     <div className="page">
       <SectionHeader title="Parcours d'apprentissage" />
 
+      {/* Message démo */}
+      <Card className="mb-lg">
+        <div className="card-header">
+          <h3 className="card-title">{'📥'} Données de démonstration</h3>
+        </div>
+        <p className="text-secondary" style={{ fontSize: '14px' }}>
+          Les données affichées ici sont des données de démonstration.
+          Le plan de cours complet sera ajouté prochainement.
+        </p>
+      </Card>
+
       {/* Progression globale */}
       <Card className="mb-lg">
         <div className="card-header">

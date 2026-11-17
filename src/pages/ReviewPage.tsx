@@ -16,7 +16,7 @@ interface ReviewItem {
 }
 
 export default function ReviewPage() {
-  const { getReviewInfo, lessons, forceReviewsDue, startLesson, getUpcomingReviews } = useLearningEngine();
+  const { getReviewInfo, lessons, startLesson, getUpcomingReviews } = useLearningEngine();
   const navigate = useNavigate();
 
   const reviewInfo = getReviewInfo();
@@ -92,11 +92,11 @@ export default function ReviewPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'kana': return '🌀';
-      case 'vocab': return '🫃️';
-      case 'kanji': return '👩‍🎓';
-      case 'grammar': return '📝';
-      default: return '📖';
+      case 'kana': return '📝';
+      case 'vocab': return '📚';
+      case 'kanji': return '漢字';
+      case 'grammar': return '📖';
+      default: return '📌';
     }
   };
 
@@ -180,26 +180,18 @@ export default function ReviewPage() {
       <div className="flex gap-md mb-lg">
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '32px', marginBottom: '8px' }}>⏰</div>
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>⚠️</div>
             <p className="text-secondary" style={{ fontSize: '14px' }}>En retard</p>
             <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-error)' }}>{overdueCount}</p>
           </div>
         </Card>
         <Card className="flex-1">
           <div className="text-center">
-            <div style={{ fontSize: '32px', marginBottom: '8px' }}>🕓</div>
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>📅</div>
             <p className="text-secondary" style={{ fontSize: '14px' }}>Prochaines</p>
             <p style={{ fontSize: '28px', fontWeight: 600, color: 'var(--color-primary)' }}>{upcomingCount}</p>
           </div>
         </Card>
-      </div>
-
-      <div className="mb-lg">
-        <Button variant="secondary" fullWidth onClick={async () => {
-          await forceReviewsDue();
-        }}>
-          🧪 Tester les révisions (forcer)
-        </Button>
       </div>
 
       {overdueCount > 0 && (
@@ -269,7 +261,7 @@ export default function ReviewPage() {
         
         {pendingReviews.length === 0 ? (
           <EmptyState 
-            icon="📖" 
+            icon="🎉" 
             title="Aucune révision en attente" 
             text="Bravo ! Tu es à jour."
           />
