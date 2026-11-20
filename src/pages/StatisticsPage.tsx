@@ -68,7 +68,7 @@ function useAchievements(): Achievement[] {
       id: 'progress-50',
       name: 'Premier pas',
       description: '50 exercices réussis',
-      icon: '⭐',
+      icon: '🚀',
       condition: (s) => s.totalCorrectAnswers >= 50,
       unlocked: false,
       category: 'progression',
@@ -77,7 +77,7 @@ function useAchievements(): Achievement[] {
       id: 'progress-200',
       name: 'En route',
       description: '200 exercices réussis',
-      icon: '⭐',
+      icon: '🚀',
       condition: (s) => s.totalCorrectAnswers >= 200,
       unlocked: false,
       category: 'progression',
@@ -86,7 +86,7 @@ function useAchievements(): Achievement[] {
       id: 'progress-500',
       name: 'Assidu',
       description: '500 exercices réussis',
-      icon: '⭐',
+      icon: '🚀',
       condition: (s) => s.totalCorrectAnswers >= 500,
       unlocked: false,
       category: 'progression',
@@ -95,7 +95,7 @@ function useAchievements(): Achievement[] {
       id: 'progress-1000',
       name: 'Expert',
       description: '1000 exercices réussis',
-      icon: '⭐',
+      icon: '🚀',
       condition: (s) => s.totalCorrectAnswers >= 1000,
       unlocked: false,
       category: 'progression',
@@ -104,7 +104,7 @@ function useAchievements(): Achievement[] {
       id: 'level-5',
       name: 'Apprenti confirmé',
       description: 'Atteindre le niveau 5',
-      icon: '🎓',
+      icon: '⭐',
       condition: (_s, _st, _xp, lv) => lv >= 5,
       unlocked: false,
       category: 'progression',
@@ -113,7 +113,7 @@ function useAchievements(): Achievement[] {
       id: 'level-10',
       name: 'Étudiant avancé',
       description: 'Atteindre le niveau 10',
-      icon: '🎓',
+      icon: '⭐',
       condition: (_s, _st, _xp, lv) => lv >= 10,
       unlocked: false,
       category: 'progression',
@@ -122,7 +122,7 @@ function useAchievements(): Achievement[] {
       id: 'level-15',
       name: 'Maître',
       description: 'Atteindre le niveau 15',
-      icon: '🎓',
+      icon: '⭐',
       condition: (_s, _st, _xp, lv) => lv >= 15,
       unlocked: false,
       category: 'progression',
@@ -132,7 +132,7 @@ function useAchievements(): Achievement[] {
       id: 'perfect-10',
       name: 'Précision débutante',
       description: '10 exercices sans erreur',
-      icon: '💯',
+      icon: '🎯',
       condition: (s, _st, _xp, _lv) => {
         const total = s.totalExercisesAnswered;
         const correct = s.totalCorrectAnswers;
@@ -145,7 +145,7 @@ function useAchievements(): Achievement[] {
       id: 'perfect-50',
       name: 'Précision confirmée',
       description: '50 exercices sans erreur',
-      icon: '💯',
+      icon: '🎯',
       condition: (s, _st, _xp, _lv) => {
         const total = s.totalExercisesAnswered;
         const correct = s.totalCorrectAnswers;
@@ -158,7 +158,7 @@ function useAchievements(): Achievement[] {
       id: 'perfect-100',
       name: 'Perfectionniste',
       description: '100 exercices sans erreur',
-      icon: '💯',
+      icon: '🎯',
       condition: (s, _st, _xp, _lv) => {
         const total = s.totalExercisesAnswered;
         const correct = s.totalCorrectAnswers;
@@ -171,7 +171,7 @@ function useAchievements(): Achievement[] {
       id: 'perfect-500',
       name: 'Infaillible',
       description: '500 exercices sans erreur',
-      icon: '💯',
+      icon: '🎯',
       condition: (s, _st, _xp, _lv) => {
         const total = s.totalExercisesAnswered;
         const correct = s.totalCorrectAnswers;
@@ -199,10 +199,10 @@ export default function StatisticsPage() {
 
   const statItems: StatisticsItem[] = [
     { label: 'XP total', value: xp, icon: '⚡', color: 'var(--color-accent)' },
-    { label: 'Niveau', value: level, icon: '🎯', color: 'var(--color-primary)' },
+    { label: 'Niveau', value: level, icon: '⭐', color: 'var(--color-primary)' },
     { label: 'Leçons complétées', value: stats.totalLessonsCompleted, icon: '📚', color: 'var(--color-success)' },
     { label: 'Exercices réussis', value: stats.totalCorrectAnswers, icon: '✅', color: 'var(--color-success)' },
-    { label: 'Précision', value: `${stats.accuracyRate}%`, icon: '🎯', color: 'var(--color-accent)' },
+    { label: 'Précision', value: `${stats.accuracyRate}%`, icon: '⭐', color: 'var(--color-accent)' },
     { label: 'Score moyen', value: `${stats.averageLessonScore}%`, icon: '📊', color: 'var(--color-warning)' },
     { label: 'Série actuelle', value: `${streak} jours`, icon: '🔥', color: 'var(--color-warning)' },
     { label: 'Meilleure série', value: `${streak} jours`, icon: '🏆', color: 'var(--color-primary)' },
@@ -225,12 +225,13 @@ export default function StatisticsPage() {
   <div
     key={achievement.id}
     className={`achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`}
+    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
   >
     <div className="achievement-card__icon">
       {achievement.unlocked ? achievement.icon : '🔒'}
     </div>
 
-    <div className="achievement-card__info">
+    <div className="achievement-card__info" style={{ color: achievement.unlocked ? 'var(--color-text)' : '#888' }}>
       <span className="achievement-card__name">{achievement.name}</span>
       <span className="achievement-card__description">
         {achievement.description}
@@ -239,7 +240,7 @@ export default function StatisticsPage() {
 
     {achievement.unlocked && (
       <div className="achievement-card__badge" aria-label="Succès débloqué">
-        🏆
+        ✅
       </div>
     )}
   </div>
@@ -261,7 +262,7 @@ export default function StatisticsPage() {
         </Card>
         <Card className='flex-1'>
           <div className='text-center'>
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🎯</div>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>⭐</div>
             <p style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-primary)' }}>
               {level}
             </p>
@@ -301,7 +302,7 @@ export default function StatisticsPage() {
 
         <div className='mb-md'>
           <h4 className='text-secondary mb-sm' style={{ fontSize: '14px', fontWeight: 600 }}>
-            ⭐ Progression
+            🚀 Progression
           </h4>
           <div className='achievements-grid'>
             {progressionAchievements.map(renderAchievementCard)}
@@ -310,7 +311,7 @@ export default function StatisticsPage() {
 
         <div>
           <h4 className='text-secondary mb-sm' style={{ fontSize: '14px', fontWeight: 600 }}>
-            💯 Perfection
+            🎯 Perfection
           </h4>
           <div className='achievements-grid'>
             {perfectionAchievements.map(renderAchievementCard)}
