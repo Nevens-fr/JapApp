@@ -1,0 +1,595 @@
+{
+  "version": "1.0.0",
+  "type": "kanji",
+  "category": "basique",
+  "description": "Premiers kanji pour débutants - reconnaissance et signification principale",
+  "prerequisites": [],
+  "concepts": [
+    {
+      "id": "kan_001",
+      "character": "日",
+      "meanings": [
+        "jour",
+        "soleil",
+        "Japon"
+      ],
+      "onYomi": [
+        "ニチ",
+        "ジツ"
+      ],
+      "kunYomi": [
+        "ひ",
+        "か"
+      ],
+      "examples": [
+        {
+          "japanese": "にほん",
+          "reading": "Nihon",
+          "meaning": "Japon"
+        }
+      ],
+      "difficulty": 1,
+      "order": 1,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_002",
+      "character": "本",
+      "meanings": [
+        "origine",
+        "livre"
+      ],
+      "onYomi": [
+        "ホン"
+      ],
+      "kunYomi": [
+        "もと"
+      ],
+      "examples": [
+        {
+          "japanese": "ほん",
+          "reading": "hon",
+          "meaning": "livre"
+        }
+      ],
+      "difficulty": 1,
+      "order": 2,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_003",
+      "character": "人",
+      "meanings": [
+        "personne"
+      ],
+      "onYomi": [
+        "ジン",
+        "ニン"
+      ],
+      "kunYomi": [
+        "ひと"
+      ],
+      "examples": [
+        {
+          "japanese": "ひと",
+          "reading": "hito",
+          "meaning": "personne"
+        }
+      ],
+      "difficulty": 1,
+      "order": 3,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_004",
+      "character": "大",
+      "meanings": [
+        "grand"
+      ],
+      "onYomi": [
+        "ダイ",
+        "タイ"
+      ],
+      "kunYomi": [
+        "おおきい"
+      ],
+      "examples": [
+        {
+          "japanese": "だいこん",
+          "reading": "daikon",
+          "meaning": "grand radis"
+        }
+      ],
+      "difficulty": 1,
+      "order": 4,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_005",
+      "character": "小",
+      "meanings": [
+        "petit"
+      ],
+      "onYomi": [
+        "ショウ"
+      ],
+      "kunYomi": [
+        "ちいさい",
+        "こ",
+        "お"
+      ],
+      "examples": [
+        {
+          "japanese": "しょうがくせい",
+          "reading": "shougakusei",
+          "meaning": "élève du primaire"
+        }
+      ],
+      "difficulty": 1,
+      "order": 5,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_006",
+      "character": "上",
+      "meanings": [
+        "dessus",
+        "monter"
+      ],
+      "onYomi": [
+        "ジョウ"
+      ],
+      "kunYomi": [
+        "うえ",
+        "あがる"
+      ],
+      "examples": [
+        {
+          "japanese": "うえ",
+          "reading": "ue",
+          "meaning": "dessus"
+        }
+      ],
+      "difficulty": 1,
+      "order": 6,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_007",
+      "character": "下",
+      "meanings": [
+        "dessous",
+        "descendre"
+      ],
+      "onYomi": [
+        "カ"
+      ],
+      "kunYomi": [
+        "した",
+        "くだる"
+      ],
+      "examples": [
+        {
+          "japanese": "した",
+          "reading": "shita",
+          "meaning": "dessous"
+        }
+      ],
+      "difficulty": 1,
+      "order": 7,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_008",
+      "character": "中",
+      "meanings": [
+        "milieu",
+        "dedans"
+      ],
+      "onYomi": [
+        "チュウ"
+      ],
+      "kunYomi": [
+        "なか"
+      ],
+      "examples": [
+        {
+          "japanese": "なか",
+          "reading": "naka",
+          "meaning": "milieu"
+        }
+      ],
+      "difficulty": 1,
+      "order": 8,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_009",
+      "character": "山",
+      "meanings": [
+        "montagne"
+      ],
+      "onYomi": [
+        "サン"
+      ],
+      "kunYomi": [
+        "やま"
+      ],
+      "examples": [
+        {
+          "japanese": "やま",
+          "reading": "yama",
+          "meaning": "montagne"
+        }
+      ],
+      "difficulty": 1,
+      "order": 9,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_010",
+      "character": "川",
+      "meanings": [
+        "rivière"
+      ],
+      "onYomi": [
+        "セン"
+      ],
+      "kunYomi": [
+        "かわ"
+      ],
+      "examples": [
+        {
+          "japanese": "かわ",
+          "reading": "kawa",
+          "meaning": "rivière"
+        }
+      ],
+      "difficulty": 1,
+      "order": 10,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_011",
+      "character": "田",
+      "meanings": [
+        "rizière"
+      ],
+      "onYomi": [
+        "デン"
+      ],
+      "kunYomi": [
+        "た"
+      ],
+      "examples": [
+        {
+          "japanese": "でんしゃ",
+          "reading": "densha",
+          "meaning": "train"
+        }
+      ],
+      "difficulty": 1,
+      "order": 11,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_012",
+      "character": "目",
+      "meanings": [
+        "œil"
+      ],
+      "onYomi": [
+        "モク",
+        "ボク"
+      ],
+      "kunYomi": [
+        "め"
+      ],
+      "examples": [
+        {
+          "japanese": "め",
+          "reading": "me",
+          "meaning": "œil"
+        }
+      ],
+      "difficulty": 1,
+      "order": 12,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_013",
+      "character": "口",
+      "meanings": [
+        "bouche"
+      ],
+      "onYomi": [
+        "コウ",
+        "ク"
+      ],
+      "kunYomi": [
+        "くち"
+      ],
+      "examples": [
+        {
+          "japanese": "くち",
+          "reading": "kuchi",
+          "meaning": "bouche"
+        }
+      ],
+      "difficulty": 1,
+      "order": 13,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_014",
+      "character": "手",
+      "meanings": [
+        "main"
+      ],
+      "onYomi": [
+        "シュ"
+      ],
+      "kunYomi": [
+        "て"
+      ],
+      "examples": [
+        {
+          "japanese": "て",
+          "reading": "te",
+          "meaning": "main"
+        }
+      ],
+      "difficulty": 1,
+      "order": 14,
+      "type": "kanji"
+    },
+    {
+      "id": "kan_015",
+      "character": "足",
+      "meanings": [
+        "pied",
+        "jambe"
+      ],
+      "onYomi": [
+        "ソク"
+      ],
+      "kunYomi": [
+        "あし",
+        "たる"
+      ],
+      "examples": [
+        {
+          "japanese": "あし",
+          "reading": "ashi",
+          "meaning": "pied"
+        }
+      ],
+      "difficulty": 1,
+      "order": 15,
+      "type": "kanji"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "kan_ex_001",
+      "type": "reconnaissance",
+      "answerFormat": "choix_multiple",
+      "objective": "Reconnaître le kanji 日",
+      "difficulty": 1,
+      "prompt": "Que signifie le kanji 日 ?",
+      "data": {
+        "options": [
+          "jour, soleil",
+          "montagne",
+          "rivière",
+          "main"
+        ],
+        "correctAnswer": "jour, soleil"
+      },
+      "expectedAnswers": [
+        "jour, soleil",
+        "soleil",
+        "Japon"
+      ],
+      "explanation": "日 signifie jour, soleil ou Japon.",
+      "conceptId": "kan_001"
+    },
+    {
+      "id": "kan_ex_002",
+      "type": "reconnaissance",
+      "answerFormat": "choix_multiple",
+      "objective": "Reconnaître le kanji 本",
+      "difficulty": 1,
+      "prompt": "Que signifie le kanji 本 ?",
+      "data": {
+        "options": [
+          "livre, origine",
+          "grand",
+          "petit",
+          "milieu"
+        ],
+        "correctAnswer": "livre, origine"
+      },
+      "expectedAnswers": [
+        "livre",
+        "origine"
+      ],
+      "explanation": "本 signifie livre ou origine.",
+      "conceptId": "kan_002"
+    },
+    {
+      "id": "kan_ex_003",
+      "type": "reconnaissance",
+      "answerFormat": "choix_multiple",
+      "objective": "Reconnaître le kanji 山",
+      "difficulty": 1,
+      "prompt": "Que signifie le kanji 山 ?",
+      "data": {
+        "options": [
+          "montagne",
+          "rivière",
+          "œil",
+          "bouche"
+        ],
+        "correctAnswer": "montagne"
+      },
+      "expectedAnswers": [
+        "montagne"
+      ],
+      "explanation": "山 signifie montagne.",
+      "conceptId": "kan_009"
+    },
+    {
+      "id": "kan_ex_004",
+      "type": "reconnaissance",
+      "answerFormat": "choix_multiple",
+      "objective": "Reconnaître le kanji 川",
+      "difficulty": 1,
+      "prompt": "Que signifie le kanji 川 ?",
+      "data": {
+        "options": [
+          "rivière",
+          "montagne",
+          "rizière",
+          "main"
+        ],
+        "correctAnswer": "rivière"
+      },
+      "expectedAnswers": [
+        "rivière"
+      ],
+      "explanation": "川 signifie rivière.",
+      "conceptId": "kan_010"
+    },
+    {
+      "id": "kan_ex_005",
+      "type": "association",
+      "answerFormat": "association",
+      "objective": "Associer kanji et signification",
+      "difficulty": 1,
+      "prompt": "Quel kanji signifie 'grand' ?",
+      "data": {
+        "options": [
+          "大",
+          "小",
+          "上",
+          "下"
+        ],
+        "correctAnswer": "大"
+      },
+      "expectedAnswers": [
+        "大"
+      ],
+      "explanation": "大 signifie grand.",
+      "conceptId": "kan_004"
+    },
+    {
+      "id": "kan_ex_006",
+      "type": "association",
+      "answerFormat": "association",
+      "objective": "Associer kanji et signification",
+      "difficulty": 1,
+      "prompt": "Quel kanji signifie 'petit' ?",
+      "data": {
+        "options": [
+          "大",
+          "小",
+          "中",
+          "上"
+        ],
+        "correctAnswer": "小"
+      },
+      "expectedAnswers": [
+        "小"
+      ],
+      "explanation": "小 signifie petit.",
+      "conceptId": "kan_005"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson_kanji_001",
+      "title": "Premiers kanji - Nature",
+      "description": "Découvrir 山, 川, 田",
+      "conceptId": "kan_009",
+      "conceptType": "kanji",
+      "order": 1,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "山 = montagne, 川 = rivière, 田 = rizière"
+        },
+        {
+          "type": "exercice",
+          "content": [
+            "kan_ex_003",
+            "kan_ex_004"
+          ]
+        },
+        {
+          "type": "synthese",
+          "content": "Kanji de la nature"
+        }
+      ],
+      "exercises": [
+        "kan_ex_003",
+        "kan_ex_004"
+      ]
+    },
+    {
+      "id": "lesson_kanji_002",
+      "title": "Kanji du corps",
+      "description": "Découvrir 目, 口, 手, 足",
+      "conceptId": "kan_012",
+      "conceptType": "kanji",
+      "order": 2,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "目=œil, 口=bouche, 手=main, 足=pied"
+        },
+        {
+          "type": "exercice",
+          "content": []
+        },
+        {
+          "type": "synthese",
+          "content": "Kanji du corps humain"
+        }
+      ],
+      "exercises": []
+    },
+    {
+      "id": "lesson_kanji_003",
+      "title": "Kanji opposés",
+      "description": "大/小, 上/下",
+      "conceptId": "kan_004",
+      "conceptType": "kanji",
+      "order": 3,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "大=grand vs 小=petit, 上=dessus vs 下=dessous"
+        },
+        {
+          "type": "exercice",
+          "content": [
+            "kan_ex_005",
+            "kan_ex_006"
+          ]
+        },
+        {
+          "type": "synthese",
+          "content": "Kanji en paires opposées"
+        }
+      ],
+      "exercises": [
+        "kan_ex_005",
+        "kan_ex_006"
+      ]
+    }
+  ]
+}

@@ -8,7 +8,9 @@ import type { Lesson, LessonProgress } from "../core/learning/types";
 import type { ExerciseResult as ExerciseResultTypes } from "../exercises/types";
 import type { Concept } from "../core/learning/types";
 import type { Exercise } from "../exercises/types";
-import { SAMPLE_CONCEPTS, SAMPLE_EXERCISES, SAMPLE_LESSONS } from "../data/sampleData";
+import { SAMPLE_CONCEPTS } from "../data/concepts";
+import { SAMPLE_EXERCISES } from "../data/exercises";
+import { SAMPLE_LESSONS } from "../data/lessons";
 import { toEngineExercise, toLearningEngineResult } from "../adapters/exerciseAdapter";
 import { usePersistence } from "../database/local/hooks";
 import { createInitialProgression } from "../core/learning/progression";
@@ -254,11 +256,15 @@ function useLearningEngineState() {
   );
 
   const getNextLessons = useCallback((): Lesson[] => {
-    return lessons.filter((l) => {
+    // Retourner d'abord la leçon en cours (si elle existe et n'est pas complétée)
+    const inProgressLessons = lessons.filter((l) => l.id === currentLessonId && engine.getLessonState(l.id)?.status !== "completed");
+    // Puis les autres leçons non complétées
+    const availableLessons = lessons.filter((l) => {
       if (l.id === currentLessonId) return false;
       if (engine.getLessonState(l.id)?.status === "completed") return false;
       return true;
     });
+    return [...inProgressLessons, ...availableLessons];
   }, [engine, lessons, currentLessonId]);
 
   const getReviewLessons = useCallback((): Lesson[] => {

@@ -1,0 +1,677 @@
+{
+  "version": "1.0.0",
+  "type": "grammaire",
+  "category": "basique",
+  "description": "Premières notions grammaticales japonaises pour débutants",
+  "prerequisites": [],
+  "concepts": [
+    {
+      "id": "gra_001",
+      "name": "Particule wa (は)",
+      "explanation": "La particule は (wa) marque le sujet de la phrase. Elle indique de quoi on parle.",
+      "structure": "[Sujet] は [Commentaire] です",
+      "examples": [
+        {
+          "japanese": "わたしは がくせい です",
+          "reading": "watashi wa gakusei desu",
+          "meaning": "Je suis étudiant"
+        }
+      ],
+      "difficulty": 1,
+      "order": 1,
+      "type": "particule"
+    },
+    {
+      "id": "gra_002",
+      "name": "Particule o (を)",
+      "explanation": "La particule を (o) marque le complément d'objet direct (ce sur quoi porte l'action).",
+      "structure": "[Sujet] は [Objet] を [Verbe]",
+      "examples": [
+        {
+          "japanese": "みずを のみます",
+          "reading": "mizu o nomimasu",
+          "meaning": "Je bois de l'eau"
+        }
+      ],
+      "difficulty": 1,
+      "order": 2,
+      "type": "particule"
+    },
+    {
+      "id": "gra_003",
+      "name": "Particule ni (に)",
+      "explanation": "La particule に indique la destination, le moment, ou la cible de l'action.",
+      "structure": "[Destination] へ に いきます",
+      "examples": [
+        {
+          "japanese": "がっこう に いきます",
+          "reading": "gakkou ni ikimasu",
+          "meaning": "Je vais à l'école"
+        }
+      ],
+      "difficulty": 2,
+      "order": 3,
+      "type": "particule"
+    },
+    {
+      "id": "gra_004",
+      "name": "Particule de (の)",
+      "explanation": "La particule の indique la possession ou l'appartenance (équivalent de 'de' en français).",
+      "structure": "[Possesseur] の [Objet possédé]",
+      "examples": [
+        {
+          "japanese": "わたしの ほん",
+          "reading": "watashi no hon",
+          "meaning": "Mon livre"
+        }
+      ],
+      "difficulty": 2,
+      "order": 4,
+      "type": "particule"
+    },
+    {
+      "id": "gra_005",
+      "name": "Particule e (へ)",
+      "explanation": "La particule e indique la direction ou le mouvement vers un lieu.",
+      "structure": "[Destination] へ [Verbe de mouvement]",
+      "examples": [
+        {
+          "japanese": "にほん へ いきます",
+          "reading": "Nihon e ikimasu",
+          "meaning": "Je vais au Japon"
+        }
+      ],
+      "difficulty": 2,
+      "order": 5,
+      "type": "particule"
+    },
+    {
+      "id": "gra_006",
+      "name": "Particule ga (が)",
+      "explanation": "La particule ga marque le sujet lorsque l'accent est mis sur ce qui suit le verbe.",
+      "structure": "[Sujet] が [Verbe]",
+      "examples": [
+        {
+          "japanese": "これが ほん です",
+          "reading": "kore ga hon desu",
+          "meaning": "Ceci est un livre"
+        }
+      ],
+      "difficulty": 3,
+      "order": 6,
+      "type": "particule"
+    },
+    {
+      "id": "gra_007",
+      "name": "Particule to (と)",
+      "explanation": "La particule to indique l'association (avec quelqu'un) ou énumère des éléments.",
+      "structure": "[Personne] と [Verbe] ou [A] と [B]",
+      "examples": [
+        {
+          "japanese": "ともだち と いっしょに",
+          "reading": "tomodachi to issho ni",
+          "meaning": "Avec un ami"
+        }
+      ],
+      "difficulty": 2,
+      "order": 7,
+      "type": "particule"
+    },
+    {
+      "id": "gra_008",
+      "name": "Forme affirmative present",
+      "explanation": "La forme affirmative au présent pour les verbes en -masu.",
+      "structure": "[Verbe] ます",
+      "examples": [
+        {
+          "japanese": "たべます",
+          "reading": "tabemasu",
+          "meaning": "Je mange"
+        }
+      ],
+      "difficulty": 1,
+      "order": 8,
+      "type": "conjugaison"
+    },
+    {
+      "id": "gra_009",
+      "name": "Forme negative present",
+      "explanation": "La forme négative au présent pour les verbes en -masen.",
+      "structure": "[Verbe] ません",
+      "examples": [
+        {
+          "japanese": "たべません",
+          "reading": "tabemasen",
+          "meaning": "Je ne mange pas"
+        }
+      ],
+      "difficulty": 1,
+      "order": 9,
+      "type": "conjugaison"
+    },
+    {
+      "id": "gra_010",
+      "name": "Forme affirmative passe",
+      "explanation": "La forme affirmative au passé pour les verbes en -mashita.",
+      "structure": "[Verbe] ました",
+      "examples": [
+        {
+          "japanese": "たべました",
+          "reading": "tabemashita",
+          "meaning": "J'ai mangé"
+        }
+      ],
+      "difficulty": 2,
+      "order": 10,
+      "type": "conjugaison"
+    },
+    {
+      "id": "gra_011",
+      "name": "Forme negative passe",
+      "explanation": "La forme négative au passé pour les verbes en -masen deshita.",
+      "structure": "[Verbe] ませんでした",
+      "examples": [
+        {
+          "japanese": "たべませんでした",
+          "reading": "tabemasen deshita",
+          "meaning": "Je n'ai pas mangé"
+        }
+      ],
+      "difficulty": 2,
+      "order": 11,
+      "type": "conjugaison"
+    },
+    {
+      "id": "gra_012",
+      "name": "Adjectifs en i",
+      "explanation": "Les adjectifs en い se conjuguent au présent et au passé.",
+      "structure": "[Adjectif] です ou [Adjectif] でした",
+      "examples": [
+        {
+          "japanese": "おいしい です",
+          "reading": "oishii desu",
+          "meaning": "C'est délicieux"
+        }
+      ],
+      "difficulty": 2,
+      "order": 12,
+      "type": "adjectif"
+    },
+    {
+      "id": "gra_013",
+      "name": "Adjectifs en na",
+      "explanation": "Les adjectifs en な utilisent です directement.",
+      "structure": "[Adjectif na] です",
+      "examples": [
+        {
+          "japanese": "きれいです",
+          "reading": "kirei desu",
+          "meaning": "C'est beau"
+        }
+      ],
+      "difficulty": 2,
+      "order": 13,
+      "type": "adjectif"
+    },
+    {
+      "id": "gra_014",
+      "name": "Questions",
+      "explanation": "Les questions se forment en ajoutant か à la fin de la phrase.",
+      "structure": "[Phrase] か",
+      "examples": [
+        {
+          "japanese": "これは ほん ですか",
+          "reading": "kore wa hon desu ka",
+          "meaning": "Est-ce un livre ?"
+        }
+      ],
+      "difficulty": 1,
+      "order": 14,
+      "type": "question"
+    },
+    {
+      "id": "gra_015",
+      "name": "Demonstratifs",
+      "explanation": "Les pronoms démonstratifs : これ (celui-ci), それ (celui-là), あれ (celui-là-bas).",
+      "structure": "[Demonstratif] は [Nom] です",
+      "examples": [
+        {
+          "japanese": "これが ほん です",
+          "reading": "kore ga hon desu",
+          "meaning": "Ceci est un livre"
+        }
+      ],
+      "difficulty": 2,
+      "order": 15,
+      "type": "demonstratif"
+    },
+    {
+      "id": "gra_016",
+      "name": "Forme passée affirmative",
+      "explanation": "La forme affirmative au passé pour les verbes en -mashita.",
+      "structure": "[Verbe] ました",
+      "examples": [
+        {
+          "japanese": "食べました",
+          "reading": "tabemashita",
+          "meaning": "J'ai mangé"
+        }
+      ],
+      "difficulty": 2,
+      "order": 16,
+      "type": "conjugaison"
+    },
+    {
+      "id": "gra_017",
+      "name": "Forme passée négative",
+      "explanation": "La forme négative au passé pour les verbes en -masen deshita.",
+      "structure": "[Verbe] ませんでした",
+      "examples": [
+        {
+          "japanese": "食べませんでした",
+          "reading": "tabemasen deshita",
+          "meaning": "Je n'ai pas mangé"
+        }
+      ],
+      "difficulty": 3,
+      "order": 17,
+      "type": "conjugaison"
+    },
+    {
+      "id": "gra_018",
+      "name": "Possession avec います/あります",
+      "explanation": "Pour exprimer la possession ou l'existence de quelque chose.",
+      "structure": "[Sujet] は [Objet] が います/あります",
+      "examples": [
+        {
+          "japanese": "猫がいます",
+          "reading": "neko ga imasu",
+          "meaning": "Il y a un chat"
+        }
+      ],
+      "difficulty": 2,
+      "order": 18,
+      "type": "possession"
+    },
+    {
+      "id": "gra_019",
+      "name": "Volonté avec ましょう",
+      "explanation": "Pour exprimer la volonté ou faire une suggestion.",
+      "structure": "[Verbe] ましょう",
+      "examples": [
+        {
+          "japanese": "行きましょう",
+          "reading": "ikimashou",
+          "meaning": "Allons-y"
+        }
+      ],
+      "difficulty": 3,
+      "order": 19,
+      "type": "volonté"
+    },
+    {
+      "id": "gra_020",
+      "name": "Capacité avec ことができます",
+      "explanation": "Pour exprimer la capacité ou la possibilité de faire quelque chose.",
+      "structure": "[Verbe] ことができます",
+      "examples": [
+        {
+          "japanese": "日本語が話せます",
+          "reading": "nihongo ga hanasemasu",
+          "meaning": "Je peux parler japonais"
+        }
+      ],
+      "difficulty": 4,
+      "order": 20,
+      "type": "capacité"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "gra_ex_001",
+      "type": "choix_multiple",
+      "answerFormat": "choix_multiple",
+      "objective": "Identifier la particule de sujet",
+      "difficulty": 1,
+      "prompt": "Quelle particule marque le sujet dans 'わたしは がくせい です' ?",
+      "data": {
+        "options": [
+          "は",
+          "を",
+          "に",
+          "の"
+        ],
+        "correctAnswer": "は"
+      },
+      "expectedAnswers": [
+        "は"
+      ],
+      "explanation": "は (wa) est la particule de sujet.",
+      "conceptId": "gra_001"
+    },
+    {
+      "id": "gra_ex_002",
+      "type": "traduction",
+      "answerFormat": "romaji",
+      "objective": "Traduire une phrase simple",
+      "difficulty": 1,
+      "prompt": "Traduisez : 'みずを のみます'",
+      "data": {
+        "hint": "mizu = eau, nomu = boire"
+      },
+      "expectedAnswers": [
+        "mizu o nomimasu",
+        "je bois de l'eau"
+      ],
+      "explanation": "を marque l'objet direct.",
+      "conceptId": "gra_002"
+    },
+    {
+      "id": "gra_ex_003",
+      "type": "association",
+      "answerFormat": "association",
+      "objective": "Associer particule et fonction",
+      "difficulty": 2,
+      "prompt": "Quelle particule marque le complément d'objet direct ?",
+      "data": {
+        "options": [
+          "は",
+          "を",
+          "に",
+          "の"
+        ],
+        "correctAnswer": "を"
+      },
+      "expectedAnswers": [
+        "を"
+      ],
+      "explanation": "を (o) marque le COD.",
+      "conceptId": "gra_002"
+    },
+    {
+      "id": "gra_ex_004",
+      "type": "choix_multiple",
+      "answerFormat": "choix_multiple",
+      "objective": "Identifier la particule de possession",
+      "difficulty": 2,
+      "prompt": "Dans 'わたしの ほん', quelle particule indique la possession ?",
+      "data": {
+        "options": [
+          "は",
+          "を",
+          "の",
+          "に"
+        ],
+        "correctAnswer": "の"
+      },
+      "expectedAnswers": [
+        "の"
+      ],
+      "explanation": "の (no) indique la possession.",
+      "conceptId": "gra_004"
+    },
+    {
+      "id": "gra_ex_005",
+      "type": "traduction",
+      "answerFormat": "romaji",
+      "objective": "Traduire une phrase affirmative",
+      "difficulty": 1,
+      "prompt": "Traduisez : 'たべます'",
+      "data": {
+        "hint": "tabe = manger"
+      },
+      "expectedAnswers": [
+        "tabemasu",
+        "je mange"
+      ],
+      "explanation": "ます marque l'affirmatif poli.",
+      "conceptId": "gra_008"
+    },
+    {
+      "id": "gra_ex_006",
+      "type": "choix_multiple",
+      "answerFormat": "choix_multiple",
+      "objective": "Identifier la forme négative",
+      "difficulty": 1,
+      "prompt": "Quelle est la forme négative de 'たべます' ?",
+      "data": {
+        "options": [
+          "たべません",
+          "たべました",
+          "たべない",
+          "たべませんでした"
+        ],
+        "correctAnswer": "たべません"
+      },
+      "expectedAnswers": [
+        "たべません"
+      ],
+      "explanation": "ません marque la négation polie.",
+      "conceptId": "gra_009"
+    },
+    {
+      "id": "gra_ex_007",
+      "type": "question",
+      "answerFormat": "choix_multiple",
+      "objective": "Identifier une question",
+      "difficulty": 1,
+      "prompt": "Comment transforme-t-on une phrase en question ?",
+      "data": {
+        "options": [
+          "Ajouter か à la fin",
+          "Changer le verbe",
+          "Ajouter は",
+          "Changer la particule"
+        ],
+        "correctAnswer": "Ajouter か à la fin"
+      },
+      "expectedAnswers": [
+        "か"
+      ],
+      "explanation": "か marque la question.",
+      "conceptId": "gra_014"
+    },
+    {
+      "id": "gra_ex_008",
+      "type": "choix_multiple",
+      "answerFormat": "choix_multiple",
+      "objective": "Identifier la forme passée affirmative",
+      "difficulty": 2,
+      "prompt": "Quelle est la forme passée de '食べます' ?",
+      "data": {
+        "options": [
+          "食べました",
+          "食べません",
+          "食べた",
+          "食べない"
+        ],
+        "correctAnswer": "食べました"
+      },
+      "expectedAnswers": [
+        "食べました"
+      ],
+      "explanation": "ました marque la forme passée affirmative.",
+      "conceptId": "gra_016"
+    },
+    {
+      "id": "gra_ex_009",
+      "type": "traduction",
+      "answerFormat": "romaji",
+      "objective": "Traduire une phrase au passé",
+      "difficulty": 2,
+      "prompt": "Traduisez : '食べませんでした'",
+      "data": {
+        "hint": "tabe = manger, masen = négatif, deshita = passé"
+      },
+      "expectedAnswers": [
+        "tabemasen deshita",
+        "je n'ai pas mangé"
+      ],
+      "explanation": "ませんでした marque la négation au passé.",
+      "conceptId": "gra_017"
+    },
+    {
+      "id": "gra_ex_010",
+      "type": "choix_multiple",
+      "answerFormat": "choix_multiple",
+      "objective": "Identifier la forme de volonté",
+      "difficulty": 3,
+      "prompt": "Comment dit-on 'Allons-y' en japonais ?",
+      "data": {
+        "options": [
+          "行きましょう",
+          "行きます",
+          "行かない",
+          "行った"
+        ],
+        "correctAnswer": "行きましょう"
+      },
+      "expectedAnswers": [
+        "行きましょう"
+      ],
+      "explanation": "ましょう exprime la volonté ou la suggestion.",
+      "conceptId": "gra_019"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson_grammaire_001",
+      "title": "Introduction aux particules",
+      "description": "Découvrir は et を",
+      "conceptId": "gra_001",
+      "conceptType": "grammaire",
+      "order": 1,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "La particule は marque le sujet"
+        },
+        {
+          "type": "exercice",
+          "content": [
+            "gra_ex_001"
+          ]
+        },
+        {
+          "type": "synthese",
+          "content": "は = sujet, を = objet direct"
+        }
+      ],
+      "exercises": [
+        "gra_ex_001",
+        "gra_ex_002"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_002",
+      "title": "Les particules de destination",
+      "description": "Découvrir に et へ",
+      "conceptId": "gra_003",
+      "conceptType": "grammaire",
+      "order": 2,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "に et へ indiquent la destination"
+        },
+        {
+          "type": "exercice",
+          "content": []
+        },
+        {
+          "type": "synthese",
+          "content": "に/へ = destination"
+        }
+      ],
+      "exercises": []
+    },
+    {
+      "id": "lesson_grammaire_003",
+      "title": "La possession",
+      "description": "Découvrir の",
+      "conceptId": "gra_004",
+      "conceptType": "grammaire",
+      "order": 3,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "の indique la possession"
+        },
+        {
+          "type": "exercice",
+          "content": [
+            "gra_ex_004"
+          ]
+        },
+        {
+          "type": "synthese",
+          "content": "の = de/appartenance"
+        }
+      ],
+      "exercises": [
+        "gra_ex_004"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_004",
+      "title": "Les verbes au présent",
+      "description": "Affirmatif et négatif",
+      "conceptId": "gra_008",
+      "conceptType": "grammaire",
+      "order": 4,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "ます = affirmatif, ません = négatif"
+        },
+        {
+          "type": "exercice",
+          "content": [
+            "gra_ex_005",
+            "gra_ex_006"
+          ]
+        },
+        {
+          "type": "synthese",
+          "content": "ます/ません = présent"
+        }
+      ],
+      "exercises": [
+        "gra_ex_005",
+        "gra_ex_006"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_005",
+      "title": "Les questions",
+      "description": "Former des questions",
+      "conceptId": "gra_014",
+      "conceptType": "grammaire",
+      "order": 5,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "type": "presentation",
+          "content": "か marque la question"
+        },
+        {
+          "type": "exercice",
+          "content": [
+            "gra_ex_007"
+          ]
+        },
+        {
+          "type": "synthese",
+          "content": "か = question"
+        }
+      ],
+      "exercises": [
+        "gra_ex_007"
+      ]
+    }
+  ]
+}

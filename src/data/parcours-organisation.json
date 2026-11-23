@@ -1,0 +1,645 @@
+{
+  "version": "1.0.0",
+  "type": "parcours",
+  "category": "initial",
+  "description": "Organisation du parcours pédagogique initial - 25 leçons pour débutants complets",
+  "prerequisites": [],
+  "chapters": [
+    {
+      "id": "chapitre_1",
+      "title": "Découverte des Hiragana",
+      "description": "Apprendre les bases des hiragana",
+      "order": 1,
+      "lessons": [
+        "lesson_hiragana_voyelles",
+        "lesson_hiragana_consonnes",
+        "lesson_hiragana_dakuten",
+        "lesson_hiragana_yoon"
+      ]
+    },
+    {
+      "id": "chapitre_2",
+      "title": "Premiers mots et salutations",
+      "description": "Vocabulaire de base et premières phrases",
+      "order": 2,
+      "lessons": [
+        "lesson_vocabulaire_salutations",
+        "lesson_vocabulaire_famille",
+        "lesson_grammaire_particules",
+        "lesson_vocabulaire_nombres"
+      ]
+    },
+    {
+      "id": "chapitre_3",
+      "title": "Introduction aux Katakana",
+      "description": "Découvrir les katakana parallèlement aux hiragana",
+      "order": 3,
+      "lessons": [
+        "lesson_katakana_voyelles",
+        "lesson_katakana_consonnes",
+        "lesson_vocabulaire_nourriture",
+        "lesson_grammaire_verbes"
+      ]
+    },
+    {
+      "id": "chapitre_4",
+      "title": "Construction de phrases",
+      "description": "Grammaire et phrases simples",
+      "order": 4,
+      "lessons": [
+        "lesson_grammaire_negation",
+        "lesson_grammaire_passé",
+        "lesson_vocabulaire_lieux",
+        "lesson_kanji_nature"
+      ]
+    },
+    {
+      "id": "chapitre_5",
+      "title": "Premiers Kanji et expressions",
+      "description": "Kanji de base et expressions courantes",
+      "order": 5,
+      "lessons": [
+        "lesson_kanji_corps",
+        "lesson_grammaire_adjectifs",
+        "lesson_vocabulaire_verbes",
+        "lesson_revision_generale"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson_hiragana_voyelles",
+      "title": "Les voyelles hiragana",
+      "description": "Apprendre あ い う え お",
+      "chapterId": "chapitre_1",
+      "contentFile": "hiragana-basics.json",
+      "conceptIds": [
+        "hir_001",
+        "hir_002",
+        "hir_003",
+        "hir_004",
+        "hir_005"
+      ],
+      "conceptType": "hiragana",
+      "order": 1,
+      "estimatedDuration": 15,
+      "prerequisites": [],
+      "objectives": [
+        "Lire et écrire les 5 voyelles hiragana",
+        "Associer chaque caractère à sa lecture romaji"
+      ]
+    },
+    {
+      "id": "lesson_hiragana_consonnes",
+      "title": "Les consonnes de base",
+      "description": "Apprendre か き く け こ",
+      "chapterId": "chapitre_1",
+      "contentFile": "hiragana-consonnes.json",
+      "conceptIds": [
+        "hir_006",
+        "hir_007",
+        "hir_008",
+        "hir_009",
+        "hir_010"
+      ],
+      "conceptType": "hiragana",
+      "order": 2,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_hiragana_voyelles"
+      ],
+      "objectives": [
+        "Lire et écrire 5 consonnes hiragana",
+        "Combiner consonnes et voyelles"
+      ]
+    },
+    {
+      "id": "lesson_hiragana_dakuten",
+      "title": "Les sons dakuten",
+      "description": "ga, za, da, ba, pa et leurs dérivés",
+      "chapterId": "chapitre_1",
+      "contentFile": "hiragana-dakuten.json",
+      "conceptIds": [
+        "hir_dakuten_001",
+        "hir_dakuten_002",
+        "hir_dakuten_003",
+        "hir_dakuten_004",
+        "hir_dakuten_005"
+      ],
+      "conceptType": "hiragana",
+      "order": 3,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_hiragana_consonnes"
+      ],
+      "objectives": [
+        "Reconnaître les sons modifiés",
+        "Lire les syllabes dakuten"
+      ]
+    },
+    {
+      "id": "lesson_hiragana_yoon",
+      "title": "Les yoon et sons spéciaux",
+      "description": "ya, yu, yo, wa, wi, we, wo, n",
+      "chapterId": "chapitre_1",
+      "contentFile": "hiragana-yoon.json",
+      "conceptIds": [
+        "hir_yoon_001",
+        "hir_yoon_002",
+        "hir_yoon_003",
+        "hir_special_001"
+      ],
+      "conceptType": "hiragana",
+      "order": 4,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_hiragana_dakuten",
+        "lesson_hiragana_consonnes"
+      ],
+      "objectives": [
+        "Lire les combinaisons yoon",
+        "Maîtriser le son n"
+      ]
+    },
+    {
+      "id": "lesson_vocabulaire_salutations",
+      "title": "Salutations et présentations",
+      "description": "Bonjour, merci, excusez-moi, se présenter",
+      "chapterId": "chapitre_2",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [
+        "voc_001",
+        "voc_002",
+        "voc_003",
+        "voc_004",
+        "voc_005"
+      ],
+      "conceptType": "vocabulaire",
+      "order": 5,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_hiragana_voyelles"
+      ],
+      "objectives": [
+        "Connaître les salutations de base",
+        "Se présenter simplement"
+      ]
+    },
+    {
+      "id": "lesson_vocabulaire_famille",
+      "title": "La famille",
+      "description": "Mère, père, frère, sœur",
+      "chapterId": "chapitre_2",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [
+        "voc_006",
+        "voc_007",
+        "voc_008",
+        "voc_009"
+      ],
+      "conceptType": "vocabulaire",
+      "order": 6,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_hiragana_consonnes"
+      ],
+      "objectives": [
+        "Nommer les membres de la famille",
+        "Utiliser の pour la possession"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_particules",
+      "title": "Les particules は et を",
+      "description": "Marquer le sujet et l'objet direct",
+      "chapterId": "chapitre_2",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_001",
+        "gra_002"
+      ],
+      "conceptType": "grammaire",
+      "order": 7,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_hiragana_voyelles",
+        "lesson_vocabulaire_salutations"
+      ],
+      "objectives": [
+        "Comprendre は et を",
+        "Former des phrases simples"
+      ]
+    },
+    {
+      "id": "lesson_vocabulaire_nombres",
+      "title": "Les nombres 1-10",
+      "description": "Un, deux, trois... dix",
+      "chapterId": "chapitre_2",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [
+        "voc_020",
+        "voc_021",
+        "voc_022",
+        "voc_023",
+        "voc_024",
+        "voc_025",
+        "voc_026",
+        "voc_027"
+      ],
+      "conceptType": "vocabulaire",
+      "order": 8,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_hiragana_consonnes"
+      ],
+      "objectives": [
+        "Compter de 1 à 10",
+        "Lire les nombres en japonais"
+      ]
+    },
+    {
+      "id": "lesson_katakana_voyelles",
+      "title": "Les voyelles katakana",
+      "description": "ア イ ウ エ オ",
+      "chapterId": "chapitre_3",
+      "contentFile": "katakana-basics.json",
+      "conceptIds": [
+        "kan_001",
+        "kan_002",
+        "kan_003",
+        "kan_004",
+        "kan_005"
+      ],
+      "conceptType": "katakana",
+      "order": 9,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_hiragana_voyelles"
+      ],
+      "objectives": [
+        "Lire et écrire les 5 voyelles katakana",
+        "Distinguer hiragana et katakana"
+      ]
+    },
+    {
+      "id": "lesson_katakana_consonnes",
+      "title": "Les consonnes katakana",
+      "description": "カ キ ク ケ コ",
+      "chapterId": "chapitre_3",
+      "contentFile": "katakana-consonnes.json",
+      "conceptIds": [
+        "kan_con_001",
+        "kan_con_002",
+        "kan_con_003",
+        "kan_con_004",
+        "kan_con_005"
+      ],
+      "conceptType": "katakana",
+      "order": 10,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_katakana_voyelles",
+        "lesson_hiragana_consonnes"
+      ],
+      "objectives": [
+        "Lire et écrire 5 consonnes katakana",
+        "Combiner consonnes et voyelles katakana"
+      ]
+    },
+    {
+      "id": "lesson_vocabulaire_nourriture",
+      "title": "Nourriture et boissons",
+      "description": "Mangas, boissons, aliments de base",
+      "chapterId": "chapitre_3",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [
+        "voc_010",
+        "voc_011",
+        "voc_012",
+        "voc_013",
+        "voc_014"
+      ],
+      "conceptType": "vocabulaire",
+      "order": 11,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_hiragana_dakuten",
+        "lesson_grammaire_particules"
+      ],
+      "objectives": [
+        "Nommer des aliments courants",
+        "Commander simplement"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_verbes",
+      "title": "Les verbes au présent",
+      "description": "Formes affirmative et négative",
+      "chapterId": "chapitre_3",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_008",
+        "gra_009"
+      ],
+      "conceptType": "grammaire",
+      "order": 12,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_grammaire_particules",
+        "lesson_vocabulaire_nourriture"
+      ],
+      "objectives": [
+        "Conjuguer les verbes au présent",
+        "Former des phrases affirmatives et négatives"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_negation",
+      "title": "La négation",
+      "description": "Ne... pas en japonais",
+      "chapterId": "chapitre_4",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_009"
+      ],
+      "conceptType": "grammaire",
+      "order": 13,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_grammaire_verbes"
+      ],
+      "objectives": [
+        "Former la négation",
+        "Utiliser ません"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_passé",
+      "title": "Le passé",
+      "description": "Affirmatif et négatif au passé",
+      "chapterId": "chapitre_4",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_010",
+        "gra_011"
+      ],
+      "conceptType": "grammaire",
+      "order": 14,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_grammaire_negation"
+      ],
+      "objectives": [
+        "Conjuguer au passé",
+        "Distinguer présent et passé"
+      ]
+    },
+    {
+      "id": "lesson_vocabulaire_lieux",
+      "title": "Lieux et déplacements",
+      "description": "École, maison, magasin, directions",
+      "chapterId": "chapitre_4",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [
+        "voc_015",
+        "voc_016",
+        "voc_017",
+        "voc_018",
+        "voc_019"
+      ],
+      "conceptType": "vocabulaire",
+      "order": 15,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_grammaire_particules"
+      ],
+      "objectives": [
+        "Nommer des lieux courants",
+        "Deminer son chemin"
+      ]
+    },
+    {
+      "id": "lesson_kanji_nature",
+      "title": "Kanji de la nature",
+      "description": "山 川 田 日 本",
+      "chapterId": "chapitre_4",
+      "contentFile": "kanji-basique.json",
+      "conceptIds": [
+        "kan_001",
+        "kan_002",
+        "kan_009",
+        "kan_010",
+        "kan_011"
+      ],
+      "conceptType": "kanji",
+      "order": 16,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_hiragana_yoon"
+      ],
+      "objectives": [
+        "Reconnaître 5 kanji de la nature",
+        "Lire les mots associés"
+      ]
+    },
+    {
+      "id": "lesson_kanji_corps",
+      "title": "Kanji du corps",
+      "description": "目 口 手 足 人",
+      "chapterId": "chapitre_5",
+      "contentFile": "kanji-basique.json",
+      "conceptIds": [
+        "kan_003",
+        "kan_012",
+        "kan_013",
+        "kan_014",
+        "kan_015"
+      ],
+      "conceptType": "kanji",
+      "order": 17,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_kanji_nature"
+      ],
+      "objectives": [
+        "Reconnaître 5 kanji du corps",
+        "Associer kanji et signification"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_adjectifs",
+      "title": "Les adjectifs",
+      "description": "Adjectifs en い et en な",
+      "chapterId": "chapitre_5",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_012",
+        "gra_013"
+      ],
+      "conceptType": "grammaire",
+      "order": 18,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_grammaire_passé",
+        "lesson_vocabulaire_nourriture"
+      ],
+      "objectives": [
+        "Utiliser les adjectifs en い",
+        "Utiliser les adjectifs en な"
+      ]
+    },
+    {
+      "id": "lesson_vocabulaire_verbes",
+      "title": "Verbes fréquents",
+      "description": " Aller, venir, faire, pouvoir, vouloir",
+      "chapterId": "chapitre_5",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [
+        "voc_028",
+        "voc_029",
+        "voc_030",
+        "voc_031",
+        "voc_032"
+      ],
+      "conceptType": "vocabulaire",
+      "order": 19,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_grammaire_verbes"
+      ],
+      "objectives": [
+        "Connaître les verbes les plus courants",
+        "Les utiliser dans des phrases"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_questions",
+      "title": "Former des questions",
+      "description": "Utiliser か pour poser des questions",
+      "chapterId": "chapitre_5",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_014"
+      ],
+      "conceptType": "grammaire",
+      "order": 20,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_grammaire_particules"
+      ],
+      "objectives": [
+        "Poser des questions simples",
+        "Utiliser か correctement"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_demonstratifs",
+      "title": "Les démonstratifs",
+      "description": "これ それ あれ",
+      "chapterId": "chapitre_5",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_015"
+      ],
+      "conceptType": "grammaire",
+      "order": 21,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_vocabulaire_famille"
+      ],
+      "objectives": [
+        "Utiliser これ それ あれ",
+        "Désigner des objets"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_particle_de",
+      "title": "La particule の",
+      "description": "Exprimer la possession",
+      "chapterId": "chapitre_2",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_004"
+      ],
+      "conceptType": "grammaire",
+      "order": 22,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_vocabulaire_famille"
+      ],
+      "objectives": [
+        "Utiliser の pour la possession",
+        "Décrire l'appartenance"
+      ]
+    },
+    {
+      "id": "lesson_grammaire_particle_ni",
+      "title": "La particule に",
+      "description": "Destination et moment",
+      "chapterId": "chapitre_4",
+      "contentFile": "grammaire-basique.json",
+      "conceptIds": [
+        "gra_003"
+      ],
+      "conceptType": "grammaire",
+      "order": 23,
+      "estimatedDuration": 15,
+      "prerequisites": [
+        "lesson_vocabulaire_lieux"
+      ],
+      "objectives": [
+        "Utiliser に pour la destination",
+        "Indiquer un moment"
+      ]
+    },
+    {
+      "id": "lesson_revision_hiragana",
+      "title": "Révision complète hiragana",
+      "description": "Réviser tous les hiragana appris",
+      "chapterId": "chapitre_3",
+      "contentFile": "hiragana-basics.json",
+      "conceptIds": [
+        "hir_001",
+        "hir_002",
+        "hir_003",
+        "hir_004",
+        "hir_005",
+        "hir_006",
+        "hir_007",
+        "hir_008",
+        "hir_009",
+        "hir_010"
+      ],
+      "conceptType": "hiragana",
+      "order": 24,
+      "estimatedDuration": 20,
+      "prerequisites": [
+        "lesson_hiragana_yoon"
+      ],
+      "objectives": [
+        "Maîtriser tous les hiragana de base",
+        "Reconnaître rapidement chaque caractère"
+      ]
+    },
+    {
+      "id": "lesson_revision_generale",
+      "title": "Révision générale",
+      "description": "Réviser l'ensemble du parcours",
+      "chapterId": "chapitre_5",
+      "contentFile": "vocabulaire-basique.json",
+      "conceptIds": [],
+      "conceptType": "revision",
+      "order": 25,
+      "estimatedDuration": 30,
+      "prerequisites": [
+        "lesson_revision_hiragana",
+        "lesson_vocabulaire_verbes",
+        "lesson_grammaire_adjectifs"
+      ],
+      "objectives": [
+        "Consolider toutes les notions apprises",
+        "Se préparer pour la suite"
+      ]
+    }
+  ]
+}

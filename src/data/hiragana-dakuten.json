@@ -1,0 +1,369 @@
+{
+  "version": "1.0.0",
+  "type": "kana",
+  "category": "hiragana-dakuten",
+  "description": "Les sons dakuten (voisés) et handakuten (semi-voisés) hiragana",
+  "prerequisites": [
+    "kana-consonants"
+  ],
+  "concepts": [
+    {
+      "id": "kana-ga",
+      "character": "が",
+      "reading": "ga",
+      "type": "hiragana",
+      "group": "dakuten",
+      "order": 11,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-zi",
+      "character": "じ",
+      "reading": "ji",
+      "type": "hiragana",
+      "group": "dakuten",
+      "order": 12,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-du",
+      "character": "づ",
+      "reading": "du",
+      "type": "hiragana",
+      "group": "dakuten",
+      "order": 13,
+      "difficulty": 2
+    },
+    {
+      "id": "kana-za",
+      "character": "ざ",
+      "reading": "za",
+      "type": "hiragana",
+      "group": "dakuten",
+      "order": 14,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-da",
+      "character": "だ",
+      "reading": "da",
+      "type": "hiragana",
+      "group": "dakuten",
+      "order": 15,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-ba",
+      "character": "ば",
+      "reading": "ba",
+      "type": "hiragana",
+      "group": "dakuten",
+      "order": 16,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-pa",
+      "character": "ぱ",
+      "reading": "pa",
+      "type": "hiragana",
+      "group": "handakuten",
+      "order": 17,
+      "difficulty": 1
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex-hiragana-recog-ga",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana が (ga)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "が",
+        "options": [
+          "ga",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "ga",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "が se prononce 'ga'. C'est le son voisé de か.",
+      "conceptId": "kana-ga"
+    },
+    {
+      "id": "ex-hiragana-recog-ji",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana じ (ji)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "じ",
+        "options": [
+          "ji",
+          "si",
+          "ti",
+          "ni"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "ji",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "じ se prononce 'ji'. C'est le son voisé de し.",
+      "conceptId": "kana-zi"
+    },
+    {
+      "id": "ex-hiragana-recog-za",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ざ (za)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ざ",
+        "options": [
+          "za",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "za",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ざ se prononce 'za'. C'est le son voisé of さ.",
+      "conceptId": "kana-za"
+    },
+    {
+      "id": "ex-hiragana-recog-da",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana だ (da)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "だ",
+        "options": [
+          "da",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "da",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "だ se prononce 'da'. C'est le son voisé de た.",
+      "conceptId": "kana-da"
+    },
+    {
+      "id": "ex-hiragana-recog-ba",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ば (ba)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ば",
+        "options": [
+          "ba",
+          "pa",
+          "ma",
+          "na"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "ba",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ば se prononce 'ba'. C'est le son voisé de は.",
+      "conceptId": "kana-ba"
+    },
+    {
+      "id": "ex-hiragana-recog-pa",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ぱ (pa)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ぱ",
+        "options": [
+          "pa",
+          "ba",
+          "ma",
+          "na"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "pa",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ぱ se prononce 'pa'. C'est le son semi-voisé de は.",
+      "conceptId": "kana-pa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-hiragana-dakuten",
+      "title": "Les sons dakuten et handakuten",
+      "description": "Apprenez les sons voisés et semi-voisés du japonais : が, じ, ざ, だ, ば, ぱ",
+      "conceptId": "kana-dakuten",
+      "conceptType": "kana",
+      "order": 3,
+      "estimatedDuration": 15,
+      "steps": [
+        {
+          "id": "step-dakuten-intro",
+          "type": "presentation",
+          "content": {
+            "title": "Les sons dakuten (voisés)",
+            "body": "Les sons dakuten sont obtenus en ajoutant deux petits traits (゛) sur certains caractères hiragana. Cela rend le son 'voisé'.",
+            "japanese": "が じ ざ だ ば",
+            "reading": "ga ji za da ba"
+          }
+        },
+        {
+          "id": "step-dakuten-ga",
+          "type": "explanation",
+          "content": {
+            "title": "が (ga)",
+            "body": "が se prononce 'ga'. C'est le son voisé de か.",
+            "japanese": "が",
+            "reading": "ga",
+            "meaning": "Son voisé de か"
+          }
+        },
+        {
+          "id": "step-dakuten-ji",
+          "type": "explanation",
+          "content": {
+            "title": "じ (ji)",
+            "body": "じ se prononce 'ji'. C'est le son voisé de し.",
+            "japanese": "じ",
+            "reading": "ji",
+            "meaning": "Son voisé de し"
+          }
+        },
+        {
+          "id": "step-dakuten-za",
+          "type": "explanation",
+          "content": {
+            "title": "ざ (za)",
+            "body": "ざ se prononce 'za'. C'est le son voisé de さ.",
+            "japanese": "ざ",
+            "reading": "za",
+            "meaning": "Son voisé de さ"
+          }
+        },
+        {
+          "id": "step-dakuten-da",
+          "type": "explanation",
+          "content": {
+            "title": "だ (da)",
+            "body": "だ se prononce 'da'. C'est le son voisé de た.",
+            "japanese": "だ",
+            "reading": "da",
+            "meaning": "Son voisé de た"
+          }
+        },
+        {
+          "id": "step-dakuten-ba",
+          "type": "explanation",
+          "content": {
+            "title": "ば (ba)",
+            "body": "ば se prononce 'ba'. C'est le son voisé de は.",
+            "japanese": "ば",
+            "reading": "ba",
+            "meaning": "Son voisé de は"
+          }
+        },
+        {
+          "id": "step-dakuten-pa",
+          "type": "explanation",
+          "content": {
+            "title": "ぱ (pa)",
+            "body": "ぱ se prononce 'pa'. C'est le son semi-voisé de は (avec un cercle).",
+            "japanese": "ぱ",
+            "reading": "pa",
+            "meaning": "Son semi-voisé de は"
+          }
+        },
+        {
+          "id": "step-dakuten-exercise",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice de reconnaissance",
+            "body": "Testez vos connaissances sur les sons dakuten !"
+          },
+          "exerciseId": "ex-hiragana-recog-ga"
+        },
+        {
+          "id": "step-dakuten-check",
+          "type": "check",
+          "content": {
+            "title": "Vérification",
+            "body": "Bien joué ! が se prononce 'ga'. Vous maîtrisez le premier son dakuten !"
+          }
+        },
+        {
+          "id": "step-dakuten-exercise-2",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice 2",
+            "body": "Continuons avec les autres sons dakuten."
+          },
+          "exerciseId": "ex-hiragana-recog-ji"
+        },
+        {
+          "id": "step-dakuten-synthesis",
+          "type": "synthesis",
+          "content": {
+            "title": "Synthèse",
+            "body": "Vous avez appris les sons dakuten : が (ga), じ (ji), ざ (za), だ (da), ば (ba), ぱ (pa). Ces sons sont obtenus en ajoutant des traits aux caractères de base."
+          }
+        }
+      ],
+      "exercises": [
+        "ex-hiragana-recog-ga",
+        "ex-hiragana-recog-ji",
+        "ex-hiragana-recog-za",
+        "ex-hiragana-recog-da",
+        "ex-hiragana-recog-ba",
+        "ex-hiragana-recog-pa"
+      ]
+    }
+  ]
+}

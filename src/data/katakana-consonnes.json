@@ -1,0 +1,312 @@
+{
+  "version": "1.0.0",
+  "type": "kana",
+  "category": "katakana-consonnes",
+  "description": "Les consonnes katakana de base (ka, ki, ku, ke, ko)",
+  "prerequisites": [
+    "katakana-vowels"
+  ],
+  "concepts": [
+    {
+      "id": "katakana-ka",
+      "character": "カ",
+      "reading": "ka",
+      "type": "katakana",
+      "group": "consonants",
+      "order": 6,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-ki",
+      "character": "キ",
+      "reading": "ki",
+      "type": "katakana",
+      "group": "consonants",
+      "order": 7,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-ku",
+      "character": "ク",
+      "reading": "ku",
+      "type": "katakana",
+      "group": "consonants",
+      "order": 8,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-ke",
+      "character": "ケ",
+      "reading": "ke",
+      "type": "katakana",
+      "group": "consonants",
+      "order": 9,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-ko",
+      "character": "コ",
+      "reading": "ko",
+      "type": "katakana",
+      "group": "consonants",
+      "order": 10,
+      "difficulty": 1
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex-katakana-recog-ka",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana カ (ka)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "カ",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "ka",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "カ se prononce 'ka'. C'est la première consonne katakana.",
+      "conceptId": "katakana-ka"
+    },
+    {
+      "id": "ex-katakana-recog-ki",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana キ (ki)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "キ",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 1
+      },
+      "expectedAnswers": [
+        {
+          "value": "ki",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "キ se prononce 'ki'.",
+      "conceptId": "katakana-ki"
+    },
+    {
+      "id": "ex-katakana-recog-ku",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana ク (ku)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ク",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 2
+      },
+      "expectedAnswers": [
+        {
+          "value": "ku",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ク se prononce 'ku'.",
+      "conceptId": "katakana-ku"
+    },
+    {
+      "id": "ex-katakana-recog-ke",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana ケ (ke)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ケ",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "ke",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ケ se prononce 'ke'.",
+      "conceptId": "katakana-ke"
+    },
+    {
+      "id": "ex-katakana-recog-ko",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana コ (ko)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "コ",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ko"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "ko",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "コ se prononce 'ko'.",
+      "conceptId": "katakana-ko"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-katakana-consonants",
+      "title": "Les consonnes katakana de base",
+      "description": "Apprenez les consonnes fondamentales du japonais en katakana : カ, キ, ク, ケ, コ",
+      "conceptId": "katakana-consonants",
+      "conceptType": "kana",
+      "order": 2,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "id": "step-katakana-consonants-intro",
+          "type": "presentation",
+          "content": {
+            "title": "Les consonnes katakana",
+            "body": "Après les voyelles, apprenons les consonnes katakana. Chaque consonne se combine avec les voyelles pour former des syllabes.",
+            "japanese": "カ キ ク ケ コ",
+            "reading": "ka ki ku ke ko"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-ka",
+          "type": "explanation",
+          "content": {
+            "title": "カ (ka)",
+            "body": "カ se prononce 'ka'. C'est la première consonne katakana.",
+            "japanese": "カ",
+            "reading": "ka",
+            "meaning": "Première consonne"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-ki",
+          "type": "explanation",
+          "content": {
+            "title": "キ (ki)",
+            "body": "キ se prononce 'ki'.",
+            "japanese": "キ",
+            "reading": "ki",
+            "meaning": "Deuxième consonne"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-ku",
+          "type": "explanation",
+          "content": {
+            "title": "ク (ku)",
+            "body": "ク se prononce 'ku'.",
+            "japanese": "ク",
+            "reading": "ku",
+            "meaning": "Troisième consonne"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-ke",
+          "type": "explanation",
+          "content": {
+            "title": "ケ (ke)",
+            "body": "ケ se prononce 'ke'.",
+            "japanese": "ケ",
+            "reading": "ke",
+            "meaning": "Quatrième consonne"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-ko",
+          "type": "explanation",
+          "content": {
+            "title": "コ (ko)",
+            "body": "コ se prononce 'ko'.",
+            "japanese": "コ",
+            "reading": "ko",
+            "meaning": "Cinquième consonne"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-exercise",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice de reconnaissance",
+            "body": "Testez vos connaissances sur les consonnes katakana !"
+          },
+          "exerciseId": "ex-katakana-recog-ka"
+        },
+        {
+          "id": "step-katakana-consonants-check",
+          "type": "check",
+          "content": {
+            "title": "Vérification",
+            "body": "Bien joué ! カ se prononce 'ka'. Vous maîtrisez la première consonne katakana !"
+          }
+        },
+        {
+          "id": "step-katakana-consonants-exercise-2",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice 2",
+            "body": "Continuons avec les autres consonnes."
+          },
+          "exerciseId": "ex-katakana-recog-ki"
+        },
+        {
+          "id": "step-katakana-consonants-synthesis",
+          "type": "synthesis",
+          "content": {
+            "title": "Synthèse",
+            "body": "Vous avez appris les consonnes katakana : カ (ka), キ (ki), ク (ku), ケ (ke), コ (ko). Ces consonnes sont la base de la syllabaire katakana."
+          }
+        }
+      ],
+      "exercises": [
+        "ex-katakana-recog-ka",
+        "ex-katakana-recog-ki",
+        "ex-katakana-recog-ku",
+        "ex-katakana-recog-ke",
+        "ex-katakana-recog-ko"
+      ]
+    }
+  ]
+}

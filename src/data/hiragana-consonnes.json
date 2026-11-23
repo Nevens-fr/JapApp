@@ -1,0 +1,312 @@
+{
+  "version": "1.0.0",
+  "type": "kana",
+  "category": "hiragana-consonnes",
+  "description": "Les consonnes hiragana de base (ka, ki, ku, ke, ko)",
+  "prerequisites": [
+    "kana-vowels"
+  ],
+  "concepts": [
+    {
+      "id": "kana-ka",
+      "character": "か",
+      "reading": "ka",
+      "type": "hiragana",
+      "group": "consonants",
+      "order": 6,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-ki",
+      "character": "き",
+      "reading": "ki",
+      "type": "hiragana",
+      "group": "consonants",
+      "order": 7,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-ku",
+      "character": "く",
+      "reading": "ku",
+      "type": "hiragana",
+      "group": "consonants",
+      "order": 8,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-ke",
+      "character": "け",
+      "reading": "ke",
+      "type": "hiragana",
+      "group": "consonants",
+      "order": 9,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-ko",
+      "character": "こ",
+      "reading": "ko",
+      "type": "hiragana",
+      "group": "consonants",
+      "order": 10,
+      "difficulty": 1
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex-hiragana-recog-ka",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana か (ka)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "か",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "ka",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "か se prononce 'ka'. C'est la première consonne hiragana.",
+      "conceptId": "kana-ka"
+    },
+    {
+      "id": "ex-hiragana-recog-ki",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana き (ki)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "き",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 1
+      },
+      "expectedAnswers": [
+        {
+          "value": "ki",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "き se prononce 'ki'.",
+      "conceptId": "kana-ki"
+    },
+    {
+      "id": "ex-hiragana-recog-ku",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana く (ku)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "く",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 2
+      },
+      "expectedAnswers": [
+        {
+          "value": "ku",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "く se prononce 'ku'.",
+      "conceptId": "kana-ku"
+    },
+    {
+      "id": "ex-hiragana-recog-ke",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana け (ke)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "け",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ke"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "ke",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "け se prononce 'ke'.",
+      "conceptId": "kana-ke"
+    },
+    {
+      "id": "ex-hiragana-recog-ko",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana こ (ko)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "こ",
+        "options": [
+          "ka",
+          "ki",
+          "ku",
+          "ko"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "ko",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "こ se prononce 'ko'.",
+      "conceptId": "kana-ko"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-hiragana-consonants",
+      "title": "Les consonnes hiragana de base",
+      "description": "Apprenez les consonnes fondamentales du japonais : か, き, く, け, こ",
+      "conceptId": "kana-consonants",
+      "conceptType": "kana",
+      "order": 2,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "id": "step-consonants-intro",
+          "type": "presentation",
+          "content": {
+            "title": "Les consonnes hiragana",
+            "body": "Après les voyelles, apprenons les consonnes. Chaque consonne se combine avec les voyelles pour former des syllabes.",
+            "japanese": "か き く け こ",
+            "reading": "ka ki ku ke ko"
+          }
+        },
+        {
+          "id": "step-consonants-ka",
+          "type": "explanation",
+          "content": {
+            "title": "か (ka)",
+            "body": "か se prononce 'ka'. C'est la première consonne hiragana.",
+            "japanese": "か",
+            "reading": "ka",
+            "meaning": "Première consonne"
+          }
+        },
+        {
+          "id": "step-consonants-ki",
+          "type": "explanation",
+          "content": {
+            "title": "き (ki)",
+            "body": "き se prononce 'ki'.",
+            "japanese": "き",
+            "reading": "ki",
+            "meaning": "Deuxième consonne"
+          }
+        },
+        {
+          "id": "step-consonants-ku",
+          "type": "explanation",
+          "content": {
+            "title": "く (ku)",
+            "body": "く se prononce 'ku'.",
+            "japanese": "く",
+            "reading": "ku",
+            "meaning": "Troisième consonne"
+          }
+        },
+        {
+          "id": "step-consonants-ke",
+          "type": "explanation",
+          "content": {
+            "title": "け (ke)",
+            "body": "け se prononce 'ke'.",
+            "japanese": "け",
+            "reading": "ke",
+            "meaning": "Quatrième consonne"
+          }
+        },
+        {
+          "id": "step-consonants-ko",
+          "type": "explanation",
+          "content": {
+            "title": "こ (ko)",
+            "body": "こ se prononce 'ko'.",
+            "japanese": "こ",
+            "reading": "ko",
+            "meaning": "Cinquième consonne"
+          }
+        },
+        {
+          "id": "step-consonants-exercise",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice de reconnaissance",
+            "body": "Testez vos connaissances sur les consonnes hiragana !"
+          },
+          "exerciseId": "ex-hiragana-recog-ka"
+        },
+        {
+          "id": "step-consonants-check",
+          "type": "check",
+          "content": {
+            "title": "Vérification",
+            "body": "Bien joué ! か se prononce 'ka'. Vous maîtrisez la première consonne !"
+          }
+        },
+        {
+          "id": "step-consonants-exercise-2",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice 2",
+            "body": "Continuons avec les autres consonnes."
+          },
+          "exerciseId": "ex-hiragana-recog-ki"
+        },
+        {
+          "id": "step-consonants-synthesis",
+          "type": "synthesis",
+          "content": {
+            "title": "Synthèse",
+            "body": "Vous avez appris les consonnes hiragana : か (ka), き (ki), く (ku), け (ke), こ (ko). Ces consonnes sont la base de la syllabaire hiragana."
+          }
+        }
+      ],
+      "exercises": [
+        "ex-hiragana-recog-ka",
+        "ex-hiragana-recog-ki",
+        "ex-hiragana-recog-ku",
+        "ex-hiragana-recog-ke",
+        "ex-hiragana-recog-ko"
+      ]
+    }
+  ]
+}

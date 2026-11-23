@@ -21,6 +21,16 @@ export default function LessonPage() {
 
   // Récupérer les données de la leçon
   const lessonData = getLesson(id || '');
+  
+  // État pour suivre si les données de la leçon sont prêtes
+  const [isLessonReady, setIsLessonReady] = useState(false);
+  
+  // Effet pour marquer la leçon comme prête quand les données sont disponibles
+  useEffect(() => {
+    if (lessonData && allExercises.length > 0) {
+      setIsLessonReady(true);
+    }
+  }, [lessonData, allExercises]);
 
   // Hooks d'état - toujours appelés dans le même ordre
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -110,7 +120,7 @@ export default function LessonPage() {
   };
 
   // Rendu du contenu pédagogique
-  const renderPedagogicalContent = (step: LessonStep) => {
+  const renderPedagogicalContent = (step: LessonStep, exercise?: any) => {
     const { title, body, japanese, reading, meaning } = step.content;
     
     switch (step.type) {
@@ -176,13 +186,42 @@ export default function LessonPage() {
             )}
           </div>
         );
+      case 'exercise':
+        if (exercise) {
+          return (
+            <div>
+              <ExerciseCard
+                exercise={exercise}
+                onResult={handleExerciseResult}
+              />
+              {exerciseResult && (
+                <div className={`mt-md ${exerciseResult.isCorrect ? 'text-success' : 'text-error'}`}>
+                  <p style={{ fontWeight: 500 }}>
+                    {exerciseResult.isCorrect ? 'Correct !' : 'Incorrect'}
+                  </p>
+                  <p className="text-secondary mt-sm">{exercise.explanation}</p>
+                </div>
+              )}
+            </div>
+          );
+        }
+        return (
+          <div>
+            <h2 className="section-title mb-md">{step.content.title}</h2>
+            <div className="bg-warning-light p-md rounded">
+              <p className="text-error">Exercice introuvable</p>
+              <p className="text-secondary mt-sm">L'exercice associé à cette étape n'a pas pu être chargé. Veuillez rafraîchir la page.</p>
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
   };
 
   // RETURN CONDITIONNEL - avant le JSX mais après TOUS les hooks
-  if (loading) {
+  if (loading || !isLessonReady) {
     return (
       <div className="page">
         <Card>
@@ -253,7 +292,7 @@ export default function LessonPage() {
             ) : (
               // Affichage du contenu pédagogique
               <div>
-                {renderPedagogicalContent(currentStep)}
+                {renderPedagogicalContent(currentStep, currentExercise)}
               </div>
             )}
           </div>

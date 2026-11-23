@@ -1,0 +1,550 @@
+{
+  "version": "1.0.0",
+  "type": "vocabulary",
+  "category": "basic-vocabulary",
+  "description": "Vocabulaire de base pour débutants (salutations, présentation, famille, nombres)",
+  "entries": [
+    {
+      "id": "vocab_001",
+      "japanese": "こんにちは",
+      "reading": "konnichiwa",
+      "meaning": "bonjour",
+      "categoryId": "salutations",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_002",
+      "japanese": "さようなら",
+      "reading": "sayounara",
+      "meaning": "au revoir",
+      "categoryId": "salutations",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_003",
+      "japanese": "ありがとう",
+      "reading": "arigatou",
+      "meaning": "merci",
+      "categoryId": "salutations",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_004",
+      "japanese": "すみません",
+      "reading": "sumimasen",
+      "meaning": "excusez-moi",
+      "categoryId": "salutations",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_005",
+      "japanese": "おはよう",
+      "reading": "ohayou",
+      "meaning": "bonjour (matin)",
+      "categoryId": "salutations",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_006",
+      "japanese": "こんばんは",
+      "reading": "konbanwa",
+      "meaning": "bonsoir",
+      "categoryId": "salutations",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_007",
+      "japanese": "わたし",
+      "reading": "watashi",
+      "meaning": "je/moi",
+      "categoryId": "presentation",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_008",
+      "japanese": "あなた",
+      "reading": "anata",
+      "meaning": "tu/vous",
+      "categoryId": "presentation",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_009",
+      "japanese": "なまえ",
+      "reading": "namae",
+      "meaning": "nom",
+      "categoryId": "presentation",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_010",
+      "japanese": "はい",
+      "reading": "hai",
+      "meaning": "oui",
+      "categoryId": "presentation",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_011",
+      "japanese": "いいえ",
+      "reading": "iie",
+      "meaning": "non",
+      "categoryId": "presentation",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_012",
+      "japanese": "おとうさん",
+      "reading": "otousan",
+      "meaning": "papa",
+      "categoryId": "famille",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_013",
+      "japanese": "おかあさん",
+      "reading": "okaasan",
+      "meaning": "maman",
+      "categoryId": "famille",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_014",
+      "japanese": "おにいさん",
+      "reading": "oniisan",
+      "meaning": "grand frère",
+      "categoryId": "famille",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_015",
+      "japanese": "おねえさん",
+      "reading": "oneesan",
+      "meaning": "grande sœur",
+      "categoryId": "famille",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_016",
+      "japanese": "おとう",
+      "reading": "otou",
+      "meaning": "papa (familier)",
+      "categoryId": "famille",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_017",
+      "japanese": "おかあ",
+      "reading": "okaа",
+      "meaning": "maman (familier)",
+      "categoryId": "famille",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_018",
+      "japanese": "いち",
+      "reading": "ichi",
+      "meaning": "un/1",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_019",
+      "japanese": "に",
+      "reading": "ni",
+      "meaning": "deux/2",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_020",
+      "japanese": "さん",
+      "reading": "san",
+      "meaning": "trois/3",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_021",
+      "japanese": "よん",
+      "reading": "yon",
+      "meaning": "quatre/4",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_022",
+      "japanese": "ご",
+      "reading": "go",
+      "meaning": "cinq/5",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_023",
+      "japanese": "ろく",
+      "reading": "roku",
+      "meaning": "six/6",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_024",
+      "japanese": "なな",
+      "reading": "nana",
+      "meaning": "sept/7",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_025",
+      "japanese": "はち",
+      "reading": "hachi",
+      "meaning": "huit/8",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_026",
+      "japanese": "きゅう",
+      "reading": "kyuu",
+      "meaning": "neuf/9",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_027",
+      "japanese": "じゅう",
+      "reading": "juu",
+      "meaning": "dix/10",
+      "categoryId": "nombres",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_028",
+      "japanese": "行く",
+      "reading": "iku",
+      "meaning": "aller",
+      "categoryId": "verbes",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_029",
+      "japanese": "来る",
+      "reading": "kuru",
+      "meaning": "venir",
+      "categoryId": "verbes",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_030",
+      "japanese": "する",
+      "reading": "suru",
+      "meaning": "faire",
+      "categoryId": "verbes",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_031",
+      "japanese": "食べる",
+      "reading": "taberu",
+      "meaning": "manger",
+      "categoryId": "verbes",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_032",
+      "japanese": "飲む",
+      "reading": "nomu",
+      "meaning": "boire",
+      "categoryId": "verbes",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_033",
+      "japanese": "学校",
+      "reading": "gakkou",
+      "meaning": "école",
+      "categoryId": "lieux",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_034",
+      "japanese": "家",
+      "reading": "ie",
+      "meaning": "maison",
+      "categoryId": "lieux",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_035",
+      "japanese": "店",
+      "reading": "mise",
+      "meaning": "magasin",
+      "categoryId": "lieux",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_036",
+      "japanese": "駅",
+      "reading": "eki",
+      "meaning": "gare",
+      "categoryId": "lieux",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_037",
+      "japanese": "公園",
+      "reading": "kouen",
+      "meaning": "parc",
+      "categoryId": "lieux",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_038",
+      "japanese": "水",
+      "reading": "mizu",
+      "meaning": "eau",
+      "categoryId": "nourriture",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_039",
+      "japanese": "ご飯",
+      "reading": "gohan",
+      "meaning": "riz/repas",
+      "categoryId": "nourriture",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_040",
+      "japanese": "魚",
+      "reading": "sakana",
+      "meaning": "poisson",
+      "categoryId": "nourriture",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_041",
+      "japanese": "肉",
+      "reading": "niku",
+      "meaning": "viande",
+      "categoryId": "nourriture",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_042",
+      "japanese": "野菜",
+      "reading": "yasai",
+      "meaning": "légumes",
+      "categoryId": "nourriture",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_043",
+      "japanese": "果物",
+      "reading": " kudamono",
+      "meaning": "fruits",
+      "categoryId": "nourriture",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_044",
+      "japanese": "朝",
+      "reading": "asa",
+      "meaning": "matin",
+      "categoryId": "temps",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_045",
+      "japanese": "昼",
+      "reading": "hiru",
+      "meaning": "midi",
+      "categoryId": "temps",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_046",
+      "japanese": "夜",
+      "reading": "yoru",
+      "meaning": "soir/nuit",
+      "categoryId": "temps",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_047",
+      "japanese": "今日",
+      "reading": "kyou",
+      "meaning": "aujourd'hui",
+      "categoryId": "temps",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_048",
+      "japanese": "明日",
+      "reading": "ashita",
+      "meaning": "demain",
+      "categoryId": "temps",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_049",
+      "japanese": "昨日",
+      "reading": "kinou",
+      "meaning": "hier",
+      "categoryId": "temps",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_050",
+      "japanese": "大きい",
+      "reading": "ookii",
+      "meaning": "grand",
+      "categoryId": "adjectifs",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_051",
+      "japanese": "小さい",
+      "reading": "chiisai",
+      "meaning": "petit",
+      "categoryId": "adjectifs",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_052",
+      "japanese": "新しい",
+      "reading": "atarashii",
+      "meaning": "nouveau",
+      "categoryId": "adjectifs",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_053",
+      "japanese": "古い",
+      "reading": "furui",
+      "meaning": "ancien",
+      "categoryId": "adjectifs",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_054",
+      "japanese": "高い",
+      "reading": "takai",
+      "meaning": "cher/haut",
+      "categoryId": "adjectifs",
+      "level": "N5",
+      "examples": []
+    },
+    {
+      "id": "vocab_055",
+      "japanese": "安い",
+      "reading": "yasui",
+      "meaning": "bon marché",
+      "categoryId": "adjectifs",
+      "level": "N5",
+      "examples": []
+    }
+  ],
+  "categories": [
+    {
+      "id": "salutations",
+      "name": "Salutations",
+      "description": "Expressions de politesse et salutations"
+    },
+    {
+      "id": "presentation",
+      "name": "Présentation",
+      "description": "Vocabulaire pour se présenter"
+    },
+    {
+      "id": "famille",
+      "name": "Famille",
+      "description": "Membres de la famille"
+    },
+    {
+      "id": "nombres",
+      "name": "Nombres",
+      "description": "Chiffres et nombres"
+    },
+    {
+      "id": "verbes",
+      "name": "Verbes",
+      "description": "Verbes courants"
+    },
+    {
+      "id": "lieux",
+      "name": "Lieux",
+      "description": "Lieux et endroits"
+    },
+    {
+      "id": "nourriture",
+      "name": "Nourriture",
+      "description": "Aliments et boissons"
+    },
+    {
+      "id": "temps",
+      "name": "Temps",
+      "description": "Moments et périodes"
+    },
+    {
+      "id": "adjectifs",
+      "name": "Adjectifs",
+      "description": "Adjectifs descriptifs"
+    }
+  ]
+}

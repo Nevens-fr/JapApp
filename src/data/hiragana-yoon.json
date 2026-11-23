@@ -1,0 +1,378 @@
+{
+  "version": "1.0.0",
+  "type": "kana",
+  "category": "hiragana-yoon",
+  "description": "Les yōon (sons combinés avec y) et wa/wi/we/wo hiragana",
+  "prerequisites": [
+    "kana-consonants"
+  ],
+  "concepts": [
+    {
+      "id": "kana-ya",
+      "character": "ゃ",
+      "reading": "ya",
+      "type": "hiragana",
+      "group": "yoon",
+      "order": 18,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-yu",
+      "character": "ゅ",
+      "reading": "yu",
+      "type": "hiragana",
+      "group": "yoon",
+      "order": 19,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-yo",
+      "character": "ょ",
+      "reading": "yo",
+      "type": "hiragana",
+      "group": "yoon",
+      "order": 20,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-wa",
+      "character": "わ",
+      "reading": "wa",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 21,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-wi",
+      "character": "ゐ",
+      "reading": "wi",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 22,
+      "difficulty": 2
+    },
+    {
+      "id": "kana-we",
+      "character": "ゑ",
+      "reading": "we",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 23,
+      "difficulty": 2
+    },
+    {
+      "id": "kana-wo",
+      "character": "を",
+      "reading": "wo",
+      "type": "hiragana",
+      "group": "vowels",
+      "order": 24,
+      "difficulty": 1
+    },
+    {
+      "id": "kana-n",
+      "character": "ん",
+      "reading": "n",
+      "type": "hiragana",
+      "group": "special",
+      "order": 25,
+      "difficulty": 1
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex-hiragana-recog-ya",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ゃ (ya)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ゃ",
+        "options": [
+          "ya",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "ya",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ゃ se prononce 'ya'. C'est un petit ya utilisé pour former des yōon.",
+      "conceptId": "kana-ya"
+    },
+    {
+      "id": "ex-hiragana-recog-yu",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ゅ (yu)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ゅ",
+        "options": [
+          "yu",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "yu",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ゅ se prononce 'yu'. C'est un petit yu utilisé pour former des yōon.",
+      "conceptId": "kana-yu"
+    },
+    {
+      "id": "ex-hiragana-recog-yo",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ょ (yo)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ょ",
+        "options": [
+          "yo",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "yo",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ょ se prononce 'yo'. C'est un petit yo utilisé pour former des yōon.",
+      "conceptId": "kana-yo"
+    },
+    {
+      "id": "ex-hiragana-recog-wa",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana わ (wa)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "わ",
+        "options": [
+          "wa",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "wa",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "わ se prononce 'wa'. C'est un son de voyelle.",
+      "conceptId": "kana-wa"
+    },
+    {
+      "id": "ex-hiragana-recog-wo",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana を (wo)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "を",
+        "options": [
+          "wo",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "wo",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "を se prononce 'wo' (ou 'o' en practice). C'est utilisé comme particule objet.",
+      "conceptId": "kana-wo"
+    },
+    {
+      "id": "ex-hiragana-recog-n",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le hiragana ん (n)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ん",
+        "options": [
+          "n",
+          "ka",
+          "sa",
+          "ta"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "n",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ん se prononce 'n'. C'est le seul son nasal des hiragana.",
+      "conceptId": "kana-n"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-hiragana-yoon",
+      "title": "Les yōon et les sons spéciaux",
+      "description": "Apprenez les yōon (sons combinés avec y) et les sons spéciaux : ゃ, ゅ, ょ, わ, を, ん",
+      "conceptId": "kana-yoon",
+      "conceptType": "kana",
+      "order": 4,
+      "estimatedDuration": 15,
+      "steps": [
+        {
+          "id": "step-yoon-intro",
+          "type": "presentation",
+          "content": {
+            "title": "Les yōon (sons combinés)",
+            "body": "Les yōon sont formés en combinant les consonnes avec les semi-voyelles y. Ils utilisent des petits caractères ゃ, ゅ, ょ.",
+            "japanese": "きゃ きゅ きょ",
+            "reading": "kya kyu kyo"
+          }
+        },
+        {
+          "id": "step-yoon-ya",
+          "type": "explanation",
+          "content": {
+            "title": "ゃ (ya)",
+            "body": "ゃ se prononce 'ya'. C'est un petit ya utilisé pour former des yōon.",
+            "japanese": "ゃ",
+            "reading": "ya",
+            "meaning": "Petit ya"
+          }
+        },
+        {
+          "id": "step-yoon-yu",
+          "type": "explanation",
+          "content": {
+            "title": "ゅ (yu)",
+            "body": "ゅ se prononce 'yu'. C'est un petit yu utilisé pour former des yōon.",
+            "japanese": "ゅ",
+            "reading": "yu",
+            "meaning": "Petit yu"
+          }
+        },
+        {
+          "id": "step-yoon-yo",
+          "type": "explanation",
+          "content": {
+            "title": "ょ (yo)",
+            "body": "ょ se prononce 'yo'. C'est un petit yo utilisé pour former des yōon.",
+            "japanese": "ょ",
+            "reading": "yo",
+            "meaning": "Petit yo"
+          }
+        },
+        {
+          "id": "step-yoon-wa",
+          "type": "explanation",
+          "content": {
+            "title": "わ (wa)",
+            "body": "わ se prononce 'wa'. C'est un son de voyelle.",
+            "japanese": "わ",
+            "reading": "wa",
+            "meaning": "Voyelle wa"
+          }
+        },
+        {
+          "id": "step-yoon-wo",
+          "type": "explanation",
+          "content": {
+            "title": "を (wo)",
+            "body": "を se prononce 'wo' (ou 'o' en practice). C'est utilisé comme particule objet.",
+            "japanese": "を",
+            "reading": "wo",
+            "meaning": "Particule objet"
+          }
+        },
+        {
+          "id": "step-yoon-n",
+          "type": "explanation",
+          "content": {
+            "title": "ん (n)",
+            "body": "ん se prononce 'n'. C'est le seul son nasal des hiragana.",
+            "japanese": "ん",
+            "reading": "n",
+            "meaning": "Son nasal"
+          }
+        },
+        {
+          "id": "step-yoon-exercise",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice de reconnaissance",
+            "body": "Testez vos connaissances sur les yōon et les sons spéciaux !"
+          },
+          "exerciseId": "ex-hiragana-recog-ya"
+        },
+        {
+          "id": "step-yoon-check",
+          "type": "check",
+          "content": {
+            "title": "Vérification",
+            "body": "Bien joué ! ゃ se prononce 'ya'. Vous maîtrisez le premier yōon !"
+          }
+        },
+        {
+          "id": "step-yoon-exercise-2",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice 2",
+            "body": "Continuons avec les autres yōon."
+          },
+          "exerciseId": "ex-hiragana-recog-yu"
+        },
+        {
+          "id": "step-yoon-synthesis",
+          "type": "synthesis",
+          "content": {
+            "title": "Synthèse",
+            "body": "Vous avez appris les yōon et les sons spéciaux : ゃ (ya), ゅ (yu), ょ (yo), わ (wa), を (wo), ん (n). Ces sons complètent le syllabaire hiragana."
+          }
+        }
+      ],
+      "exercises": [
+        "ex-hiragana-recog-ya",
+        "ex-hiragana-recog-yu",
+        "ex-hiragana-recog-yo",
+        "ex-hiragana-recog-wa",
+        "ex-hiragana-recog-wo",
+        "ex-hiragana-recog-n"
+      ]
+    }
+  ]
+}

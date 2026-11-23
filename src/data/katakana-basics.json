@@ -1,0 +1,312 @@
+{
+  "version": "1.0.0",
+  "type": "kana",
+  "category": "katakana-basics",
+  "description": "Les 5 voyelles katakana de base (a, i, u, e, o)",
+  "prerequisites": [
+    "kana-vowels"
+  ],
+  "concepts": [
+    {
+      "id": "katakana-a",
+      "character": "ア",
+      "reading": "a",
+      "type": "katakana",
+      "group": "vowels",
+      "order": 1,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-i",
+      "character": "イ",
+      "reading": "i",
+      "type": "katakana",
+      "group": "vowels",
+      "order": 2,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-u",
+      "character": "ウ",
+      "reading": "u",
+      "type": "katakana",
+      "group": "vowels",
+      "order": 3,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-e",
+      "character": "エ",
+      "reading": "e",
+      "type": "katakana",
+      "group": "vowels",
+      "order": 4,
+      "difficulty": 1
+    },
+    {
+      "id": "katakana-o",
+      "character": "オ",
+      "reading": "o",
+      "type": "katakana",
+      "group": "vowels",
+      "order": 5,
+      "difficulty": 1
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex-katakana-recog-a",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana ア (a)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ア",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 0
+      },
+      "expectedAnswers": [
+        {
+          "value": "a",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ア se prononce 'a'. C'est la première voyelle katakana.",
+      "conceptId": "katakana-a"
+    },
+    {
+      "id": "ex-katakana-recog-i",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana イ (i)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "イ",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 1
+      },
+      "expectedAnswers": [
+        {
+          "value": "i",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "イ se prononce 'i'.",
+      "conceptId": "katakana-i"
+    },
+    {
+      "id": "ex-katakana-recog-u",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana ウ (u)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "ウ",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 2
+      },
+      "expectedAnswers": [
+        {
+          "value": "u",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "ウ se prononce 'u'.",
+      "conceptId": "katakana-u"
+    },
+    {
+      "id": "ex-katakana-recog-e",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana エ (e)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "エ",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "e"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "e",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "エ se prononce 'e'.",
+      "conceptId": "katakana-e"
+    },
+    {
+      "id": "ex-katakana-recog-o",
+      "type": "recognition-kana",
+      "answerFormat": "choice",
+      "objective": "Reconnaître le katakana オ (o)",
+      "difficulty": 1,
+      "prompt": "Comment se prononce ce caractère ?",
+      "data": {
+        "character": "オ",
+        "options": [
+          "a",
+          "i",
+          "u",
+          "o"
+        ],
+        "correctIndex": 3
+      },
+      "expectedAnswers": [
+        {
+          "value": "o",
+          "comparison": "exact",
+          "score": 1
+        }
+      ],
+      "explanation": "オ se prononce 'o'.",
+      "conceptId": "katakana-o"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-katakana-vowels",
+      "title": "Les 5 voyelles katakana",
+      "description": "Apprenez les 5 voyelles fondamentales du japonais en katakana : ア, イ, ウ, エ, オ",
+      "conceptId": "katakana-vowels",
+      "conceptType": "kana",
+      "order": 1,
+      "estimatedDuration": 10,
+      "steps": [
+        {
+          "id": "step-katakana-vowels-intro",
+          "type": "presentation",
+          "content": {
+            "title": "Les voyelles katakana",
+            "body": "Les katakana représentent les mêmes sons que les hiragana, mais avec des formes différentes. Ils sont utilisés pour les mots étrangers et les onomatopées.",
+            "japanese": "ア イ ウ エ オ",
+            "reading": "a i u e o"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-a",
+          "type": "explanation",
+          "content": {
+            "title": "ア (a)",
+            "body": "ア se prononce 'a'. C'est la première voyelle katakana.",
+            "japanese": "ア",
+            "reading": "a",
+            "meaning": "Première voyelle"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-i",
+          "type": "explanation",
+          "content": {
+            "title": "イ (i)",
+            "body": "イ se prononce 'i'.",
+            "japanese": "イ",
+            "reading": "i",
+            "meaning": "Deuxième voyelle"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-u",
+          "type": "explanation",
+          "content": {
+            "title": "ウ (u)",
+            "body": "ウ se prononce 'u'.",
+            "japanese": "ウ",
+            "reading": "u",
+            "meaning": "Troisième voyelle"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-e",
+          "type": "explanation",
+          "content": {
+            "title": "エ (e)",
+            "body": "エ se prononce 'e'.",
+            "japanese": "エ",
+            "reading": "e",
+            "meaning": "Quatrième voyelle"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-o",
+          "type": "explanation",
+          "content": {
+            "title": "オ (o)",
+            "body": "オ se prononce 'o'.",
+            "japanese": "オ",
+            "reading": "o",
+            "meaning": "Cinquième voyelle"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-exercise",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice de reconnaissance",
+            "body": "Testez vos connaissances sur les voyelles katakana !"
+          },
+          "exerciseId": "ex-katakana-recog-a"
+        },
+        {
+          "id": "step-katakana-vowels-check",
+          "type": "check",
+          "content": {
+            "title": "Vérification",
+            "body": "Bien joué ! ア se prononce 'a'. Vous maîtrisez la première voyelle katakana !"
+          }
+        },
+        {
+          "id": "step-katakana-vowels-exercise-2",
+          "type": "exercise",
+          "content": {
+            "title": "Exercice 2",
+            "body": "Continuons avec les autres voyelles."
+          },
+          "exerciseId": "ex-katakana-recog-i"
+        },
+        {
+          "id": "step-katakana-vowels-synthesis",
+          "type": "synthesis",
+          "content": {
+            "title": "Synthèse",
+            "body": "Vous avez appris les 5 voyelles katakana : ア (a), イ (i), ウ (u), エ (e), オ (o). Ces voyelles sont la base de tout apprentissage du katakana."
+          }
+        }
+      ],
+      "exercises": [
+        "ex-katakana-recog-a",
+        "ex-katakana-recog-i",
+        "ex-katakana-recog-u",
+        "ex-katakana-recog-e",
+        "ex-katakana-recog-o"
+      ]
+    }
+  ]
+}
