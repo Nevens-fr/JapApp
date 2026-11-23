@@ -2400,4 +2400,290 @@ export const SAMPLE_EXERCISES: Exercise[] = [
     conceptId: "numerique-pasu",
     data: { "reading-comprehension": "パスワード", options: ["pasu", "email", "SNS", "app"], correctIndex: 0 }
   },
+
+  {
+    id: "kan_ex_015",
+    type: "recognition-kana",
+    answerFormat: "choice",
+    objective: "Reconnaître les voyelles katakana longues",
+    difficulty: 1,
+    prompt: "Comment se prononce ce caractère ?",
+    expectedAnswers: [{ value: "a", comparison: "exact", score: 1 }],
+    explanation: "ア se prononce a (katakana)",
+    conceptId: "kan_007",
+    data: { character: "ア", options: ["a", "i", "u", "e"], correctIndex: 0 }
+  },
+
+  {
+    id: "kan_ex_016",
+    type: "recognition-kana",
+    answerFormat: "choice",
+    objective: "Reconnaître les consonnes katakana",
+    difficulty: 1,
+    prompt: "Comment se prononce ce caractère ?",
+    expectedAnswers: [{ value: "na", comparison: "exact", score: 1 }],
+    explanation: "ナ se prononce na",
+    conceptId: "kan_con_009",
+    data: { character: "ナ", options: ["na", "ni", "nu", "ne"], correctIndex: 0 }
+  },
+
+  {
+    id: "kan_ex_017",
+    type: "recognition-kana",
+    answerFormat: "choice",
+    objective: "Reconnaître les consonnes katakana",
+    difficulty: 1,
+    prompt: "Comment se prononce ce caractère ?",
+    expectedAnswers: [{ value: "ha", comparison: "exact", score: 1 }],
+    explanation: "ハ se prononce ha",
+    conceptId: "kan_con_010",
+    data: { character: "ハ", options: ["ha", "hi", "hu", "ho"], correctIndex: 0 }
+  },
+
+  {
+    id: "kan_ex_018",
+    type: "recognition-kana",
+    answerFormat: "choice",
+    objective: "Reconnaître les voyelles katakana",
+    difficulty: 1,
+    prompt: "Comment se prononce ce caractère ?",
+    expectedAnswers: [{ value: "i", comparison: "exact", score: 1 }],
+    explanation: "イ se prononce i (katakana)",
+    conceptId: "kan_008",
+    data: { character: "イ", options: ["a", "i", "u", "e"], correctIndex: 1 }
+  },
+
+  {
+    id: "kan_ex_019",
+    type: "recognition-kana",
+    answerFormat: "choice",
+    objective: "Reconnaître les consonnes katakana",
+    difficulty: 1,
+    prompt: "Comment se prononce ce caractère ?",
+    expectedAnswers: [{ value: "ma", comparison: "exact", score: 1 }],
+    explanation: "マ se prononce ma",
+    conceptId: "kan_con_011",
+    data: { character: "マ", options: ["ma", "mi", "mu", "me"], correctIndex: 0 }
+  },
+
+  {
+    id: "kan_ex_020",
+    type: "recognition-kana",
+    answerFormat: "choice",
+    objective: "Reconnaître les voyelles katakana",
+    difficulty: 1,
+    prompt: "Comment se prononce ce caractère ?",
+    expectedAnswers: [{ value: "u", comparison: "exact", score: 1 }],
+    explanation: "ウ se prononce u (katakana)",
+    conceptId: "kan_009",
+    data: { character: "ウ", options: ["a", "i", "u", "e"], correctIndex: 2 }
+  },
+
+  {
+    id: "gra_ex_017",
+    type: "grammar-fill",
+    answerFormat: "multi-choice",
+    objective: "Identifier la forme thématique (te-form)",
+    difficulty: 2,
+    prompt: "Quelle est la te-forme de \"たべます\" ?",
+    expectedAnswers: [{ value: "たべて", comparison: "exact", score: 1 }],
+    explanation: "たべます devient たべて (te-forme)",
+    conceptId: "gra_020",
+    data: { options: ["たべて", "たべます", "たべない", "たべました"], correctAnswer: "たべて" }
+  },
+
+  {
+    id: "gra_ex_018",
+    type: "translation",
+    answerFormat: "text",
+    objective: "Traduire avec la te-forme",
+    difficulty: 2,
+    prompt: "Traduisez : これをたべてください",
+    expectedAnswers: [{ value: "mangez ceci", comparison: "case-insensitive", score: 1 }, { value: "s'il vous plaît mangez ceci", comparison: "case-insensitive", score: 1 }],
+    explanation: "たべてください est une demande polie",
+    data: { hint: "te-forme + kudasai = demande polie" },
+    conceptId: ""
+  },
+
+  {
+    id: "gra_ex_019",
+    type: "grammar-fill",
+    answerFormat: "multi-choice",
+    objective: "Identifier la forme potentielle",
+    difficulty: 3,
+    prompt: "Comment dit-on \"Je peux manger\" avec \"taberu\" ?",
+    expectedAnswers: [{ value: "taberareru", comparison: "exact", score: 1 }],
+    explanation: "La forme potentielle de taberu est taberareru",
+    conceptId: "gra_021",
+    data: { options: ["taberareru", "tabemasu", "taberu", "tabenai"], correctAnswer: "taberareru" }
+  },
+
+  {
+    id: "gra_ex_020",
+    type: "translation",
+    answerFormat: "text",
+    objective: "Traduire avec la forme passive",
+    difficulty: 3,
+    prompt: "Traduisez : \"猫が獣に食べられました\"",
+    expectedAnswers: [{ value: "le chat a été mangé par le lion", comparison: "case-insensitive", score: 1 }],
+    explanation: "C'est une phrase passive",
+    data: { hint: "forme passive = raremeru" },
+    conceptId: ""
+  },
+
+  {
+    id: "gra_ex_021",
+    type: "grammar-fill",
+    answerFormat: "multi-choice",
+    objective: "Identifier la forme causative",
+    difficulty: 3,
+    prompt: "Quelle est la forme causative de \"taberu\" ?",
+    expectedAnswers: [{ value: "tabesaseru", comparison: "exact", score: 1 }],
+    explanation: "La forme causative de taberu est tabesaseru (faire manger)",
+    conceptId: "gra_022",
+    data: { options: ["tabesaseru", "taberareru", "tabemasu", "tabenai"], correctAnswer: "tabesaseru" }
+  },
+
+  {
+    id: "gra_ex_022",
+    type: "translation",
+    answerFormat: "text",
+    objective: "Traduire avec la forme causative",
+    difficulty: 3,
+    prompt: "Traduisez : \"先生は特に食べさせました\"",
+    expectedAnswers: [{ value: "le professeur a fait manger spécialement", comparison: "case-insensitive", score: 1 }],
+    explanation: "食べさせました est la forme causative",
+    data: { hint: "tabesaseru = faire manger" },
+    conceptId: ""
+  },
+
+  {
+    id: "gra_ex_023",
+    type: "grammar-fill",
+    answerFormat: "multi-choice",
+    objective: "Identifier la forme volitive",
+    difficulty: 3,
+    prompt: "Comment dit-on \"Allons manger\" avec \"taberu\" ?",
+    expectedAnswers: [{ value: "tabemashou", comparison: "exact", score: 1 }],
+    explanation: "La forme volitive de tabemasu est tabemashou",
+    conceptId: "gra_023",
+    data: { options: ["tabemashou", "taberu", "tabemasu", "tabenai"], correctAnswer: "tabemashou" }
+  },
+
+  {
+    id: "gra_ex_024",
+    type: "translation",
+    answerFormat: "text",
+    objective: "Traduire avec la forme volitive",
+    difficulty: 3,
+    prompt: "Traduisez : 水を飲みましょう ",
+    expectedAnswers: [{ value: "buvons de l'eau", comparison: "case-insensitive", score: 1 }],
+    explanation: "飲みましょう est la forme volitive de nomimasu",
+    data: { hint: "nomu = boire, nomimashou = buvons" },
+    conceptId: ""
+  },
+
+  {
+    id: "trav_ex_001",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître le vocabulaire du voyage",
+    difficulty: 1,
+    prompt: "Comment dit-on \"aéroport\" en japonais ?",
+    expectedAnswers: [{ value: "kuukou", comparison: "exact", score: 1 }],
+    explanation: "飛行機場 (kuukou) signifie \"aéroport\"",
+    conceptId: "voyage-aeroport",
+    data: { "reading-comprehension": "飛行機場", options: ["kuukou", "eki", "hoteru", "bus"], correctIndex: 0 }
+  },
+
+  {
+    id: "trav_ex_002",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître le vocabulaire du voyage",
+    difficulty: 1,
+    prompt: "Comment dit-on \"hôtel\" en japonais ?",
+    expectedAnswers: [{ value: "hoteru", comparison: "exact", score: 1 }],
+    explanation: "ホテル (hoteru) signifie \"hôtel\"",
+    conceptId: "voyage-hotel",
+    data: { "reading-comprehension": "ホテル", options: ["hoteru", "eki", "kuukou", "bus"], correctIndex: 0 }
+  },
+
+  {
+    id: "trav_ex_003",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître le vocabulaire du voyage",
+    difficulty: 1,
+    prompt: "Comment dit-on \"billet\" en japonais ?",
+    expectedAnswers: [{ value: "kippu", comparison: "exact", score: 1 }],
+    explanation: "票 (kippu) signifie \"billet\"",
+    conceptId: "voyage-billet",
+    data: { "reading-comprehension": "票", options: ["kippu", "pasu", "denwa", "bus"], correctIndex: 0 }
+  },
+
+  {
+    id: "trav_ex_004",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître le vocabulaire du voyage",
+    difficulty: 1,
+    prompt: "Comment dit-on \"carte\" en japonais ?",
+    expectedAnswers: [{ value: "maapu", comparison: "exact", score: 1 }],
+    explanation: "マップ (maapu) signifie \"carte\"",
+    conceptId: "voyage-carte",
+    data: { "reading-comprehension": "マップ", options: ["maapu", "pasu", "denwa", "bus"], correctIndex: 0 }
+  },
+
+  {
+    id: "idiom_ex_001",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître les expressions idiomatiques",
+    difficulty: 2,
+    prompt: "Que signifie \"火の山になる\" (hi no yama ni naru) ?",
+    expectedAnswers: [{ value: "être en colère", comparison: "exact", score: 1 }],
+    explanation: "Cette expression signifie \"être en colère\" littéralement \"devenir une montagne de feu\"",
+    conceptId: "idiom-fire",
+    data: { "reading-comprehension": "火の山になる", options: ["être en colère", "être heureux", "être triste", "être fatigué"], correctIndex: 0 }
+  },
+
+  {
+    id: "idiom_ex_002",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître les expressions idiomatiques",
+    difficulty: 2,
+    prompt: "Que signifie \"牲を失う\" (iro wo ushinau) ?",
+    expectedAnswers: [{ value: "perdre ses moyens", comparison: "exact", score: 1 }],
+    explanation: "Cette expression signifie \"perdre ses moyens\" littéralement \"perdre la couleur\"",
+    conceptId: "idiom-color",
+    data: { "reading-comprehension": "牲を失う", options: ["perdre ses moyens", "changer d'avis", "oublier", "tomber"], correctIndex: 0 }
+  },
+
+  {
+    id: "idiom_ex_003",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître les expressions idiomatiques",
+    difficulty: 2,
+    prompt: "Que signifie \"独りと痛み\" (hitori to itami) ?",
+    expectedAnswers: [{ value: "la douleur est solitaire", comparison: "exact", score: 1 }],
+    explanation: "Cette expression signifie \"la douleur est solitaire\"",
+    conceptId: "idiom-pain",
+    data: { "reading-comprehension": "独りと痛み", options: ["la douleur est solitaire", "être seul", "avoir mal", "partir"], correctIndex: 0 }
+  },
+
+  {
+    id: "idiom_ex_004",
+    type: "recognition-vocab",
+    answerFormat: "choice",
+    objective: "Connaître les expressions idiomatiques",
+    difficulty: 2,
+    prompt: "Que signifie \"雨の后は天気\" (ame no ato wa tenki) ?",
+    expectedAnswers: [{ value: "après la pluie vient le beau temps", comparison: "exact", score: 1 }],
+    explanation: "Cette expression signifie \"après la pluie vient le beau temps\"",
+    conceptId: "idiom-rain",
+    data: { "reading-comprehension": "雨の后は天気", options: ["après la pluie vient le beau temps", "il pleut", "le ciel est bleu", "le temps change"], correctIndex: 0 }
+  },
 ];

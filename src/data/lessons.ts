@@ -204,7 +204,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "presentation",
         content: {
           title: "Découverte des Kanji",
-          body: "Les kanji sont des caractères d'origine chinoise utilisés dans l'écriture japonaise. Ils représentent des concepts ou des idées.",
+          body: "Les kanji sont des caractères dorigine chinoise utilisés dans l'écriture japonaise. Ils représentent des concepts ou des idées.",
           japanese: "人 山 川",
           reading: "jin yama kawa",
         },
@@ -974,7 +974,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "presentation",
         content: {
           title: "Les Particules Clés",
-          body: "Les particules sont essentielles en japonais. wa (は) marque le sujet, ga (が) le sujet spécifique, o (を) l'objet direct.",
+          body: "Les particules sont essentielles en japonais. wa (は) marque le sujet, ga (が) le sujet spécifique, o (を) lobjet direct.",
           japanese: "は が を",
           reading: "wa ga o",
         },
@@ -984,7 +984,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "explanation",
         content: {
           title: "Particules de Lieu",
-          body: "ni (に) marque la destination, de (で) marque le lieu d'action, e (へ) indique la direction.",
+          body: "ni (に) marque la destination, de (で) marque le lieu daction, e (へ) indique la direction.",
           japanese: "に で へ",
           reading: "ni de e",
         },
@@ -1241,7 +1241,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "presentation",
         content: {
           title: "Les Deux Verbes Irréguliers",
-          body: "En japonais, il n'y a que deux verbes irréguliers essentiels : suru (faire) et kuru (venir). Ils sont très courants.",
+          body: "En japonais, il ny a que deux verbes irréguliers essentiels : suru (faire) et kuru (venir). Ils sont très courants.",
           japanese: "する くる",
           reading: "suru kuru",
         },
@@ -1251,7 +1251,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "explanation",
         content: {
           title: "Suru - Faire",
-          body: "Suru signifie faire. Il se combine avec des mots d'origine chinoise pour former des verbes : benkyou suru (étudier), shigoto suru (travailler).",
+          body: "Suru signifie faire. Il se combine avec des mots dorigine chinoise pour former des verbes : benkyou suru (étudier), shigoto suru (travailler).",
           japanese: "べんきょうする しごとする",
           reading: "benkyou suru shigoto suru",
         },
@@ -2133,7 +2133,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
   {
     id: "lesson-23",
     title: "Le Temps et les Heures",
-    description: "Apprenez à dire l'heure et les jours de la semaine",
+    description: "Apprenez à dire lheure et les jours de la semaine",
     conceptId: "temps-1",
     lessonSteps: [
       {
@@ -2141,7 +2141,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "presentation",
         content: {
           title: "Dire l'Heure",
-          body: "Pour dire l'heure : nan-ji desu ka ? (quelle heure est-il ?). ichi-ji (1h), ni-ji (2h), san-ji (3h). Les demi-heures : han (半).",
+          body: "Pour dire lheure : nan-ji desu ka ? (quelle heure est-il ?). ichi-ji (1h), ni-ji (2h), san-ji (3h). Les demi-heures : han (半).",
           japanese: "なんじ ですか いちじ にじ さんじ はん",
           reading: "nan-ji desu ka ichi-ji ni-ji san-ji han",
         },
@@ -2152,7 +2152,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         content: {
           title: "Les Jours de la Semaine",
           body: "Dimanche à samedi : nichiyoubi (dimanche), getsuyoubi (lundi), kayoubi (mardi), suiyoubi (mercredi), mokuyoubi (jeudi), kinyoubi (vendredi), doyoubi (samedi).",
-          japanese: "にちようび げつようび かようすいようび もくようび きんようび どうようび",
+          japanese: "にちようび げつようび かようび すいようび もくようび きんようび どうようび",
           reading: "nichiyoubi getsuyoubi kayoubi suiyoubi mokuyoubi kinyoubi doyoubi",
         },
       },
@@ -2170,7 +2170,7 @@ export const SAMPLE_LESSONS: Lesson[] = [
         type: "check",
         content: {
           title: "Vérification",
-          body: "Parfait ! Dire l'heure est acquis.",
+          body: "Parfait ! Dire lheure est acquis.",
         },
       },
       {
@@ -2308,4 +2308,741 @@ export const SAMPLE_LESSONS: Lesson[] = [
     ],
     exercises: ["nume_ex_001", "nume_ex_002", "nume_ex_003", "nume_ex_004"],
   },
+
+  {
+    id: "lesson-25",
+    title: "Vocabulaire Voyage",
+    description: "Preparez votre voyage au Japon avec ce vocabulaire essentiel",
+    conceptId: "vocab-voyage",
+    lessonSteps: [
+      {
+        id: "lesson-25-step-1",
+        type: "presentation",
+        content: {
+          title: "Preparer son voyage",
+          body: "Avant de partir, il faut connaitre le vocabulaire de base : laeroport, lhotel, le billet et la carte.",
+          reading: "kuukou hoteru kippu maapu",
+        },
+      },
+      {
+        id: "lesson-25-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : L'Aeroport",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "trav_ex_001",
+      },
+      {
+        id: "lesson-25-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Kuukou signifie aeroport.",
+        },
+      },
+      {
+        id: "lesson-25-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : L'Hotel",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "trav_ex_002",
+      },
+      {
+        id: "lesson-25-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Hoteru signifie hotel.",
+        },
+      },
+      {
+        id: "lesson-25-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Le Billet",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "trav_ex_003",
+      },
+      {
+        id: "lesson-25-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Kippu signifie billet.",
+        },
+      },
+      {
+        id: "lesson-25-step-8",
+        type: "exercise",
+        content: {
+          title: "Exercice 4 : La Carte",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "trav_ex_004",
+      },
+      {
+        id: "lesson-25-step-9",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Maapu signifie carte.",
+        },
+      },
+      {
+        id: "lesson-25-step-10",
+        type: "synthesis",
+        content: {
+          title: "Synthese Voyage",
+          body: "Vous etes pret pour votre voyage !",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["trav_ex_001", "trav_ex_002", "trav_ex_003", "trav_ex_004"],
+  },
+  {
+    id: "lesson-26",
+    title: "Grammaire Avancee",
+    description: "Ma^trisez la te-forme, la forme potentielle et causative",
+    conceptId: "grammaire-avancee",
+    lessonSteps: [
+      {
+        id: "lesson-26-step-1",
+        type: "presentation",
+        content: {
+          title: "La Te-Forme",
+          body: "La te-forme est essentielle pour encha^ner des actions ou faire des demandes polies.",
+          reading: "tabemasu -> tabete kudasai",
+        },
+      },
+      {
+        id: "lesson-26-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Te-Forme",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "gra_ex_017",
+      },
+      {
+        id: "lesson-26-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Tabemasu devient tabete.",
+        },
+      },
+      {
+        id: "lesson-26-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Demande Polie",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "gra_ex_018",
+      },
+      {
+        id: "lesson-26-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Te-forme + kudasai = demande polie.",
+        },
+      },
+      {
+        id: "lesson-26-step-6",
+        type: "presentation",
+        content: {
+          title: "La Forme Potentielle",
+          body: "Pour dire je peux faire, on utilise la forme potentielle.",
+          reading: "taberu -> taberareru",
+        },
+      },
+      {
+        id: "lesson-26-step-7",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Forme Potentielle",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "gra_ex_019",
+      },
+      {
+        id: "lesson-26-step-8",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Taberu devient taberareru.",
+        },
+      },
+      {
+        id: "lesson-26-step-9",
+        type: "synthesis",
+        content: {
+          title: "Synthese Grammaire",
+          body: "Vous maitrisez maintenant des formes grammaticales avancees.",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["gra_ex_017", "gra_ex_018", "gra_ex_019"],
+  },
+  {
+    id: "lesson-27",
+    title: "Expressions Idiomatiques",
+    description: "Decouvrez les proverbes et expressions populaires",
+    conceptId: "idioms",
+    lessonSteps: [
+      {
+        id: "lesson-27-step-1",
+        type: "presentation",
+        content: {
+          title: "Les Expressions du Quotidien",
+          body: "Les japonais utilisent beaucoup dexpressions imagees.",
+          reading: "hi no yama ni naru",
+        },
+      },
+      {
+        id: "lesson-27-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Colere",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "idiom_ex_001",
+      },
+      {
+        id: "lesson-27-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Hi no yama ni naru = etre en colere.",
+        },
+      },
+      {
+        id: "lesson-27-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Perdre ses moyens",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "idiom_ex_002",
+      },
+      {
+        id: "lesson-27-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Iro wo ushinau = perdre ses moyens.",
+        },
+      },
+      {
+        id: "lesson-27-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Douleur Solitaire",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "idiom_ex_003",
+      },
+      {
+        id: "lesson-27-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Hitori to itami = la douleur est solitaire.",
+        },
+      },
+      {
+        id: "lesson-27-step-8",
+        type: "exercise",
+        content: {
+          title: "Exercice 4 : Apres la Pluie",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "idiom_ex_004",
+      },
+      {
+        id: "lesson-27-step-9",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Ame no ato wa tenki = apres la pluie vient le beau temps.",
+        },
+      },
+      {
+        id: "lesson-27-step-10",
+        type: "synthesis",
+        content: {
+          title: "Synthese Idiomatique",
+          body: "Vous connaissez maintenant des expressions cles de la culture japonaise.",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["idiom_ex_001", "idiom_ex_002", "idiom_ex_003", "idiom_ex_004"],
+  },
+  {
+    id: "lesson-28",
+    title: "Katakana Avance",
+    description: "Aller plus loin avec les katakana",
+    conceptId: "kana-katakana-2",
+    lessonSteps: [
+      {
+        id: "lesson-28-step-1",
+        type: "presentation",
+        content: {
+          title: "Katakana Complementaires",
+          body: "Les katakana ne se limitent pas aux voyelles de base.",
+          reading: "na ha ma",
+        },
+      },
+      {
+        id: "lesson-28-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Na",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "kan_ex_016",
+      },
+      {
+        id: "lesson-28-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Na.",
+        },
+      },
+      {
+        id: "lesson-28-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Ha",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "kan_ex_017",
+      },
+      {
+        id: "lesson-28-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Ha.",
+        },
+      },
+      {
+        id: "lesson-28-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Ma",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "kan_ex_019",
+      },
+      {
+        id: "lesson-28-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Ma.",
+        },
+      },
+      {
+        id: "lesson-28-step-8",
+        type: "synthesis",
+        content: {
+          title: "Synthese Katakana",
+          body: "Vous maitrisez de plus en plus de katakana. Continuez !",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["kan_ex_016", "kan_ex_017", "kan_ex_019"],
+  },
+
+  {
+    id: "lesson-29",
+    title: "Les Animaux",
+    description: "Apprenez le vocabulaire des animaux courants en japonais",
+    conceptId: "animaux-1",
+    lessonSteps: [
+      {
+        id: "lesson-29-step-1",
+        type: "presentation",
+        content: {
+          title: "Les Animaux Courants",
+          body: "Vocabulaire des animaux : inu (chien), neko (chat), tora (tigre), zou (elephant), sakana (poisson).",
+          reading: "inu neko tora zou sakana",
+        },
+      },
+      {
+        id: "lesson-29-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Chien",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "ani_ex_001",
+      },
+      {
+        id: "lesson-29-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Inu signifie chien.",
+        },
+      },
+      {
+        id: "lesson-29-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Chat",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "ani_ex_002",
+      },
+      {
+        id: "lesson-29-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Neko signifie chat.",
+        },
+      },
+      {
+        id: "lesson-29-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Tigre",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "ani_ex_003",
+      },
+      {
+        id: "lesson-29-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Tora signifie tigre.",
+        },
+      },
+      {
+        id: "lesson-29-step-8",
+        type: "exercise",
+        content: {
+          title: "Exercice 4 : Elephant",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "ani_ex_004",
+      },
+      {
+        id: "lesson-29-step-9",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Zou signifie elephant.",
+        },
+      },
+      {
+        id: "lesson-29-step-10",
+        type: "synthesis",
+        content: {
+          title: "Synthese Animaux",
+          body: "Vous connaissez maintenant le vocabulaire des animaux courants.",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["ani_ex_001", "ani_ex_002", "ani_ex_003", "ani_ex_004"],
+  },
+  {
+    id: "lesson-30",
+    title: "La Maison",
+    description: "Apprenez le vocabulaire de la maison et de la famille",
+    conceptId: "vocab-quotidien",
+    lessonSteps: [
+      {
+        id: "lesson-30-step-1",
+        type: "presentation",
+        content: {
+          title: "La Maison",
+          body: "Vocabulaire de la maison : ie (maison), heya (chambre), daidokoro (cuisine), ofuro (baignoire).",
+          reading: "ie heya daidokoro ofuro",
+        },
+      },
+      {
+        id: "lesson-30-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Maison",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "daily_ex_001",
+      },
+      {
+        id: "lesson-30-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Ie signifie maison.",
+        },
+      },
+      {
+        id: "lesson-30-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Cuisine",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "daily_ex_002",
+      },
+      {
+        id: "lesson-30-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Daidokoro signifie cuisine.",
+        },
+      },
+      {
+        id: "lesson-30-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Riz",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "daily_ex_003",
+      },
+      {
+        id: "lesson-30-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Gohan signifie riz ou repas.",
+        },
+      },
+      {
+        id: "lesson-30-step-8",
+        type: "exercise",
+        content: {
+          title: "Exercice 4 : Baignoire",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "daily_ex_004",
+      },
+      {
+        id: "lesson-30-step-9",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Ofuro signifie baignoire.",
+        },
+      },
+      {
+        id: "lesson-30-step-10",
+        type: "synthesis",
+        content: {
+          title: "Synthese Maison",
+          body: "Vous connaissez maintenant le vocabulaire de la maison.",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["daily_ex_001", "daily_ex_002", "daily_ex_003", "daily_ex_004"],
+  },
+  {
+    id: "lesson-31",
+    title: "Les Couleurs",
+    description: "Apprenez a nommer les couleurs en japonais",
+    conceptId: "couleurs-1",
+    lessonSteps: [
+      {
+        id: "lesson-31-step-1",
+        type: "presentation",
+        content: {
+          title: "Les Couleurs de Base",
+          body: "Les couleurs : aka (rouge), ao (bleu), shiro (blanc), kuro (noir), midori (vert), ki (jaune).",
+          reading: "aka ao shiro kuro midori ki",
+        },
+      },
+      {
+        id: "lesson-31-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Rouge",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "couleur_ex_001",
+      },
+      {
+        id: "lesson-31-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Aka signifie rouge.",
+        },
+      },
+      {
+        id: "lesson-31-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Bleu",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "couleur_ex_002",
+      },
+      {
+        id: "lesson-31-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Ao signifie bleu.",
+        },
+      },
+      {
+        id: "lesson-31-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Vert",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "couleur_ex_003",
+      },
+      {
+        id: "lesson-31-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Midori signifie vert.",
+        },
+      },
+      {
+        id: "lesson-31-step-8",
+        type: "exercise",
+        content: {
+          title: "Exercice 4 : Noir",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "couleur_ex_004",
+      },
+      {
+        id: "lesson-31-step-9",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Kuro signifie noir.",
+        },
+      },
+      {
+        id: "lesson-31-step-10",
+        type: "synthesis",
+        content: {
+          title: "Synthese Couleurs",
+          body: "Vous connaissez maintenant les couleurs de base.",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["couleur_ex_001", "couleur_ex_002", "couleur_ex_003", "couleur_ex_004"],
+  },
+  {
+    id: "lesson-32",
+    title: "Les Saisons",
+    description: "Apprenez a parler des saisons et de la meteo",
+    conceptId: "saisons-meteo-1",
+    lessonSteps: [
+      {
+        id: "lesson-32-step-1",
+        type: "presentation",
+        content: {
+          title: "Les Quatre Saisons",
+          body: "Les saisons : haru (printemps), natsu (ete), aki (automne), fuyu (hiver). Chacune a ses caracteristiques.",
+          reading: "haru natsu aki fuyu",
+        },
+      },
+      {
+        id: "lesson-32-step-2",
+        type: "exercise",
+        content: {
+          title: "Exercice 1 : Printemps",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "meteo_ex_001",
+      },
+      {
+        id: "lesson-32-step-3",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Haru signifie printemps.",
+        },
+      },
+      {
+        id: "lesson-32-step-4",
+        type: "exercise",
+        content: {
+          title: "Exercice 2 : Ete",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "meteo_ex_002",
+      },
+      {
+        id: "lesson-32-step-5",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Excellent ! Natsu signifie ete.",
+        },
+      },
+      {
+        id: "lesson-32-step-6",
+        type: "exercise",
+        content: {
+          title: "Exercice 3 : Pluie",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "meteo_ex_003",
+      },
+      {
+        id: "lesson-32-step-7",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Bien joue ! Ame signifie pluie.",
+        },
+      },
+      {
+        id: "lesson-32-step-8",
+        type: "exercise",
+        content: {
+          title: "Exercice 4 : Neige",
+          body: "Testez vos connaissances !",
+        },
+        exerciseId: "meteo_ex_004",
+      },
+      {
+        id: "lesson-32-step-9",
+        type: "check",
+        content: {
+          title: "Verification",
+          body: "Parfait ! Yuki signifie neige.",
+        },
+      },
+      {
+        id: "lesson-32-step-10",
+        type: "synthesis",
+        content: {
+          title: "Synthese Saisons",
+          body: "Vous connaissez maintenant les saisons et la meteo.",
+          reading: "ganbatte",
+        },
+      }
+    ],
+    exercises: ["meteo_ex_001", "meteo_ex_002", "meteo_ex_003", "meteo_ex_004"],
+  }
 ];
